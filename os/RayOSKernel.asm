@@ -1,7 +1,6 @@
 ;{************************************************************************
 ;* -------参考Keil自带STARTUP.A51文件--------
-;* FileName      : RaySTARTUP.asm
-;* FileName      : RaySTARTUP.asm
+;* FileName      : RayOSKernel.asm
 ;* Author        : 徐睿
 ;* Description   : OS Startup File
 ;{************************************************************************
@@ -162,9 +161,9 @@ RET
 INT0ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	INT0_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	INT0_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
@@ -172,10 +171,10 @@ Timer0ISR:
 	CLR	EA
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	ThreadScan
-	LCALL	ThreadSwitch
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	ThreadScan
+	CALL	ThreadSwitch
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 	SETB	EA
 RETI
@@ -183,171 +182,171 @@ RETI
 INT1ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	INT1_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	INT1_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Timer1ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Timer1_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Timer1_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Uart1ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Uart1_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Uart1_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 ADCISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	ADC_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	ADC_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 LVDISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	LVD_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	LVD_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 PCAISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	PCA_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	PCA_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Uart2ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Uart2_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Uart2_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 SPIISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	SPI_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	SPI_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 INT2ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	INT2_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	INT2_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 INT3ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	INT3_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	INT3_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Timer2ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Timer2_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Timer2_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 INT4ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	INT4_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	INT4_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Uart3ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Uart3_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Uart3_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Uart4ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Uart4_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Uart4_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Timer3ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Timer3_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Timer3_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 Timer4ISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Timer4_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Timer4_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 ComparatorISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	Comparator_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	Comparator_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 PWMISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	PWM_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	PWM_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
 PWMFDISR:
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
-	LCALL	SaveContext
-	LCALL	PWMFD_ISR
-	LCALL	RecoveryContext
+	CALL	SaveContext
+	CALL	PWMFD_ISR
+	CALL	RecoveryContext
 	MOV	SP, StackPointer
 RETI
 
