@@ -207,7 +207,7 @@ void ThreadSwitch(void)
     }
     else if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //选取的下一个线程优先级和当前线程相同
     {
-        if (ThreadHandlerIndex[CurrentThreadID]->RunTime >= ThreadHandlerIndex[CurrentThreadID]->Ticks) //进行时间片轮转
+        if (ThreadHandlerIndex[CurrentThreadID]->RunTime < ThreadHandlerIndex[CurrentThreadID]->Ticks) //进行时间片轮转
         {
             ThreadHandlerIndex[CurrentThreadID]->RunTime++; //时间片没结束继续运行当前线程
             return;
