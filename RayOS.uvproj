@@ -347,14 +347,24 @@
           <GroupName>OS</GroupName>
           <Files>
             <File>
-              <FileName>RayOS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\os\RayOS.c</FilePath>
-            </File>
-            <File>
               <FileName>RayOSKernel.asm</FileName>
               <FileType>2</FileType>
               <FilePath>.\os\RayOSKernel.asm</FilePath>
+            </File>
+            <File>
+              <FileName>RayOS_Scheduler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os\RayOS_Scheduler.c</FilePath>
+            </File>
+            <File>
+              <FileName>RayOS_Semaphore.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os\RayOS_Semaphore.c</FilePath>
+            </File>
+            <File>
+              <FileName>RayOS_MailBox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os\RayOS_MailBox.c</FilePath>
             </File>
           </Files>
         </Group>

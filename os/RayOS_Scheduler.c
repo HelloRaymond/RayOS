@@ -1,7 +1,6 @@
 #include <STC15F2K60S2.H>
 #include <INTRINS.H>
 #include "RayOS.h"
-#include "RayOSConfig.h"
 
 #define T0VAL (65536 - TICKS * FOSC / DEVIDER / 1000)
 extern void main_user(void);
@@ -270,109 +269,6 @@ ray_err_t ThreadDelayMs(ray_uint16_t time)
     err = ThreadSleep(time / TICKS) == RAY_EOK ? err : RAY_ERROR; //若延时时间不是系统时钟周期的整数倍，但延时成功，返回警告，若延时失败，返回错误，若延时时间是系统时钟周期的整数倍且延时成功，返回OK
     return err;
 }
-
-#if USING_SEMAPHORE
-//接收信号量，即信号量P操作
-void SemaphoreTake(ray_sem_t *ThreadSemaphore)
-{
-    //P操作需要实现原子操作
-    EA = 0;
-    //若S大于0，信号量值自减，当前线程继续运行
-    if ((*ThreadSemaphore) > 0)
-    {
-        --(*ThreadSemaphore);
-        EA = 1;
-    }
-    //若S小于等于0，则当前线程阻塞
-    if ((*ThreadSemaphore) <= 0)
-    {
-        ThreadHandlerIndex[CurrentThreadID]->ThreadSemaphore = ThreadSemaphore;
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-        EA = 1;
-        //等待此时间片耗尽
-        while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
-            ;
-    }
-}
-
-//释放信号量，即信号量V操作
-void SemaphoreRealease(ray_sem_t *ThreadSemaphore)
-{
-    ray_uint8_t i;
-    //V操作需要实现原子操作
-    EA = 0;
-    ++(*ThreadSemaphore);
-    if (*ThreadSemaphore > 0)
-    {
-        //将进程队列中第一个因等待信号量而阻塞的线程唤醒
-        for (i = 0; i <= THREAD_MAX; i++)
-        {
-            if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->ThreadSemaphore == ThreadSemaphore)
-            {
-                ThreadHandlerIndex[i]->ThreadStatus = READY;
-                ThreadHandlerIndex[i]->BlockEvent = NONE;
-                ThreadHandlerIndex[i]->ThreadSemaphore = RAY_NULL;
-                break;
-            }
-        }
-    }
-    EA = 1;
-}
-#endif
-
-#if USING_MAILBOX //邮箱功能，用于线程间通信，还不完善，尚未进行测试
-void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
-{
-    ray_uint8_t i;
-    if (mailbox->status == FULL)
-    {
-        ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-        ThreadHandlerIndex[CurrentThreadID]->BlockEvent = SEND;
-    }
-    else
-    {
-        for (i = 0; i <= THREAD_MAX; i++)
-        {
-            if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->BlockEvent == RECIEVE && ThreadHandlerIndex[i]->ThreadMailBox == mailbox)
-            {
-                ThreadHandlerIndex[i]->ThreadStatus = READY;
-                ThreadHandlerIndex[i]->BlockEvent = NONE;
-                ThreadHandlerIndex[i]->ThreadMailBox = RAY_NULL;
-                break;
-            }
-        }
-        mailbox->mail = mail;
-        mailbox->status = FULL;
-    }
-}
-
-void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
-{
-    ray_uint8_t i;
-    if (mailbox->status == EMPTY)
-    {
-        ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-        ThreadHandlerIndex[CurrentThreadID]->BlockEvent = RECIEVE;
-    }
-    else
-    {
-        *mail = mailbox->mail;
-        mailbox->status = EMPTY;
-        for (i = 0; i <= THREAD_MAX; i++)
-        {
-            if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->BlockEvent == SEND && ThreadHandlerIndex[i]->ThreadMailBox == mailbox)
-            {
-                ThreadHandlerIndex[i]->ThreadStatus = READY;
-                ThreadHandlerIndex[i]->BlockEvent = NONE;
-                ThreadHandlerIndex[i]->ThreadMailBox = RAY_NULL;
-                break;
-            }
-        }
-    }
-}
-#endif
 
 #if USING_IDLEHOOK
 void IdleHookFunctionSet(void (*hook)(void))
