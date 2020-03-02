@@ -9,7 +9,7 @@ extern ray_uint8_t CurrentThreadID;
 void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
 {
     ray_uint8_t i;
-    if (mailbox->status == FULL)
+    if (mailbox->status == FULL) //邮箱已满，则无法进行发送，该线程被阻塞
     {
         ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
@@ -17,7 +17,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
             _nop_();
     }
-    else
+    else //邮箱空，发送邮件，并唤醒一个等待收取邮件的线程
     {
         for (i = 0; i <= THREAD_MAX; i++)
         {
@@ -37,7 +37,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
 void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
 {
     ray_uint8_t i;
-    if (mailbox->status == EMPTY)
+    if (mailbox->status == EMPTY) //邮箱空，则无法进行收取，该线程被阻塞
     {
         ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
@@ -45,7 +45,7 @@ void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
             _nop_();
     }
-    else
+    else //邮箱已满，收取邮件，并唤醒一个等待发送邮件的线程
     {
         *mail = mailbox->mail;
         mailbox->status = EMPTY;

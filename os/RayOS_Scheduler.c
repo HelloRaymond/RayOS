@@ -122,7 +122,7 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
     ThreadHandlerIndex[tid]->Priority = priority;                                          //线程优先级
     ThreadHandlerIndex[tid]->ThreadStackPointer = (ray_uint8_t)TaskStack + 1;              //SP指针初始化：指向栈顶
     ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //栈顶初始化为入口函数地址低8位
-    ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //栈顶初始化为入口函数地址高8位
+    ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //栈顶+1初始化为入口函数地址高8位
     ThreadNumber++;
     return ThreadHandlerIndex[tid]->ThreadID;
 }
@@ -265,7 +265,7 @@ ray_err_t ThreadSleep(ray_uint16_t time)
 ray_err_t ThreadDelayMs(ray_uint16_t time)
 {
     ray_err_t err;
-    err = time % TICKS == 0 ? RAY_EOK : RAY_ERROR;               //若延时时间不是系统时钟周期的整数倍，则会产生误差
+    err = time % TICKS == 0 ? RAY_EOK : RAY_ERROR;                //若延时时间不是系统时钟周期的整数倍，则会产生误差
     err = ThreadSleep(time / TICKS) == RAY_EOK ? err : RAY_ERROR; //若延时时间不是系统时钟周期的整数倍，但延时成功，返回警告，若延时失败，返回错误，若延时时间是系统时钟周期的整数倍且延时成功，返回OK
     return err;
 }

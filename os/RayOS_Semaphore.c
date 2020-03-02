@@ -10,19 +10,19 @@ extern ray_uint8_t CurrentThreadID;
 void SemaphoreTake(ray_sem_t *ThreadSemaphore)
 {
     //P操作需要实现原子操作
-    EA = 0;
+    OS_ENTER_CRITICAL();
     //若S大于0，信号量值自减，当前线程继续运行
     if ((*ThreadSemaphore) > 0)
     {
         --(*ThreadSemaphore);
-        EA = 1;
+        OS_EXIT_CRITICAL();
     }
     //若S小于等于0，则当前线程阻塞
     if ((*ThreadSemaphore) <= 0)
     {
         ThreadHandlerIndex[CurrentThreadID]->ThreadSemaphore = ThreadSemaphore;
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-        EA = 1;
+        OS_EXIT_CRITICAL();
         //等待此时间片耗尽
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
             _nop_();
@@ -34,7 +34,7 @@ void SemaphoreRealease(ray_sem_t *ThreadSemaphore)
 {
     ray_uint8_t i;
     //V操作需要实现原子操作
-    EA = 0;
+    OS_ENTER_CRITICAL();
     ++(*ThreadSemaphore);
     if (*ThreadSemaphore > 0)
     {
@@ -50,6 +50,6 @@ void SemaphoreRealease(ray_sem_t *ThreadSemaphore)
             }
         }
     }
-    EA = 1;
+    OS_EXIT_CRITICAL();
 }
 #endif

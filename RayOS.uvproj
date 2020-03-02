@@ -344,7 +344,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>OS</GroupName>
+          <GroupName>Operation System</GroupName>
           <Files>
             <File>
               <FileName>RayOSKernel.asm</FileName>
@@ -369,7 +369,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>App</GroupName>
+          <GroupName>Application</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -384,7 +384,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Head</GroupName>
+          <GroupName>Include</GroupName>
           <Files>
             <File>
               <FileName>RayOS.h</FileName>

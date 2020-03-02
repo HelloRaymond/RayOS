@@ -17,6 +17,9 @@ typedef ray_uint8_t ray_err_t;
 #define RAY_EOK 1
 #define RAY_ERROR 0
 
+#define OS_ENTER_CRITICAL() EA=0
+#define OS_EXIT_CRITICAL() EA=1
+
 #if USING_MAILBOX
 typedef struct ray_mailbox_t
 {
