@@ -76,11 +76,16 @@ ray_err_t DelayMs(ray_uint16_t time);
 #if USING_SEMAPHORE
 void SemaphoreTake(ray_sem_t *ThreadSemaphore);
 void SemaphoreRealease(ray_sem_t *ThreadSemaphore);
-
 #endif
+
 #if USING_MAILBOX
 void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail);
 void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail);
+#endif
+
+#if USING_IDLEHOOK
+void IdleHookFunctionSet(void (*hook)(void));
+void IdleHookFunctionReset(void);
 #endif
 
 #endif

@@ -373,6 +373,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Head</GroupName>
+          <Files>
+            <File>
+              <FileName>RayOS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\os\RayOS.h</FilePath>
+            </File>
+            <File>
+              <FileName>RayOSConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\os\RayOSConfig.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>

@@ -1,4 +1,5 @@
 #include <STC15F2K60S2.H>
+#include <INTRINS.H>
 #include "RayOS.h"
 #include "RayOSConfig.h"
 
@@ -37,6 +38,14 @@ struct ray_tcb_t xdata TCBHeap[THREAD_MAX];
 ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 ray_uint8_t ThreadNumber = 0;
 ray_uint8_t CurrentThreadID;
+
+#if USING_IDLEHOOK
+void defaultIdleHookFunction(void)
+{
+    _nop_();
+}
+void (*idleHookFunction)(void) = defaultIdleHookFunction;
+#endif
 
 //寻找优先级最高的非当前就绪线程
 ray_uint8_t FindHighestPriorityThreadID(void)
@@ -365,12 +374,28 @@ void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
 }
 #endif
 
+#if USING_IDLEHOOK
+void IdleHookFunctionSet(void (*hook)(void))
+{
+    idleHookFunction = hook;
+}
+
+void IdleHookFunctionReset(void)
+{
+    idleHookFunction = defaultIdleHookFunction;
+}
+#endif
+
 //空闲线程
 void idle(void)
 {
     main_user();
     while (1)
-        ;
+#if USING_IDLEHOOK
+        idleHookFunction();
+#else
+        _nop_();
+#endif
 }
 
 void main()
@@ -383,5 +408,5 @@ void main()
     CurrentThreadID = 0;
     //阻塞在这里，防止程序意外跑飞
     while (1)
-        ;
+        _nop_();
 }

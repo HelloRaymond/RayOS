@@ -10,5 +10,6 @@
 
 #define USING_SEMAPHORE 1
 #define USING_MAILBOX 0
+#define USING_IDLEHOOK 1
 
 #endif
