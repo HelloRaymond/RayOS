@@ -70,8 +70,8 @@ typedef struct ray_tcb_t *ray_thread_t;
 ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_uint8_t priority);
 ray_err_t ThreadStart(ray_uint8_t tid);
 ray_err_t ThreadDelete(ray_uint8_t tid);
-ray_err_t DelayTicks(ray_uint16_t time);
-ray_err_t DelayMs(ray_uint16_t time);
+ray_err_t ThreadSleep(ray_uint16_t time);
+ray_err_t ThreadDelayMs(ray_uint16_t time);
 
 #if USING_SEMAPHORE
 void SemaphoreTake(ray_sem_t *ThreadSemaphore);

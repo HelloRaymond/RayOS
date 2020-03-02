@@ -18,7 +18,7 @@ void Flow(void) //流水灯1每流动一轮（8位）发送一个信号量
         {
             ThreadDelete(tid2);
         }
-        DelayMs(100);
+        ThreadDelayMs(100);
         if (P1 == 1)
             SemaphoreRealease(&sem);
         if (task1count>=8*8*2)

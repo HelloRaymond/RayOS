@@ -115,7 +115,7 @@ ThreadDelete(tid);
 ### 线程休眠
 
 ```c
-DelayTicks(time);
+ThreadSleep(time);
 ```
 
 - 参数：
@@ -142,7 +142,7 @@ DelayTicks(time);
 ### 线程延时
 
 ```c
-DelayMs(time);
+ThreadDelayMs(time);
 ```
 
 - 参数：

@@ -250,7 +250,7 @@ void ThreadSwitch(void)
 }
 
 //延时函数，单位为Tick，即一个时间片
-ray_err_t DelayTicks(ray_uint16_t time)
+ray_err_t ThreadSleep(ray_uint16_t time)
 {
     if (ThreadHandlerIndex[CurrentThreadID]->DelayTime + time >= 0xffff || time <= 0)
         return RAY_ERROR;
@@ -263,11 +263,11 @@ ray_err_t DelayTicks(ray_uint16_t time)
 }
 
 //延时函数，单位为毫秒，若延时时间不是系统时钟周期的整数倍，则会产生误差
-ray_err_t DelayMs(ray_uint16_t time)
+ray_err_t ThreadDelayMs(ray_uint16_t time)
 {
     ray_err_t err;
     err = time % TICKS == 0 ? RAY_EOK : RAY_ERROR;               //若延时时间不是系统时钟周期的整数倍，则会产生误差
-    err = DelayTicks(time / TICKS) == RAY_EOK ? err : RAY_ERROR; //若延时时间不是系统时钟周期的整数倍，但延时成功，返回警告，若延时失败，返回错误，若延时时间是系统时钟周期的整数倍且延时成功，返回OK
+    err = ThreadSleep(time / TICKS) == RAY_EOK ? err : RAY_ERROR; //若延时时间不是系统时钟周期的整数倍，但延时成功，返回警告，若延时失败，返回错误，若延时时间是系统时钟周期的整数倍且延时成功，返回OK
     return err;
 }
 
