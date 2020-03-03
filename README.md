@@ -38,11 +38,11 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
 
 - 参数：
 
-|      参数     |         说明          |     类型     |
-| :-----------: | :-------------------: | :---------: |
-| EntryFunction |      线程入口函数     | void pointer |
-| ticks         | 线程一个时间片的周期数 | unsigned int |
-| priority      |       线程优先级      | unsigned char |
+|     参数      |    说明      |       类型       |
+| :-----------: | :---------: | :--------------: |
+| EntryFunction | 线程入口函数 | function pointer |
+| ticks         |  线程时间片  |   unsigned int   |
+| priority      |  线程优先级  |   unsigned char  |
 
 - 返回值：
 
@@ -119,13 +119,13 @@ ray_err_t ThreadSleep(ray_uint16_t time);
 
 | 参数 |         说明          |     类型     |
 | :--: | :------------------: | :----------: |
-| time | 要休眠的系统心跳周期数 | unsigned int |
+| time | 要休眠的系统滴答周期数 | unsigned int |
 
 - 返回值：
 
 | 返回值 |       说明        |    类型    |
-| :----: | :---------------: | :---- --: |
-| status | 执行情况及错误代码 | ray_err_t |
+| :----: | :---------------: | :-------: |
+| status | 错误代码 | ray_err_t |
 
 - 需要包含的头文件：/os/RayOS.h
 
@@ -222,7 +222,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail);
 |  参数   |         说明          |      类型      |
 | :-----: | :------------------: | :------------: |
 | mailbox |   要发送的邮箱指针    | ray_mailbox_t* |
-|  mail   | 要发送的邮件（4字节） | unsigned long  |
+|  mail   | 要发送的邮件（4字节） | unsigned long * |
 
 - 返回值：
 
@@ -248,7 +248,7 @@ void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail);
 |  参数   |         说明          |      类型      |
 | :-----: | :------------------: | :------------: |
 | mailbox |   要接收的邮箱指针    | ray_mailbox_t* |
-|  mail   | 要接收的邮件（4字节） | unsigned long  |
+|  mail   | 要接收的邮件（4字节） | unsigned long * |
 
 - 返回值：
 
@@ -271,9 +271,9 @@ void IdleHookFunctionSet(void (*hook)(void));
 
 - 参数：
 
-| 参数 |     说明     |     类型     |
-| :--: | :---------: | :----------: |
-| hook | 钩子函数指针 | void pointer |
+| 参数 |     说明     |       类型       |
+| :--: | :---------: | :--------------: |
+| hook | 钩子函数指针 | function pointer |
 
 - 返回值：
 
@@ -290,14 +290,14 @@ void IdleHookFunctionSet(void (*hook)(void));
 ### 取消空闲线程钩子
 
 ```c
-void IdleHookFunctionSet(void);
+void IdleHookFunctionReset(void);
 ```
 
 - 参数：
 
-| 参数 | 说明 |     类型     |
-| :--: | :--: | :----------: |
-| void |  无  | void pointer |
+| 参数 | 说明 | 类型 |
+| :--: | :--: | :--: |
+| void |  无  | void |
 
 - 返回值：
 
