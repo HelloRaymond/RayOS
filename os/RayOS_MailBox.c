@@ -19,7 +19,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
     }
     else //邮箱空，发送邮件，并唤醒一个等待收取邮件的线程
     {
-        for (i = 0; i <= THREAD_MAX; i++)
+        for (i = 0; i <= THREAD_MAX; ++i)
         {
             if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->BlockEvent == RECIEVE && ThreadHandlerIndex[i]->ThreadMailBox == mailbox)
             {
@@ -49,7 +49,7 @@ void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
     {
         *mail = mailbox->mail;
         mailbox->status = EMPTY;
-        for (i = 0; i <= THREAD_MAX; i++)
+        for (i = 0; i <= THREAD_MAX; ++i)
         {
             if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->BlockEvent == SEND && ThreadHandlerIndex[i]->ThreadMailBox == mailbox)
             {

@@ -123,7 +123,7 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
     ThreadHandlerIndex[tid]->ThreadStackPointer = (ray_uint8_t)TaskStack + 1;              //SP指针初始化：指向栈顶
     ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //栈顶初始化为入口函数地址低8位
     ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //栈顶+1初始化为入口函数地址高8位
-    ThreadNumber++;
+    ++ThreadNumber;
     return ThreadHandlerIndex[tid]->ThreadID;
 }
 
@@ -147,6 +147,7 @@ ray_err_t ThreadDelete(ray_uint8_t tid)
     if (ThreadHandlerIndex[tid]->ThreadStatus != DELETED)
     {
         ThreadHandlerIndex[tid]->ThreadStatus = DELETED;
+        --ThreadNumber;
         return RAY_EOK;
     }
     return RAY_ERROR;
@@ -159,7 +160,7 @@ void ThreadScan(void) //扫描更新线程状态
         ThreadHandlerIndex[0]->ThreadStatus = READY;
     if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //一个时间片运行完RunTime清0
         ThreadHandlerIndex[CurrentThreadID]->RunTime = 0;
-    for (i = 0; i <= THREAD_MAX; i++) //处理阻塞线程
+    for (i = 0; i <= THREAD_MAX; ++i) //处理阻塞线程
     {
         if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED)
         {
@@ -202,14 +203,14 @@ void ThreadSwitch(void)
     next = FindHighestPriorityThreadID(); //寻找下一个最高优先级的非当前就绪态线程
     if (next == CurrentThreadID)          //若除空闲线程外无其他就绪线程则跳过切换
     {
-        ThreadHandlerIndex[CurrentThreadID]->RunTime++; //继续运行当前线程
+        ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //继续运行当前线程
         return;
     }
     if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //选取的下一个线程优先级比当前线程小
     {
         if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING) //当前线程没有阻塞或主动挂起，不切换线程让出CPU使用权，继续运行
         {
-            ThreadHandlerIndex[CurrentThreadID]->RunTime++; //继续运行当前线程
+            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //继续运行当前线程
             return;
         }
     }
@@ -217,18 +218,18 @@ void ThreadSwitch(void)
     {
         if (ThreadHandlerIndex[CurrentThreadID]->RunTime < ThreadHandlerIndex[CurrentThreadID]->Ticks) //进行时间片轮转
         {
-            ThreadHandlerIndex[CurrentThreadID]->RunTime++; //时间片没结束继续运行当前线程
+            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //时间片没结束继续运行当前线程
             return;
         }
     } //选取的下一个线程优先级比当前线程优先级大，立即切换线程抢占CPU
 
     //将上下文数据(SP指针、SFR、GPR、栈)备份到自己的TCB中
     ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer = StackPointer;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i] = SFRStack[i];
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 8; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadGPRStack[i] = GPRStack[i];
-    for (i = 0; i < STACK_SIZE; i++)
+    for (i = 0; i < STACK_SIZE; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
     if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = READY;
@@ -236,15 +237,15 @@ void ThreadSwitch(void)
     //切换线程
     CurrentThreadID = next;
     ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = RUNNING;
-    ThreadHandlerIndex[CurrentThreadID]->RunTime++;
+    ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
 
     //将自己TCB中的上下文数据恢复
     StackPointer = ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; ++i)
         SFRStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i];
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 8; ++i)
         GPRStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadGPRStack[i];
-    for (i = 0; i < STACK_SIZE; i++)
+    for (i = 0; i < STACK_SIZE; ++i)
         TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
 }
 
