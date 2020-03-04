@@ -8,11 +8,11 @@
 // 系统心跳周期长度（单位ms）
 #define TICKS 2
 // 最大线程数
-#define THREAD_MAX 10
+#define THREAD_MAX 5
 // 最大优先级
-#define PRIORITY_MAX 10
+#define PRIORITY_MAX 5
 // 栈深度
-#define STACK_SIZE 23
+#define STACK_SIZE 10
 
 // 开启信号量功能
 #define USING_SEMAPHORE 1
