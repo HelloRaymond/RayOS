@@ -301,9 +301,10 @@ void main()
     ThreadCreate(idle, 1, 0);
     ThreadHandlerIndex[0]->ThreadStackPointer = (ray_uint8_t)TaskStack - 1;
     ThreadHandlerIndex[0]->ThreadStatus = RUNNING;
-    ThreadHandlerIndex[0]->EntryFunction();
     CurrentThreadID = 0;
-    //阻塞在这里，防止程序意外跑飞
+    ThreadHandlerIndex[0]->EntryFunction();
+    // 下面的循环理论上不会执行，但不加此句软件仿真运行时偶尔出现程序跑飞现象
+    // 若程序运行到这里，进行软件复位
     while (1)
-        _nop_();
+        ((void (code *) (void)) 0x0000) ();
 }
