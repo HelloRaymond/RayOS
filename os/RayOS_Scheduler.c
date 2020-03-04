@@ -64,8 +64,7 @@ ray_uint8_t FindHighestPriorityThreadID(void)
 //—∞’“ø’œ–TCB≤€
 ray_uint8_t FindAvailableTID(void)
 {
-    ray_uint8_t i, result;
-    result = 0;
+    ray_uint8_t i;
     for (i = 1; i < THREAD_MAX; ++i)
     {
         if (ThreadHandlerIndex[i]->ThreadStatus == DELETED)
