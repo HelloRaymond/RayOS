@@ -1,24 +1,24 @@
 #ifndef _RAYOSCONFIG_H_
 #define _RAYOSCONFIG_H_
 
-// æ™¶æŒ¯é¢‘çŽ‡ï¼ˆå•ä½Hzï¼‰
+// ¾§ÕñÆµÂÊ£¨µ¥Î»Hz£©
 #define FOSC 24000000L
-// å®šæ—¶å™¨åˆ†é¢‘ç³»æ•°
+// ¶¨Ê±Æ÷·ÖÆµÏµÊý
 #define DEVIDER 1
-// ç³»ç»Ÿå¿ƒè·³å‘¨æœŸé•¿åº¦ï¼ˆå•ä½msï¼‰
+// ÏµÍ³ÐÄÌøÖÜÆÚ³¤¶È£¨µ¥Î»ms£©
 #define TICKS 2
-// æœ€å¤§çº¿ç¨‹æ•°
+// ×î´óÏß³ÌÊý
 #define THREAD_MAX 5
-// æœ€å¤§ä¼˜å…ˆçº§
+// ×î´óÓÅÏÈ¼¶
 #define PRIORITY_MAX 5
-// æ ˆæ·±åº¦
+// Õ»Éî¶È
 #define STACK_SIZE 10
 
-// å¼€å¯ä¿¡å·é‡åŠŸèƒ½
+// ¿ªÆôÐÅºÅÁ¿¹¦ÄÜ
 #define USING_SEMAPHORE 1
-// å¼€å¯é‚®ç®±åŠŸèƒ½
+// ¿ªÆôÓÊÏä¹¦ÄÜ
 #define USING_MAILBOX 0
-// å¼€å¯ç©ºé—²çº¿ç¨‹é’©å­åŠŸèƒ½
+// ¿ªÆô¿ÕÏÐÏß³Ì¹³×Ó¹¦ÄÜ
 #define USING_IDLEHOOK 1
 
 #endif

@@ -6,7 +6,13 @@ ray_sem_t sem = 1;
 ray_uint8_t tid1, tid2;
 ray_uint8_t task1count = 0;
 ray_uint8_t task2count = 0;
-
+/*
+测试例程：
+设置空闲线程钩子喂狗
+流水灯1每流动一轮/流水灯2流动一位
+流水灯2流动一轮后线程被删除，停止运行
+流水灯1继续流动一轮后删除空闲线程钩子，停止喂狗（会重启）
+*/
 void Flow(void) //流水灯1每流动一轮（8位）发送一个信号量
 {
     P1 = 0x01;
