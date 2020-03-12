@@ -37,11 +37,11 @@ struct ray_tcb_t
     ray_uint8_t ThreadStack[STACK_SIZE];
     enum
     {
-        READY = 0,
+        DELETED = 1,
         BLOCKED,
         RUNNING,
         INITIAL,
-        DELETED
+        READY
     } ThreadStatus;
     enum
     {
