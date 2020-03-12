@@ -310,3 +310,27 @@ void IdleHookFunctionReset(void);
 - 备注：
 
 > 1. 需要将配置文件中的USING_IDLEHOOK宏定义为1
+
+### 获取CPU占用率
+
+```c
+ray_uint8_t GetCPUUsage(void);
+```
+
+- 参数：
+
+| 参数 | 说明 | 类型 |
+| :--: | :--: | :--: |
+| void |  无  | void |
+
+- 返回值：
+
+|  返回值  |           说明            |    类型     |
+| :------: | :-----------------------: | :---------: |
+| CPUUsage | CPU占用率，百分比保留整数 | ray_uint8_t |
+
+- 需要包含的头文件：/os/RayOS.h
+
+- 备注：
+
+> 1. 需要将配置文件中的USING_CPUUSAGE宏定义为1

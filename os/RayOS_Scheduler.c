@@ -7,6 +7,11 @@ extern void main_user(void);
 
 ray_uint8_t idata OSStack[STACK_SIZE];   //调度器运行时的栈，OS独享此栈
 ray_uint8_t idata TaskStack[STACK_SIZE]; //线程实际运行时的栈，所有线程共享此栈
+ray_uint32_t xdata CPUTicks = 0;         //系统运行时间
+ray_uint32_t xdata idleCPUTicks = 0;     //系统空闲时间
+#if USING_CPUUSAGE
+ray_uint8_t xdata CPUUsage = 0; //CPU占用率
+#endif
 
 //进行上下文切换时的中转变量数组
 ray_uint8_t data StackPointer;
@@ -155,6 +160,7 @@ ray_err_t ThreadDelete(ray_uint8_t tid)
 void ThreadScan(void) //扫描更新线程状态
 {
     ray_uint8_t i;
+    ++CPUTicks;
     if (ThreadHandlerIndex[0]->ThreadStatus != READY && ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //空闲线程不允许阻塞
         ThreadHandlerIndex[0]->ThreadStatus = READY;
     if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //一个时间片运行完RunTime清0
@@ -282,16 +288,33 @@ void IdleHookFunctionReset(void)
 }
 #endif
 
+#if USING_CPUUSAGE
+ray_uint8_t GetCPUUsage(void)
+{
+    return CPUUsage;
+}
+#endif
+
 //空闲线程
 void idle(void)
 {
     main_user();
     while (1)
+    {
+        ++idleCPUTicks;
+#if USING_CPUUSAGE
+        if (CPUTicks % 1000000 == 0)
+        {
+            CPUUsage = (1000000 - idleCPUTicks) / 10000;
+            idleCPUTicks = 0;
+        }
+#endif
 #if USING_IDLEHOOK
         idleHookFunction();
 #else
         _nop_();
 #endif
+    }
 }
 
 void main()
@@ -305,5 +328,5 @@ void main()
     // 下面的循环理论上不会执行，但不加此句软件仿真运行时偶尔出现程序跑飞现象
     // 若程序运行到这里，进行软件复位
     while (1)
-        ((void (code *) (void)) 0x0000) ();
+        ((void(code *)(void))0x0000)();
 }

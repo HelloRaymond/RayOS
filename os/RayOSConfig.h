@@ -20,5 +20,7 @@
 #define USING_MAILBOX 0
 // 开启空闲线程钩子功能
 #define USING_IDLEHOOK 1
+// 开启CPU占用率统计
+#define USING_CPUUSAGE 0
 
 #endif
