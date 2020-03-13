@@ -107,10 +107,10 @@ void StackInit(ray_uint8_t stack[], ray_uint8_t stacksize)
 ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_uint8_t priority)
 {
     ray_uint8_t tid = FindAvailableTID();
-    if (tid == THREAD_MAX - 1 || priority > PRIORITY_MAX) //超过线程数量或优先级的范围限制返回错误
-    {
+    if (tid >= THREAD_MAX || priority > PRIORITY_MAX || priority <= 0 || ticks <= 0)
+    { // 线程ID限制在0~THREAD_MAX之间 线程优先级限制在0~PRIORITY_MAX之间 时间片限制在大于0
         return 0xff;
-    }
+    }                                                                                    //参数超出范围限制返回错误
     ThreadHandlerIndex[tid] = &TCBHeap[tid];                                               //分配线程控制块
     StackInit(ThreadHandlerIndex[tid]->ThreadStack, STACK_SIZE);                           //TCB栈初始化
     StackInit(ThreadHandlerIndex[tid]->ThreadSFRStack, 5);                                 //TCBSFR栈初始化
@@ -161,6 +161,15 @@ void ThreadScan(void) //扫描更新线程状态
 {
     ray_uint8_t i;
     ++CPUTicks;
+    if (CurrentThreadID==0)
+        ++idleCPUTicks;
+#if USING_CPUUSAGE
+    if (CPUTicks % 1000 == 0)
+    {
+        CPUUsage = (1000 - idleCPUTicks) / 10;
+        idleCPUTicks = 0;
+    }
+#endif
     if (ThreadHandlerIndex[0]->ThreadStatus != READY && ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //空闲线程不允许阻塞
         ThreadHandlerIndex[0]->ThreadStatus = READY;
     if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //一个时间片运行完RunTime清0
@@ -301,14 +310,6 @@ void idle(void)
     main_user();
     while (1)
     {
-        ++idleCPUTicks;
-#if USING_CPUUSAGE
-        if (CPUTicks % 1000000 == 0)
-        {
-            CPUUsage = (1000000 - idleCPUTicks) / 10000;
-            idleCPUTicks = 0;
-        }
-#endif
 #if USING_IDLEHOOK
         idleHookFunction();
 #else
