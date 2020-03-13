@@ -30,7 +30,7 @@ void SemaphoreTake(ray_sem_t *ThreadSemaphore)
 }
 
 //释放信号量，即信号量V操作
-void SemaphoreRealease(ray_sem_t *ThreadSemaphore)
+void SemaphoreRelease(ray_sem_t *ThreadSemaphore)
 {
     ray_uint8_t i;
     //V操作需要实现原子操作

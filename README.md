@@ -163,7 +163,7 @@ ray_err_t ThreadDelayMs(ray_uint16_t time);
 ### 释放信号量
 
 ```c
-void SemaphoreRealease(ray_sem_t *ThreadSemaphore);
+void SemaphoreRelease(ray_sem_t *ThreadSemaphore);
 ```
 
 - 参数：

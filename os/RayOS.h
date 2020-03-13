@@ -78,7 +78,7 @@ ray_err_t ThreadDelayMs(ray_uint16_t time);
 
 #if USING_SEMAPHORE
 void SemaphoreTake(ray_sem_t *ThreadSemaphore);
-void SemaphoreRealease(ray_sem_t *ThreadSemaphore);
+void SemaphoreRelease(ray_sem_t *ThreadSemaphore);
 #endif
 
 #if USING_MAILBOX

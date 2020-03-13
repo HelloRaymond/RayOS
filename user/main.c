@@ -26,7 +26,7 @@ void Flow(void) //流水灯1每流动一轮（8位）发送一个信号量
         }
         ThreadDelayMs(100);
         if (P1 == 1)
-            SemaphoreRealease(&sem);
+            SemaphoreRelease(&sem);
         if (task1count>=8*8*2)
             IdleHookFunctionReset();//流动16轮之后删除空闲线程钩子函数，停止喂狗，观察现象
     }
