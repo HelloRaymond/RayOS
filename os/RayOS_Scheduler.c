@@ -142,7 +142,7 @@ void ThreadScan(void) //扫描更新线程状态
 {
     ray_uint8_t i;
     ++CPUTicks;
-    if (CurrentThreadID==0)
+    if (CurrentThreadID == 0)
         ++idleCPUTicks;
 #if USING_CPUUSAGE
     if (CPUTicks % 1000 == 0)

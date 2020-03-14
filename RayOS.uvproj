@@ -294,7 +294,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\os</IncludePath>
+              <IncludePath>.\os;.\user</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -381,6 +381,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\isr.c</FilePath>
             </File>
+            <File>
+              <FileName>TM1637.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\TM1637.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -395,6 +400,11 @@
               <FileName>RayOSConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\os\RayOSConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>TM1637.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\user\TM1637.h</FilePath>
             </File>
           </Files>
         </Group>

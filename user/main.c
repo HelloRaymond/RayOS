@@ -1,9 +1,11 @@
 #include <STC15F2K60S2.H>
-#include "RayOS.h"
 #include <INTRINS.H>
+#include "RayOS.h"
+#include "TM1637.h"
 
 ray_sem_t sem = 1;
-ray_uint8_t tid1, tid2;
+ray_uint8_t ClockHour, ClockMinute, ClockSecond;
+ray_uint8_t tid1, tid2, tid3;
 ray_uint8_t task1count = 0;
 ray_uint8_t task2count = 0;
 /*
@@ -11,7 +13,6 @@ ray_uint8_t task2count = 0;
 设置空闲线程钩子喂狗
 流水灯1每流动一轮/流水灯2流动一位
 流水灯2流动一轮后线程被删除，停止运行
-流水灯1继续流动一轮后删除空闲线程钩子，停止喂狗（会重启）
 */
 void Flow(void) //流水灯1每流动一轮（8位）发送一个信号量
 {
@@ -20,15 +21,13 @@ void Flow(void) //流水灯1每流动一轮（8位）发送一个信号量
     {
         ++task1count;
         P1 = _cror_(P1, 1);
-        if (task2count >= 8)//流水灯2流动一轮后线程被删除，停止运行
+        if (task2count >= 8) //流水灯2流动一轮后线程被删除，停止运行
         {
             ThreadDelete(tid2);
         }
         ThreadDelayMs(100);
         if (P1 == 1)
             SemaphoreRelease(&sem);
-        if (task1count>=8*8*2)
-            IdleHookFunctionReset();//流动16轮之后删除空闲线程钩子函数，停止喂狗，观察现象
     }
 }
 void Follow(void) //流水灯2每收到一个信号量流动一位
@@ -44,7 +43,32 @@ void Follow(void) //流水灯2每收到一个信号量流动一位
 
 void FeedDog(void)
 {
-    WDT_CONTR = 0x35;//喂狗
+    WDT_CONTR = 0x35; //喂狗
+}
+
+void Clock(void)
+{
+    ClockHour = ClockMinute = ClockSecond = 0;
+    while (1)
+    {
+        ++ClockSecond;
+        if (ClockSecond >= 60)
+        {
+            ClockSecond -= 60;
+            ++ClockMinute;
+        }
+        if (ClockMinute >= 60)
+        {
+            ClockMinute -= 60;
+            ++ClockHour;
+        }
+        if (ClockHour >= 24)
+        {
+            ClockHour = 0;
+        }
+        TM1637_display(ClockHour / 10 == 0 ? 21 : ClockHour / 10, ClockHour % 10, ClockMinute / 10, ClockMinute % 10, 1, 3);
+        ThreadDelayMs(1000);
+    }
 }
 
 void main_user()
@@ -53,6 +77,8 @@ void main_user()
     IdleHookFunctionSet(FeedDog);        //设置空闲线程钩子函数，空闲时喂狗
     tid1 = ThreadCreate(Flow, 100, 1);   //创建流水灯1线程
     tid2 = ThreadCreate(Follow, 100, 1); //创建流水灯2线程
+    tid3 = ThreadCreate(Clock, 10, 2);   //创建时钟显示线程
     ThreadStart(tid1);                   //启动流水灯1线程
     ThreadStart(tid2);                   //启动流水灯2线程
+    ThreadStart(tid3);                   //启动时钟显示线程
 }

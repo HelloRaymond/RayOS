@@ -16,10 +16,10 @@ void Timer1_ISR()
 
 void Uart1_ISR()
 {
-	if (TI)
-	{
-		TI = 0;
-	}
+    if (TI)
+    {
+        TI = 0;
+    }
 }
 
 void ADC_ISR()
