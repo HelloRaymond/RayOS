@@ -14,30 +14,30 @@
 // 栈深度
 #define STACK_SIZE 10
 
-// 开启信号量功能
+// 使用信号量功能
 #define USING_SEMAPHORE 1
-// 开启邮箱功能
+// 使用邮箱功能
 #define USING_MAILBOX 0
-// 开启空闲线程钩子功能
+// 使用空闲线程钩子功能
 #define USING_IDLEHOOK 1
-// 开启CPU占用率统计
+// 使用CPU占用率统计
 #define USING_CPUUSAGE 1
 
-// 开启ADC库函数
+// 使用ADC库函数
 #define USING_ADC 0
-// 开启EEEPROM库函数
+// 使用EEEPROM库函数
 #define USING_EEPROM 0
-// 开启Exti库函数
+// 使用外部中断库函数
 #define USING_Exti 0
-// 开启GPIOExti
+// 使用GPIO库函数
 #define USING_GPIO 1
-// 开启PCAExti
+// 使用PWM库函数
 #define USING_PCA 0
-// 开启soft_uart库函数
+// 使用软件模拟串口库函数
 #define USING_soft_uart 0
-// 开启timer库函数
+// 使用定时器库函数
 #define USING_timer 1
-// 开启USART库函数
+// 使用串口库函数
 #define USING_USART 1
 
 #endif
