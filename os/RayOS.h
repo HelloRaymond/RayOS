@@ -1,7 +1,39 @@
 #ifndef _RAYOS_H_
 #define _RAYOS_H_
-#include <STC15F2K60S2.H>
+#include <STC15Fxxxx.H>
 #include "RayOSConfig.h"
+
+#if USING_ADC
+#include "ADC.h"
+#endif
+
+#if USING_EEPROM
+#include "EEPROM.h"
+#endif
+
+#if USING_Exti
+#include "Exti.h"
+#endif
+
+#if USING_GPIO
+#include "GPIO.h"
+#endif
+
+#if USING_PCA
+#include "PCA.h"
+#endif
+
+#if USING_soft_uart
+#include "soft_uart.h"
+#endif
+
+#if USING_timer
+#include "timer.h"
+#endif
+
+#if USING_USART
+#include "USART.h"
+#endif
 
 typedef unsigned char ray_uint8_t;
 typedef unsigned int ray_uint16_t;

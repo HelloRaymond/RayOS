@@ -1,4 +1,4 @@
-#include <STC15F2K60S2.H>
+#include <STC15Fxxxx.H>
 #include <INTRINS.H>
 #include "RayOS.h"
 

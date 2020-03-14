@@ -294,7 +294,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\os;.\user</IncludePath>
+              <IncludePath>.\os;.\stc15lib;.\user</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -326,8 +326,8 @@
             <UserClasses></UserClasses>
             <CSection></CSection>
             <UserSection></UserSection>
-            <CodeBaseAddress></CodeBaseAddress>
-            <XDataBaseAddress></XDataBaseAddress>
+            <CodeBaseAddress>0X0000-0XEFF8</CodeBaseAddress>
+            <XDataBaseAddress>0X0000-0X06FF</XDataBaseAddress>
             <PDataBaseAddress></PDataBaseAddress>
             <BitBaseAddress></BitBaseAddress>
             <DataBaseAddress></DataBaseAddress>
@@ -369,6 +369,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\stc15lib\GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\stc15lib\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\stc15lib\USART.C</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application</GroupName>
           <Files>
             <File>
@@ -385,26 +405,6 @@
               <FileName>TM1637.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\TM1637.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Include</GroupName>
-          <Files>
-            <File>
-              <FileName>RayOS.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\os\RayOS.h</FilePath>
-            </File>
-            <File>
-              <FileName>RayOSConfig.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\os\RayOSConfig.h</FilePath>
-            </File>
-            <File>
-              <FileName>TM1637.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\user\TM1637.h</FilePath>
             </File>
           </Files>
         </Group>

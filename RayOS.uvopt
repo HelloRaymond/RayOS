@@ -157,7 +157,7 @@
         <periodic>1</periodic>
         <aLwin>1</aLwin>
         <aCover>0</aCover>
-        <aSer1>0</aSer1>
+        <aSer1>1</aSer1>
         <aSer2>0</aSer2>
         <aPa>0</aPa>
         <viewmode>1</viewmode>
@@ -185,7 +185,7 @@
 
   <Group>
     <GroupName>Operation System</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -194,10 +194,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>43</ColumnNumber>
+      <ColumnNumber>19</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>10</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOSKernel.asm</PathWithFileName>
       <FilenameWithoutPath>RayOSKernel.asm</FilenameWithoutPath>
@@ -208,10 +208,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>136</TopLine>
+      <CurrentLine>136</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOS_Scheduler.c</PathWithFileName>
       <FilenameWithoutPath>RayOS_Scheduler.c</FilenameWithoutPath>
@@ -247,27 +247,62 @@
   </Group>
 
   <Group>
-    <GroupName>Application</GroupName>
-    <tvExp>1</tvExp>
+    <GroupName>Libraries</GroupName>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>5</FileNumber>
+      <FileNumber>0</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>40</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>8</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\user\main.c</PathWithFileName>
-      <FilenameWithoutPath>main.c</FilenameWithoutPath>
+      <PathWithFileName>.\stc15lib\GPIO.c</PathWithFileName>
+      <FilenameWithoutPath>GPIO.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>6</FileNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\stc15lib\timer.c</PathWithFileName>
+      <FilenameWithoutPath>timer.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\stc15lib\USART.C</PathWithFileName>
+      <FilenameWithoutPath>USART.C</FilenameWithoutPath>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>Application</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>8</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -276,71 +311,36 @@
       <TopLine>1</TopLine>
       <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\user\isr.c</PathWithFileName>
-      <FilenameWithoutPath>isr.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>7</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\user\TM1637.c</PathWithFileName>
-      <FilenameWithoutPath>TM1637.c</FilenameWithoutPath>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>Include</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <File>
-      <GroupNumber>3</GroupNumber>
-      <FileNumber>8</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\os\RayOS.h</PathWithFileName>
-      <FilenameWithoutPath>RayOS.h</FilenameWithoutPath>
+      <PathWithFileName>.\user\main.c</PathWithFileName>
+      <FilenameWithoutPath>main.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
       <FileNumber>9</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>6</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\os\RayOSConfig.h</PathWithFileName>
-      <FilenameWithoutPath>RayOSConfig.h</FilenameWithoutPath>
+      <PathWithFileName>.\user\isr.c</PathWithFileName>
+      <FilenameWithoutPath>isr.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>3</GroupNumber>
       <FileNumber>10</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>56</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\user\TM1637.h</PathWithFileName>
-      <FilenameWithoutPath>TM1637.h</FilenameWithoutPath>
+      <PathWithFileName>.\user\TM1637.c</PathWithFileName>
+      <FilenameWithoutPath>TM1637.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -443,10 +443,10 @@
         <DockedRect_left>0</DockedRect_left>
         <DockedRect_bottom>84</DockedRect_bottom>
         <DockedRect_right>626</DockedRect_right>
-        <FloatingRect_top>0</FloatingRect_top>
-        <FloatingRect_left>0</FloatingRect_left>
-        <FloatingRect_bottom>0</FloatingRect_bottom>
-        <FloatingRect_right>0</FloatingRect_right>
+        <FloatingRect_top>29</FloatingRect_top>
+        <FloatingRect_left>29</FloatingRect_left>
+        <FloatingRect_bottom>90</FloatingRect_bottom>
+        <FloatingRect_right>652</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
         <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
@@ -498,7 +498,7 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -573,8 +573,8 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
-        <Visible>0</Visible>
+        <ActiveTab>1</ActiveTab>
+        <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>

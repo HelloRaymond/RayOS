@@ -1,4 +1,4 @@
-#include <STC15F2K60S2.H>
+#include <STC15Fxxxx.H>
 #include <INTRINS.H>
 #include "RayOS.h"
 #include "TM1637.h"
@@ -30,9 +30,13 @@ code ray_uint8_t tab[] =
 };
 static void Delay_us(ray_uint16_t i)
 {
-    i *= 24;
-    for (; i > 0; i--)
-        _nop_();
+    ray_uint16_t j;
+    if (i == 0)
+        return;
+    do{
+        j = MAIN_Fosc / 13000000;
+        while(--j)	;   //14T per loop
+    }while(--i >= 0);
 }
 
 static void TM1637_start(void)

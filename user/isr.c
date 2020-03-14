@@ -1,4 +1,4 @@
-#include <STC15F2K60S2.H>
+#include <STC15Fxxxx.H>
 #include "RayOS.h"
 
 //中断服务函数在这里写，会自动保存并切换上下文，Timer0已经被系统调度器占用
@@ -14,29 +14,31 @@ void Timer1_ISR()
 {
 }
 
+#ifndef __USART_H
 void Uart1_ISR()
-{
-    if (TI)
-    {
-        TI = 0;
-    }
-}
-
-void ADC_ISR()
-{
-}
-
-void LVD_ISR()
-{
-}
-
-void PCA_ISR()
 {
 }
 
 void Uart2_ISR()
 {
 }
+#endif
+
+#ifndef __ADC_H
+void ADC_ISR()
+{
+}
+#endif
+
+void LVD_ISR()
+{
+}
+
+#ifndef __PCA_H
+void PCA_ISR()
+{
+}
+#endif
 
 void SPI_ISR()
 {
