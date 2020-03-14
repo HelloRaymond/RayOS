@@ -15,26 +15,7 @@ ray_uint8_t xdata CPUUsage = 0; //CPU占用率
 
 //进行上下文切换时的中转变量数组
 ray_uint8_t data StackPointer;
-enum sfr_e
-{
-    psw = 0,
-    acc,
-    b,
-    dpl,
-    dph
-};
 ray_uint8_t data SFRStack[5];
-enum gpr_e
-{
-    r0 = 0,
-    r1,
-    r2,
-    r3,
-    r4,
-    r5,
-    r6,
-    r7
-};
 ray_uint8_t data GPRStack[8];
 
 //用于调度器与系统模块间相互通信的全局变量
@@ -107,10 +88,10 @@ void StackInit(ray_uint8_t stack[], ray_uint8_t stacksize)
 ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_uint8_t priority)
 {
     ray_uint8_t tid = FindAvailableTID();
-    if (tid >= THREAD_MAX || priority > PRIORITY_MAX || priority <= 0 || ticks <= 0)
+    if (tid >= THREAD_MAX || priority > PRIORITY_MAX || ticks <= 0)
     { // 线程ID限制在0~THREAD_MAX之间 线程优先级限制在0~PRIORITY_MAX之间 时间片限制在大于0
         return 0xff;
-    }                                                                                    //参数超出范围限制返回错误
+    }                                                                                      //参数超出范围限制返回错误
     ThreadHandlerIndex[tid] = &TCBHeap[tid];                                               //分配线程控制块
     StackInit(ThreadHandlerIndex[tid]->ThreadStack, STACK_SIZE);                           //TCB栈初始化
     StackInit(ThreadHandlerIndex[tid]->ThreadSFRStack, 5);                                 //TCBSFR栈初始化
