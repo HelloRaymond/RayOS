@@ -8,7 +8,7 @@
 // 系统心跳周期长度（单位ms）
 #define TICKS 2
 // 最大线程数
-#define THREAD_MAX 5
+#define THREAD_MAX 10
 // 最大优先级
 #define PRIORITY_MAX 5
 // 栈深度
@@ -17,7 +17,7 @@
 // 使用信号量功能
 #define USING_SEMAPHORE 1
 // 使用邮箱功能
-#define USING_MAILBOX 0
+#define USING_MAILBOX 1
 // 使用空闲线程钩子功能
 #define USING_IDLEHOOK 1
 // 使用CPU占用率统计

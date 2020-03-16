@@ -30,13 +30,12 @@ code ray_uint8_t tab[] =
 };
 static void Delay_us(ray_uint16_t i)
 {
-    ray_uint16_t j;
     if (i == 0)
         return;
-    do{
-        j = MAIN_Fosc / 13000000;
-        while(--j)	;   //14T per loop
-    }while(--i >= 0);
+	_nop_();
+	_nop_();
+	i = 3 + 6 * (i-1);
+	while (--i);
 }
 
 static void TM1637_start(void)
