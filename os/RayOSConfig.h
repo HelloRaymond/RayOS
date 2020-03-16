@@ -5,7 +5,7 @@
 #define FOSC 24000000L
 // 定时器分频系数
 #define DEVIDER 1
-// 系统心跳周期长度（单位ms）
+// 系统滴答周期长度（单位ms）
 #define TICKS 2
 // 最大线程数
 #define THREAD_MAX 10
