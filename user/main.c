@@ -88,10 +88,10 @@ void Clock(void)
 void LEDUpdate(void)
 {
     static ray_uint32_t led_buffer = 0;
-    while(1)
+    while (1)
     {
         MailRecieve(&led_buf, &led_buffer);
-        OS_ENTER_CRITICAL();//以下函数重入会出现问题，待解决
+        OS_ENTER_CRITICAL(); //以下函数重入会出现问题，待解决
         TM1637_display((ray_uint8_t)(led_buffer >> 24), (ray_uint8_t)(led_buffer >> 16), (ray_uint8_t)(led_buffer >> 8), (ray_uint8_t)(led_buffer), 1, 3);
         OS_EXIT_CRITICAL();
         ThreadDelayMs(1000);
@@ -100,14 +100,14 @@ void LEDUpdate(void)
 
 void main_user()
 {
-    WDT_reset(D_WDT_SCALE_256);         //开启看门狗
-    IdleHookFunctionSet(FeedDog);        //设置空闲线程钩子函数，空闲时喂狗
-    tid1 = ThreadCreate(Flow, 10, 1);   //创建流水灯1线程
-    tid2 = ThreadCreate(Follow, 10, 1); //创建流水灯2线程
-    tid3 = ThreadCreate(Clock, 10, 2);   //创建时钟线程
-    tid4 = ThreadCreate(LEDUpdate, 10, 1);   //创建显示刷新线程
-    ThreadStart(tid1);                   //启动流水灯1线程
-    ThreadStart(tid2);                   //启动流水灯2线程
-    ThreadStart(tid3);                   //启动时钟线程
-    ThreadStart(tid4);                   //启动显示刷新线程
+    WDT_reset(D_WDT_SCALE_256);            //开启看门狗
+    IdleHookFunctionSet(FeedDog);          //设置空闲线程钩子函数，空闲时喂狗
+    tid1 = ThreadCreate(Flow, 10, 1);      //创建流水灯1线程
+    tid2 = ThreadCreate(Follow, 10, 1);    //创建流水灯2线程
+    tid3 = ThreadCreate(Clock, 10, 2);     //创建时钟线程
+    tid4 = ThreadCreate(LEDUpdate, 10, 1); //创建显示刷新线程
+    ThreadStart(tid1);                     //启动流水灯1线程
+    ThreadStart(tid2);                     //启动流水灯2线程
+    ThreadStart(tid3);                     //启动时钟线程
+    ThreadStart(tid4);                     //启动显示刷新线程
 }
