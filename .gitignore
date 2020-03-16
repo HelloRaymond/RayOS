@@ -86,3 +86,4 @@ PROJECT_PROJ.XSD
 *.SVD.XML
 *.SVD
 *.XML
+.*/
