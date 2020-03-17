@@ -143,6 +143,21 @@
           <WinNumber>1</WinNumber>
           <ItemText>CPUUsage,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ClockHour,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ClockMinute,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ClockSecond,0x0A</ItemText>
+        </Ww>
       </WatchWindow1>
       <DebugFlag>
         <trace>0</trace>
@@ -179,7 +194,7 @@
   </Target>
 
   <Group>
-    <GroupName>Operation System</GroupName>
+    <GroupName>Operating System</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -190,10 +205,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>23</ColumnNumber>
+      <ColumnNumber>27</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>42</TopLine>
+      <CurrentLine>66</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOSKernel.asm</PathWithFileName>
       <FilenameWithoutPath>RayOSKernel.asm</FilenameWithoutPath>
@@ -208,8 +223,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>4</CurrentLine>
+      <TopLine>326</TopLine>
+      <CurrentLine>339</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOS_Scheduler.c</PathWithFileName>
       <FilenameWithoutPath>RayOS_Scheduler.c</FilenameWithoutPath>
@@ -318,10 +333,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>6</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\user\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>

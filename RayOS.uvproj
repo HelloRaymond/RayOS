@@ -348,7 +348,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Operation System</GroupName>
+          <GroupName>Operating System</GroupName>
           <Files>
             <File>
               <FileName>RayOSKernel.asm</FileName>
