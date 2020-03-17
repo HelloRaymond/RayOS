@@ -40,23 +40,23 @@
 
 > **/os directory**
 >
->-RayOSKernel.asm The assembly file of the core of the operating system, which implements the functions of context switching and power-on initialization
->-RayOS_Scheduler.c Scheduler module C language file, implements the thread scheduling function of the operating system
->-RayOS_Semaphore.c Semaphore module C language file, implements the thread synchronization function of the operating system
->-RayOS_MailBox.c Mailbox module C language file, implements the mailbox thread communication function of the operating system (under development, not yet perfected)
->-RayOS.h Operating system common header file, contains some type definitions, macro definitions and API function declarations
->-RayOSConfig.h Operating system configuration header file for cropping and configuring operating system functions
+>- RayOSKernel.asm The assembly file of the core of the operating system, which implements the functions of context switching and power-on initialization
+>- RayOS_Scheduler.c Scheduler module C language file, implements the thread scheduling function of the operating system
+>- RayOS_Semaphore.c Semaphore module C language file, implements the thread synchronization function of the operating system
+>- RayOS_MailBox.c Mailbox module C language file, implements the mailbox thread communication function of the operating system (under development, not yet perfected)
+>- RayOS.h Operating system common header file, contains some type definitions, macro definitions and API function declarations
+>- RayOSConfig.h Operating system configuration header file for cropping and configuring operating system functions
 
 > **/user directory**
 >
->-main.c user code entry file, the user needs to create and start the thread in the main_user () function
->-isr.c interrupt service function file. The user's interrupt service function needs to be defined here. When the interrupt is triggered, the system will automatically save the recovery context.
->-TM1637.c Digital tube driver file
->-TM1637.h Digital tube driver header file
+>- main.c user code entry file, the user needs to create and start the thread in the main_user () function
+>- isr.c interrupt service function file. The user's interrupt service function needs to be defined here. When the interrupt is triggered, the system will automatically save the recovery context.
+>- TM1637.c Digital tube driver file
+>- TM1637.h Digital tube driver header file
 
 > **/stc15lib directory**
 >
-> STC official library function file, if you want to use the library function file, please define the relevant macros as 1 in the RayOSConfig.h configuration file. For more information about stc15 library functions, please refer to the stc official documentation
+> ​	STC official library function file, if you want to use the library function file, please define the relevant macros as 1 in the RayOSConfig.h configuration file. For more information about stc15 library functions, please refer to the stc official documentation
 
 
 
@@ -240,7 +240,7 @@ void SemaphoreTake (ray_sem_t * ThreadSemaphore);
 > 1. If the semaphore value is greater than 0, receive it, otherwise suspend the current thread
 > 2. Need to define USING_SEMAPHORE macro in configuration file as 1
 
-### send a mail
+### Receive a mail
 
 ```c
 void MailSend (ray_mailbox_t * mailbox, ray_uint32_t mail);
@@ -264,7 +264,7 @@ void MailSend (ray_mailbox_t * mailbox, ray_uint32_t mail);
 > 1. If the mailbox is empty, send it, otherwise suspend the current thread
 > 2. The USING_MAILBOX macro in the configuration file needs to be defined as 1
 
-### incoming a mail
+### Send a mail
 
 ```c
 void MailRecieve (ray_mailbox_t * mailbox, ray_uint32_t * mail);
