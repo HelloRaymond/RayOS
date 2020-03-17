@@ -20,16 +20,16 @@
   
     > ​	Unlike PC programs, in the keil compilation environment, local variables of functions are not stored in the stack, but a memory coverage strategy is adopted, that is, the address of the local variable is directly specified at compile stage. The compiler will assign local variables of different functions without direct calling relationships to the same memory address, so when switching between threads, the value of the local variables will change, which will cause the system to run abnormally.
 
-**solution:**
+**Solution:**
 
 1. Define all local variables of the thread function as static to avoid memory overwriting
     - Pros: Does not affect system real-time
-    - Cons: memory consumption will increase, it should not be used when there are more tasks, more complex or shortage of memory resources
+    - Cons: memory consumption will increase, it should not be used when there are more complex tasks or more shortage of memory resources
 
 2. Use the "reentrant" keyword to define a thread function as a reentrant function (not recommended)
 
 3. Turn off the interrupt before the task starts, and then turn on the interrupt after the end to avoid function reentry
-    - Pros: Does not increase memory footprint
+    - Pros: Does not increase memory consumption
     - Cons: frequent switching interruption affects real-time performance, it should not be used when real-time performance requirements are high
 
 
@@ -56,7 +56,7 @@
 
 > **/stc15lib directory**
 >
-> ​	STC official library function file, if you want to use the library function file, please define the relevant macros as 1 in the RayOSConfig.h configuration file. For more information about stc15 library functions, please refer to the stc official documentation
+> ​	STC official libraries, if you want to use the library function file, please define the relevant macros as 1 in the RayOSConfig.h configuration file. For more information about stc15 library functions, please refer to the stc official documentation
 
 
 
@@ -160,9 +160,9 @@ ray_err_t ThreadSleep (ray_uint16_t time);
 
 - return value:
 
-| Return Value | Description |   Type    |
-| :----------: | :---------: | :-------: |
-|    status    | error Code  | ray_err_t |
+| Return Value | Description |  Type  |
+| :----------: | :---------: | :----: |
+|    status    | error code  | _err_t |
 
 - Remarks:
 
@@ -288,7 +288,7 @@ void MailRecieve (ray_mailbox_t * mailbox, ray_uint32_t * mail);
 > 1. If the mailbox is full, receive it, otherwise suspend the current thread
 > 2. The USING_MAILBOX macro in the configuration file needs to be defined as 1
 
-### Setting idle thread hook
+### Set idle thread hook
 
 ```c
 void IdleHookFunctionSet (void (* hook) (void));
@@ -296,9 +296,9 @@ void IdleHookFunctionSet (void (* hook) (void));
 
 - Parameters:
 
-| Parameters |      Description      | Type |
-| :--------: | :-------------------: | :--: |
-|    hook    | hook function pointer |      |
+| Parameters |      Description      |       Type       |
+| :--------: | :-------------------: | :--------------: |
+|    hook    | hook function pointer | function pointer |
 
 - return value:
 

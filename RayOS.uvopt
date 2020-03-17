@@ -21,7 +21,7 @@
   </DaveTm>
 
   <Target>
-    <TargetName>Target 1</TargetName>
+    <TargetName>RayOS</TargetName>
     <ToolsetNumber>0x0</ToolsetNumber>
     <ToolsetName>MCS-51</ToolsetName>
     <TargetOption>
@@ -143,21 +143,6 @@
           <WinNumber>1</WinNumber>
           <ItemText>CPUUsage,0x0A</ItemText>
         </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ClockHour,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ClockMinute,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ClockSecond,0x0A</ItemText>
-        </Ww>
       </WatchWindow1>
       <DebugFlag>
         <trace>0</trace>
@@ -205,10 +190,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>27</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>42</TopLine>
-      <CurrentLine>66</CurrentLine>
+      <TopLine>54</TopLine>
+      <CurrentLine>64</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOSKernel.asm</PathWithFileName>
       <FilenameWithoutPath>RayOSKernel.asm</FilenameWithoutPath>
@@ -223,8 +208,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>326</TopLine>
-      <CurrentLine>339</CurrentLine>
+      <TopLine>285</TopLine>
+      <CurrentLine>315</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os\RayOS_Scheduler.c</PathWithFileName>
       <FilenameWithoutPath>RayOS_Scheduler.c</FilenameWithoutPath>
