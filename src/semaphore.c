@@ -1,6 +1,5 @@
-#include <STC15Fxxxx.H>
-#include <INTRINS.H>
 #include "RayOS.h"
+#include "board.h"
 
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
@@ -25,7 +24,7 @@ void SemaphoreTake(ray_sem_t *ThreadSemaphore)
         OS_EXIT_CRITICAL();
         //等待此时间片耗尽
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
-            _nop_();
+            ;
     }
 }
 

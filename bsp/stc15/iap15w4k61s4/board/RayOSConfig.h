@@ -17,27 +17,10 @@
 // 使用信号量功能
 #define USING_SEMAPHORE 1
 // 使用邮箱功能
-#define USING_MAILBOX 1
+#define USING_MAILBOX 0
 // 使用空闲线程钩子功能
 #define USING_IDLEHOOK 1
 // 使用CPU占用率统计
 #define USING_CPUUSAGE 1
-
-// 使用ADC库函数
-#define USING_ADC 0
-// 使用EEEPROM库函数
-#define USING_EEPROM 0
-// 使用外部中断库函数
-#define USING_Exti 0
-// 使用GPIO库函数
-#define USING_GPIO 1
-// 使用PWM库函数
-#define USING_PCA 0
-// 使用软件模拟串口库函数
-#define USING_soft_uart 0
-// 使用定时器库函数
-#define USING_timer 1
-// 使用串口库函数
-#define USING_USART 1
 
 #endif

@@ -1,5 +1,3 @@
-#include <STC15Fxxxx.H>
-#include <INTRINS.H>
 #include "RayOS.h"
 
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];

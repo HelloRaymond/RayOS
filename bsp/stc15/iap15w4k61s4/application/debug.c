@@ -1,4 +1,5 @@
 #include "RayOS.h"
+#include "USART.h"
 
 char putchar(char c)
 {
