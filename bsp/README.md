@@ -34,8 +34,8 @@ All three functions are located in the board.c file
 
 ### How to port
 
-​	Copy the bsp/template folder and name it whatever you want
+1. ​	Copy the bsp/template folder and name it whatever you want
 
-​	Modify RayOSConfig.h file for system configuration and cropping
+2. ​	Modify RayOSConfig.h file for system configuration and cropping
 
-​	Modify the board.c file to implement hardware initialization and switch global interrupt functions (when hardware is initialized, Timer0 must be configured and turned on for the system tick clock)
+3. ​	Modify the board.c file to implement hardware initialization and switch global interrupt functions (Timer0 interrupt is used for the system tick clock. It must be configured to auto-reload mode and enabled when hardware initializing. The initial value of Timer0 must be configured as T0VAL)
