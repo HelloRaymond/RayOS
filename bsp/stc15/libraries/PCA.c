@@ -145,13 +145,13 @@ void	PCA_Init(u8 PCA_id, PCA_InitTypeDef *PCAx)
 
 
 //========================================================================
-// 函数: void	PCA_ISR (void)
+// 函数: void	PCA_Handler (void) interrupt PCA_VECTOR
 // 描述: PCA中断处理程序.
 // 参数: None
 // 返回: none.
 // 版本: V1.0, 2012-11-22
 //========================================================================
-void	PCA_ISR (void)
+void	PCA_Handler (void) interrupt PCA_VECTOR
 {
 	if(CCF0)		//PCA模块0中断
 	{

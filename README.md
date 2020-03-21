@@ -8,7 +8,7 @@
 
 ## Introduction ##
 
-​	RayOS is a very simple operating system kernel. It is currently implemented on STC15 series (8051 core) MCU. It implements the basic functions of thread scheduling (preemptive scheduling & time slice rotation), thread synchronization (semaphore), and thread communication (mailbox).
+​	RayOS is a very simple operating system kernel that is easy to port. It is currently implemented on STC15 series (8051 core) MCU. It implements the basic functions of thread scheduling (preemptive scheduling & time slice rotation), thread synchronization (semaphore), and thread communication (mailbox).
 
 **Known Issues:**
 
@@ -36,33 +36,34 @@
 
 ## Directory Structure ##
 
-​	The project was developed by Keil4 C51 IDE. You should directly open the RayOS.uvproj file in the root directory using Keil4 C51 IDE.
+​	The project files are stored in the corresponding bsp directory. Currently, the iap15w4k61s4 minimum system board is supported. The corresponding bsp directory is bsp/stc15/iap15w4k61s4
 
-> **/os directory**
+> **/bsp directory**
 >
->- RayOSKernel.asm The assembly file of the core of the operating system, which implements the functions of context switching and power-on initialization
->- RayOS_Scheduler.c Scheduler module C language file, implements the thread scheduling function of the operating system
->- RayOS_Semaphore.c Semaphore module C language file, implements the thread synchronization function of the operating system
->- RayOS_MailBox.c Mailbox module C language file, implements the mailbox thread communication function of the operating system (under development, not yet perfected)
->- RayOS.h Operating system common header file, contains some type definitions, macro definitions and API function declarations
->- RayOSConfig.h Operating system configuration header file for cropping and configuring operating system functions
+> ​	Board Support Package directory, iap15w4k61s4 minimum system board is currently supported
+>
+> ​	[Learn More](./bsp/README.md)
 
-> **/user directory**
+> **/cpu directory**
 >
->- main.c user code entry file, the user needs to create and start the thread in the main_user () function
->- isr.c interrupt service function file. The user's interrupt service function needs to be defined here. When the interrupt is triggered, the system will automatically save the recovery context.
->- TM1637.c Digital tube driver file
->- TM1637.h Digital tube driver header file
+> ​	CPU-related assembly code, including startup files and context switch code
 
-> **/stc15lib directory**
+> **/include directory**
 >
-> ​	STC official libraries, if you want to use the library function file, please define the relevant macros as 1 in the RayOSConfig.h configuration file. For more information about stc15 library functions, please refer to the stc official documentation
+> ​	RayOS header file directory
+
+> **/src directory**
+>
+> ​	RayOS kernel code file
+
+> **/tools directory**
+>
+> ​	Configuration tools (still in development, stay tuned)
 
 
 
 ## Precautions
 
-- Modify the RayOSConfig.h configuration file according to requirements before use
 - The higher the value of priority, the higher the priority, 0 is the lowest priority
 - Threads with high real-time requirements (such as bus communication) must be set to high priority
 - High-priority threads must run in a blocking manner, otherwise the CPU will be occupied for a long time and low-priority tasks cannot run

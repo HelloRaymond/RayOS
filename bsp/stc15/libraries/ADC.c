@@ -80,13 +80,13 @@ u16	Get_ADC10bitResult(u8 channel)	//channel = 0~7
 
 
 //========================================================================
-// 函数: void ADC_ISR(void)
+// 函数: void ADC_int(void) interrupt ADC_VECTOR
 // 描述: ADC中断函数.
 // 参数: none.
 // 返回: none.
 // 版本: V1.0, 2012-10-22
 //========================================================================
-void ADC_ISR (void)
+void ADC_int (void) interrupt ADC_VECTOR
 {
 	ADC_CONTR &= ~ADC_FLAG;
 }

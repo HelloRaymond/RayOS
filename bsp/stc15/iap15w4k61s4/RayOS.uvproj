@@ -298,7 +298,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\libraries;.\board;..\..\..\include;.\application</IncludePath>
+              <IncludePath>..\libraries;.\board;..\..\..\include;.\application;.\example</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -348,17 +348,17 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Operating System</GroupName>
+          <GroupName>Kernel</GroupName>
           <Files>
             <File>
-              <FileName>kernel.asm</FileName>
+              <FileName>cpu.asm</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\libcpu\kernel.asm</FilePath>
+              <FilePath>..\..\..\cpu\8051\cpu.asm</FilePath>
             </File>
             <File>
-              <FileName>mailbox.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\src\mailbox.c</FilePath>
+              <FileName>context.asm</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\cpu\8051\context.asm</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>
@@ -366,14 +366,19 @@
               <FilePath>..\..\..\src\scheduler.c</FilePath>
             </File>
             <File>
+              <FileName>thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\thread.c</FilePath>
+            </File>
+            <File>
               <FileName>semaphore.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\src\semaphore.c</FilePath>
             </File>
             <File>
-              <FileName>thread.c</FileName>
+              <FileName>mailbox.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\src\thread.c</FilePath>
+              <FilePath>..\..\..\src\mailbox.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -416,14 +421,14 @@
               <FilePath>.\application\main.c</FilePath>
             </File>
             <File>
-              <FileName>isr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\application\isr.c</FilePath>
-            </File>
-            <File>
               <FileName>debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>example.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\example\example.c</FilePath>
             </File>
           </Files>
         </Group>
