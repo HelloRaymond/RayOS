@@ -4,10 +4,10 @@
 #include "RayOS.h"
 
 /*
-测试例程：
-设置两个线程，分别是时钟计时、指示灯闪烁
-时钟每走一秒，指示灯闪烁一次
-并设置空闲线程喂狗
+Test routine:
+Set up two threads, namely clock timing and indicator flashing
+The indicator flashes every second the clock moves
+And set the idle thread to feed the watchdog
 */
 ray_sem_t sem = 0;
 
@@ -51,6 +51,6 @@ void Clock(void)
 
 void FeedDog(void)
 {
-    WDT_reset(D_WDT_SCALE_256); //喂狗
+    WDT_reset(D_WDT_SCALE_256); //Feed Dog
 }
 

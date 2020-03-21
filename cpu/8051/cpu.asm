@@ -1,14 +1,20 @@
 ;{************************************************************************
-;* -------参考Keil自带STARTUP.A51文件--------
-;* FileName      : RayOSKernel.asm
-;* Author        : 徐睿
+;* FileName      : cpu.asm
+;* Author        : Raymond Hsu (Xu Rui)
 ;* Description   : OS Startup File
+;{************************************************************************
+;* -------HISTORY_LOG--------
+;* Version  	 : V1.1.0
+;* Date          : 2020.3.21
+;* Modify        : Separate context switching code
+;*************************************************************************}
 ;{************************************************************************
 ;* -------HISTORY_LOG--------
 ;* Version  	 : V1.0.0
 ;* Date          : 2018.5.6
-;* Modify        : 首次添加，实现任务调度器上下文切换功能
-;                  、启动初期初始化功能、中断服务函数调用功能
+;* Modify        : Added for the first time to implement task scheduler
+;                  context switching; Initial initialization function, 
+;                  interrupt service function call function
 ;*************************************************************************}
 IDATALEN EQU 80H
 XDATASTART EQU 0 
@@ -37,10 +43,10 @@ EXTRN	DATA(StackPointer,GPRStack,SFRStack)
 TIMER0_VECTOR EQU 000BH
 	
 ?C_STARTUP :
-	;系统复位
+	;System Reset
 	CSEG	AT	0000H
 	JMP SystemInit
-	;Timer0 中断向量
+	;Timer0 interrupt vector
 	CSEG	AT	TIMER0_VECTOR
 	JMP	Timer0ISR
 	CSEG	AT	0100H

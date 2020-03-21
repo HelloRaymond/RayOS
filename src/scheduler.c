@@ -1,21 +1,21 @@
 #include "RayOS.h"
 
-//进行上下文切换时的中转变量数组
+//Array of transit variables during context switching
 ray_uint8_t data StackPointer;
 ray_uint8_t data SFRStack[5];
 ray_uint8_t data GPRStack[8];
 
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
-extern ray_uint8_t idata TaskStack[STACK_SIZE]; //线程实际运行时的栈，所有线程共享此栈
+extern ray_uint8_t idata TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
 
-ray_uint32_t CPUTicks;     //系统运行时间
-ray_uint32_t idleCPUTicks; //系统空闲时间
+ray_uint32_t CPUTicks;     //System runtime
+ray_uint32_t idleCPUTicks; //System idle time
 #if USING_CPUUSAGE
-ray_uint8_t CPUUsage; //CPU占用率
+ray_uint8_t CPUUsage; //CPU Usage
 #endif
 
-//寻找优先级最高的非当前就绪线程
+//Finding the highest priority ready thread
 static ray_uint8_t FindHighestPriorityThreadID(void)
 {
     ray_uint8_t i, result;
@@ -30,7 +30,7 @@ static ray_uint8_t FindHighestPriorityThreadID(void)
     return result;
 }
 
-void ThreadScan(void) //扫描更新线程状态
+void ThreadScan(void) //Scan and update thread status
 {
     ray_uint8_t i;
     ++CPUTicks;
@@ -43,37 +43,37 @@ void ThreadScan(void) //扫描更新线程状态
         idleCPUTicks = 0;
     }
 #endif
-    if (ThreadHandlerIndex[0]->ThreadStatus != READY && ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //空闲线程不允许阻塞
+    if (ThreadHandlerIndex[0]->ThreadStatus != READY && ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //Idle thread are not allowed to block
         ThreadHandlerIndex[0]->ThreadStatus = READY;
-    if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //一个时间片运行完RunTime清0
+    if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //cleared RunTime after a time slice completed
         ThreadHandlerIndex[CurrentThreadID]->RunTime = 0;
-    for (i = 0; i <= THREAD_MAX; ++i) //处理阻塞线程
+    for (i = 0; i <= THREAD_MAX; ++i) //Handle blocked threads
     {
         if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED)
         {
 #if USING_SEMAPHORE
-            if (ThreadHandlerIndex[i]->BlockEvent == WAIT) //等待信号量的线程
+            if (ThreadHandlerIndex[i]->BlockEvent == WAIT) //Threads waiting for a semaphore
             {
-                if (ThreadHandlerIndex[i]->ThreadSemaphore == RAY_NULL) //收到信号量，唤醒线程
+                if (ThreadHandlerIndex[i]->ThreadSemaphore == RAY_NULL) //Receive a semaphore and wake up the thread
                 {
                     ThreadHandlerIndex[i]->ThreadStatus = READY;
                     ThreadHandlerIndex[i]->BlockEvent = NONE;
                 }
             }
 #endif
-            if (ThreadHandlerIndex[i]->BlockEvent == DELAY) //主动延时挂起的线程
+            if (ThreadHandlerIndex[i]->BlockEvent == DELAY) //Actively delay pending threads
             {
-                --ThreadHandlerIndex[i]->DelayTime;        //延时计数--
-                if (ThreadHandlerIndex[i]->DelayTime == 0) //延时时间到，唤醒线程
+                --ThreadHandlerIndex[i]->DelayTime;        //Delay count--
+                if (ThreadHandlerIndex[i]->DelayTime == 0) //When the delay time expires, wake up the thread
                 {
                     ThreadHandlerIndex[i]->ThreadStatus = READY;
                     ThreadHandlerIndex[i]->BlockEvent = NONE;
                 }
             }
 #if USING_MAILBOX
-            if (ThreadHandlerIndex[i]->BlockEvent == SEND || ThreadHandlerIndex[i]->BlockEvent == RECIEVE) //等待收取或发送邮件挂起的线程
+            if (ThreadHandlerIndex[i]->BlockEvent == SEND || ThreadHandlerIndex[i]->BlockEvent == RECIEVE) //Pending thread waiting to receive or send mail
             {
-                if (ThreadHandlerIndex[i]->ThreadMailBox == RAY_NULL) //唤醒线程
+                if (ThreadHandlerIndex[i]->ThreadMailBox == RAY_NULL) //Wake thread
                 {
                     ThreadHandlerIndex[i]->ThreadStatus = READY;
                     ThreadHandlerIndex[i]->BlockEvent = NONE;
@@ -87,30 +87,30 @@ void ThreadScan(void) //扫描更新线程状态
 void ThreadSwitch(void)
 {
     ray_uint8_t i, next;
-    next = FindHighestPriorityThreadID(); //寻找下一个最高优先级的非当前就绪态线程
-    if (next == CurrentThreadID)          //若除空闲线程外无其他就绪线程则跳过切换
+    next = FindHighestPriorityThreadID(); //Looking for the next highest priority ready thread
+    if (next == CurrentThreadID)          //Skip switching if there are no other ready threads except idle thread
     {
-        ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //继续运行当前线程
+        ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Keep running the current thread
         return;
     }
-    if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //选取的下一个线程优先级比当前线程小
+    if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //The next thread selected has a lower priority than the current thread
     {
-        if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING) //当前线程没有阻塞或主动挂起，不切换线程让出CPU使用权，继续运行
+        if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING) //The current thread is not blocked or actively suspended, do not switch threads to give up CPU usage, continue to run
         {
-            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //继续运行当前线程
+            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Keep running the current thread
             return;
         }
     }
-    else if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //选取的下一个线程优先级和当前线程相同
+    else if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //The next thread selected has the same priority as the current thread
     {
-        if (ThreadHandlerIndex[CurrentThreadID]->RunTime < ThreadHandlerIndex[CurrentThreadID]->Ticks) //进行时间片轮转
+        if (ThreadHandlerIndex[CurrentThreadID]->RunTime < ThreadHandlerIndex[CurrentThreadID]->Ticks) //Time slice rotation
         {
-            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //时间片没结束继续运行当前线程
+            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Continues to run the current thread when time slice is not over
             return;
         }
-    } //选取的下一个线程优先级比当前线程优先级大，立即切换线程抢占CPU
+    } //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
 
-    //将上下文数据(SP指针、SFR、GPR、栈)备份到自己的TCB中
+    //Save context data (SP pointer, SFR, GPR, stack) to TCB
     ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer = StackPointer;
     for (i = 0; i < 5; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i] = SFRStack[i];
@@ -121,12 +121,12 @@ void ThreadSwitch(void)
     if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = READY;
 
-    //切换线程
+    //Switching threads
     CurrentThreadID = next;
     ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = RUNNING;
     ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
 
-    //将自己TCB中的上下文数据恢复
+    //Recover Context Data in TCB
     StackPointer = ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer;
     for (i = 0; i < 5; ++i)
         SFRStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i];
@@ -136,7 +136,7 @@ void ThreadSwitch(void)
         TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
 }
 
-//延时函数，单位为Tick，即一个时间片
+//Sleep function, the unit is Tick, which is a time slice
 ray_err_t ThreadSleep(ray_uint16_t time)
 {
     if (ThreadHandlerIndex[CurrentThreadID]->DelayTime + time >= 0xffff || time <= 0)

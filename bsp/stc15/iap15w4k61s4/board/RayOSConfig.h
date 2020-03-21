@@ -1,26 +1,26 @@
 #ifndef _RAYOSCONFIG_H_
 #define _RAYOSCONFIG_H_
 
-// 晶振频率（单位Hz）
+// Main clock frequency (unit: Hz)
 #define FOSC 24000000L
-// 定时器分频系数
+// Timer divide factor
 #define DEVIDER 1
-// 系统滴答周期长度（单位ms）
+// System tick cycle (unit: ms)
 #define TICKS 2
-// 最大线程数
+// Maximum number of threads
 #define THREAD_MAX 10
-// 最大优先级
+// Maximum priority
 #define PRIORITY_MAX 5
-// 栈深度
+// Stack depth
 #define STACK_SIZE 10
 
-// 使用信号量功能
+// Using the semaphore function
 #define USING_SEMAPHORE 1
-// 使用邮箱功能
+// Use the mailbox function
 #define USING_MAILBOX 0
-// 使用空闲线程钩子功能
+// Use idle thread hook function
 #define USING_IDLEHOOK 1
-// 使用CPU占用率统计
+// Use CPU usage statistics
 #define USING_CPUUSAGE 1
 
 #endif

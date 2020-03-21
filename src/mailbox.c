@@ -3,11 +3,11 @@
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
 
-#if USING_MAILBOX //邮箱功能，用于线程间通信，还不完善，尚未进行测试
+#if USING_MAILBOX // Mailbox function, used for inter-thread communication, is not perfect and has not been tested
 void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
 {
     ray_uint8_t i;
-    if (mailbox->status == FULL) //邮箱已满，则无法进行发送，该线程被阻塞
+    if (mailbox->status == FULL) //The mailbox is full and cannot be sent, the thread is blocked
     {
         ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
@@ -15,7 +15,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
             _nop_();
     }
-    else //邮箱空，发送邮件，并唤醒一个等待收取邮件的线程
+    else //Mailbox is empty, send mail, and wake up a thread waiting to receive mail
     {
         for (i = 0; i <= THREAD_MAX; ++i)
         {
@@ -35,7 +35,7 @@ void MailSend(ray_mailbox_t *mailbox, ray_uint32_t mail)
 void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
 {
     ray_uint8_t i;
-    if (mailbox->status == EMPTY) //邮箱空，则无法进行收取，该线程被阻塞
+    if (mailbox->status == EMPTY) //If the mailbox is empty, you cannot collect it, the thread is blocked
     {
         ThreadHandlerIndex[CurrentThreadID]->ThreadMailBox = mailbox;
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
@@ -43,7 +43,7 @@ void MailRecieve(ray_mailbox_t *mailbox, ray_uint32_t *mail)
         while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
             _nop_();
     }
-    else //邮箱已满，收取邮件，并唤醒一个等待发送邮件的线程
+    else //Mailbox is full, pick up mail, and wake up a thread waiting to send mail
     {
         *mail = mailbox->mail;
         mailbox->status = EMPTY;
