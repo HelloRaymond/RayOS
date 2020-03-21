@@ -38,7 +38,7 @@ EXTRN	IDATA(TaskStack)
 EXTRN	CODE(?C_START)
 EXTRN	CODE(SaveContext,RecoveryContext)
 EXTRN	CODE(ThreadScan,ThreadSwitch)
-EXTRN	DATA(StackPointer,GPRStack,SFRStack)
+EXTRN	DATA(StackPointer)
 
 TIMER0_VECTOR EQU 000BH
 	

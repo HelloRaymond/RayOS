@@ -88,6 +88,19 @@ ray_err_t ThreadDelete(ray_uint8_t tid)
     return RAY_ERROR;
 }
 
+//Sleep function, the unit is Tick, which is a time slice
+ray_err_t ThreadSleep(ray_uint16_t time)
+{
+    if (ThreadHandlerIndex[CurrentThreadID]->DelayTime + time >= 0xffff || time <= 0)
+        return RAY_ERROR;
+    ThreadHandlerIndex[CurrentThreadID]->DelayTime += time;
+    ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
+    ThreadHandlerIndex[CurrentThreadID]->BlockEvent = DELAY;
+    while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
+        ;
+    return RAY_EOK;
+}
+
 //Delay function in milliseconds. If the delay time is not an integer multiple of the system clock period, an error will occur
 ray_err_t ThreadDelayMs(ray_uint16_t time)
 {

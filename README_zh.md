@@ -1,4 +1,4 @@
-# RayOS - 抢占式RTOS内核 #
+# RayOS - RTOS内核 #
 
 ![](https://img.shields.io/badge/version-1.0.0-brightgreen) ![](https://img.shields.io/github/languages/code-size/HelloRaymond/RayOS) ![](https://img.shields.io/github/commit-activity/m/HelloRaymond/RayOS) ![](https://img.shields.io/github/last-commit/HelloRaymond/RayOS)
 

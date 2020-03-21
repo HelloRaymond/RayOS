@@ -136,19 +136,6 @@ void ThreadSwitch(void)
         TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
 }
 
-//Sleep function, the unit is Tick, which is a time slice
-ray_err_t ThreadSleep(ray_uint16_t time)
-{
-    if (ThreadHandlerIndex[CurrentThreadID]->DelayTime + time >= 0xffff || time <= 0)
-        return RAY_ERROR;
-    ThreadHandlerIndex[CurrentThreadID]->DelayTime += time;
-    ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-    ThreadHandlerIndex[CurrentThreadID]->BlockEvent = DELAY;
-    while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
-        ;
-    return RAY_EOK;
-}
-
 #if USING_CPUUSAGE
 ray_uint8_t GetCPUUsage(void)
 {
