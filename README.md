@@ -85,6 +85,8 @@ ray_uint8_t ThreadCreate (void (* EntryFunction) (void), ray_uint16_t ticks, ray
 |  Parameters   |      Description      |       Type       |
 | :-----------: | :-------------------: | :--------------: |
 | EntryFunction | thread entry function | function pointer |
+|     stack     |     thread stack      | unsigned char[]  |
+|  stack_depth  |   thread stack size   |  unsigned char   |
 |     ticks     |   thread time slice   |   unsigned int   |
 |   priority    |    thread priority    |  unsigned char   |
 
@@ -97,8 +99,9 @@ ray_uint8_t ThreadCreate (void (* EntryFunction) (void), ray_uint16_t ticks, ray
 - Remarks:
 
 > 1. Does not support parameter passing
-> 2. High priority threads must run in a blocking manner
-> 3. When the return value is less than 0, it indicates that the thread creation fails
+> 2. The thread stack can only be allocated statically, you need to reserve a static array to use as the thread stack
+> 3. High priority threads must run in a blocking manner
+> 4. When the return value is less than 0, it indicates that the thread creation fails
 
 
 ### Start the thread

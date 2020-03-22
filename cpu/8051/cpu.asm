@@ -33,7 +33,6 @@ PPAGE_SFR DATA 0A0H
 
 PUBLIC	?C_STARTUP
 
-EXTRN	IDATA(OSStack)
 EXTRN	IDATA(TaskStack)
 EXTRN	CODE(?C_START)
 EXTRN	CODE(SaveContext,RecoveryContext)
@@ -41,7 +40,8 @@ EXTRN	CODE(ThreadScan,ThreadSwitch)
 EXTRN	DATA(StackPointer)
 
 TIMER0_VECTOR EQU 000BH
-	
+OSStackSize EQU 10
+
 ?C_STARTUP :
 	;System Reset
 	CSEG	AT	0000H
@@ -120,5 +120,9 @@ SystemInit:
 	MOV	SP, #(TaskStack - 1)
 	JMP		?C_START
 RET
+
+OSStack	SEGMENT	IDATA ;This stack is exclusive to the OS when the scheduler is running.
+	RSEG	OSStack
+	DS		OSStackSize
 
 END

@@ -134,6 +134,7 @@ extern void _nop_ (void);
   * http://www.iar.com
  */
 #elif defined __ICC8051__
+# include "stdbool.h"
 # define SBIT(name, addr, bit)  __bit __no_init volatile bool name @ (addr+bit)
 # define SFR(name, addr)        __sfr __no_init volatile unsigned char name @ addr
 # define SFRX(name, addr)       __xdata __no_init volatile unsigned char name @ addr

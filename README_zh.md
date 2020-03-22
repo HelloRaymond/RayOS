@@ -85,6 +85,8 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
 |     参数      |     说明     |       类型       |
 | :-----------: | :----------: | :--------------: |
 | EntryFunction | 线程入口函数 | function pointer |
+|     stack     |    线程栈    | unsigned char[]  |
+|  stack_depth  | 线程栈的深度 |  unsigned char   |
 |     ticks     |  线程时间片  |   unsigned int   |
 |   priority    |  线程优先级  |  unsigned char   |
 
@@ -97,8 +99,9 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
 - 备注：
 
 > 1. 暂不支持参数传递
-> 2. 高优先级线程必须以阻塞式方式运行
-> 3. 当返回值小于0，表明创建线程失败
+> 2. 线程栈只能以静态方式分配，你需要定义一个静态的数组用作线程栈
+> 3. 高优先级线程必须以阻塞式方式运行
+> 4. 当返回值小于0，表明创建线程失败
 
 
 ### 启动线程

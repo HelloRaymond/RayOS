@@ -2,8 +2,7 @@
 
 //Array of transit variables during context switching
 ray_uint8_t data StackPointer;
-ray_uint8_t data SFRStack[5];
-ray_uint8_t data GPRStack[8];
+ray_uint8_t data ContextStack[13];
 
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
@@ -111,12 +110,12 @@ void ThreadSwitch(void)
     } //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
 
     //Save context data (SP pointer, SFR, GPR, stack) to TCB
-    ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer = StackPointer;
+    ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadStackPointer = (void *)StackPointer;
     for (i = 0; i < 5; ++i)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i] = SFRStack[i];
+        ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadSFRStack[i] = ContextStack[i];
     for (i = 0; i < 8; ++i)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadGPRStack[i] = GPRStack[i];
-    for (i = 0; i < STACK_SIZE; ++i)
+        ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadGPRStack[i] = ContextStack[5+i];
+    for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
     if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = READY;
@@ -127,13 +126,20 @@ void ThreadSwitch(void)
     ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
 
     //Recover Context Data in TCB
-    StackPointer = ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer;
+    StackPointer = (ray_uint8_t)ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadStackPointer;
     for (i = 0; i < 5; ++i)
-        SFRStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadSFRStack[i];
+        ContextStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadSFRStack[i];
     for (i = 0; i < 8; ++i)
-        GPRStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadGPRStack[i];
-    for (i = 0; i < STACK_SIZE; ++i)
+        ContextStack[5+i] = ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadGPRStack[i];
+    for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
         TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
+}
+
+void ThreadSwitchTo(ray_thread_t thread)
+{
+    thread->ThreadStatus = RUNNING;
+    CurrentThreadID = thread->ThreadID;
+    thread->EntryFunction();
 }
 
 #if USING_CPUUSAGE

@@ -12,7 +12,7 @@
 // Maximum priority
 #define PRIORITY_MAX 5
 // Stack depth
-#define STACK_SIZE 10
+#define STACK_SIZE 50
 
 // Using the semaphore function
 #define USING_SEMAPHORE 1

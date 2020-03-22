@@ -1,346 +1,468 @@
-
-
 #ifndef	_STC15Fxxxx_H
 #define	_STC15Fxxxx_H
 
-#include "compiler.h"
 #include "config.h"
+#include "compiler.h"
 
 /*  BYTE Registers  */
-SFR(P0,0x80);
-SFR(SP,0x81);
-SFR(DPL,0x82);
-SFR(DPH,0x83);
-SFR(S4CON,0x84);
-SFR(S4BUF,0x85);
-SFR(PCON,0x87);
+#define P0_ADDR 0x80
+#define SP_ADDR 0x81
+#define DPL_ADDR 0x82
+#define DPH_ADDR 0x83
+#define S4CON_ADDR 0x84
+#define S4BUF_ADDR 0x85
+#define PCON_ADDR 0x87
+SFR(P0,P0_ADDR);
+SFR(SP,SP_ADDR);
+SFR(DPL,DPL_ADDR);
+SFR(DPH,DPH_ADDR);
+SFR(S4CON,S4CON_ADDR);
+SFR(S4BUF,S4BUF_ADDR);
+SFR(PCON,PCON_ADDR);
 
-SFR(TCON,0x88);
-SFR(TMOD,0x89);
-SFR(TL0,0x8A);
-SFR(TL1,0x8B);
-SFR(TH0,0x8C);
-SFR(TH1,0x8D);
-SFR(AUXR,0x8E);
-SFR(WAKE_CLKO,0x8F);
-SFR(INT_CLKO,0x8F);
-SFR(AUXR2,0x8F);
+#define TCON_ADDR 0x88
+#define TMOD_ADDR 0x89
+#define TL0_ADDR 0x8A
+#define TL1_ADDR 0x8B
+#define TH0_ADDR 0x8C
+#define TH1_ADDR 0x8D
+#define AUXR_ADDR 0x8E
+#define WAKE_CLKO_ADDR 0x8F
+#define INT_CLKO_ADDR 0x8F
+#define  AUXR2_ADDR 0x8F
+SFR(TCON,TCON_ADDR);
+SFR(TMOD,TMOD_ADDR);
+SFR(TL0,TL0_ADDR);
+SFR(TL1,TL1_ADDR);
+SFR(TH0,TH0_ADDR);
+SFR(TH1,TH1_ADDR);
+SFR(AUXR,AUXR_ADDR);
+SFR(WAKE_CLKO,WAKE_CLKO_ADDR);
+SFR(INT_CLKO,INT_CLKO_ADDR);
+SFR(AUXR2,AUXR2_ADDR);
 
-SFR(RL_TL0,0x8A);
-SFR(RL_TL1,0x8B);
-SFR(RL_TH0,0x8C);
-SFR(RL_TH1,0x8D);
+#define RL_TL0_ADDR 0x8A
+#define RL_TL1_ADDR 0x8B
+#define RL_TH0_ADDR 0x8C
+#define RL_TH1_ADDR 0x8D
+SFR(RL_TL0,RL_TL0_ADDR);
+SFR(RL_TL1,RL_TL1_ADDR);
+SFR(RL_TH0,RL_TH0_ADDR);
+SFR(RL_TH1,RL_TH1_ADDR);
 
 
-SFR(P1,0x90);
-SFR(P1M1,0x91);	//P1M1.n,P1M0.n 	=00--->Standard,	01--->push-pull		Êµ¼ÊÉÏ1TµÄ¶¼Ò»Ñù
-SFR(P1M0,0x92);	//					=10--->pure input,	11--->open drain
-SFR(P0M1,0x93);	//P0M1.n,P0M0.n 	=00--->Standard,	01--->push-pull
-SFR(P0M0,0x94);	//					=10--->pure input,	11--->open drain
-SFR(P2M1,0x95);	//P2M1.n,P2M0.n 	=00--->Standard,	01--->push-pull
-SFR(P2M0,0x96);	//					=10--->pure input,	11--->open drain
-SFR(CLK_DIV,0x97);
-SFR(PCON2,0x97);
+#define P1_ADDR 0x90
+#define P1M1_ADDR 0x91	//P1M1.n,P1M0.n 	=00--->Standard,	01--->push-pull		Êµ¼ÊÉÏ1TµÄ¶¼Ò»Ñù
+#define P1M0_ADDR 0x92	//					=10--->pure input,	11--->open drain
+#define P0M1_ADDR 0x93	//P0M1.n,P0M0.n 	=00--->Standard,	01--->push-pull
+#define P0M0_ADDR 0x94	//					=10--->pure input,	11--->open drain
+#define P2M1_ADDR 0x95	//P2M1.n,P2M0.n 	=00--->Standard,	01--->push-pull
+#define P2M0_ADDR 0x96	//					=10--->pure input,	11--->open drain
+#define CLK_DIV_ADDR 0x97
+#define PCON2_ADDR 0x97
+SFR(P1,P1_ADDR);
+SFR(P1M1,P1M1_ADDR);
+SFR(P1M0,P1M0_ADDR);
+SFR(P0M1,P0M1_ADDR);
+SFR(P0M0,P0M0_ADDR);
+SFR(P2M1,P2M1_ADDR);
+SFR(P2M0,P2M0_ADDR);
+SFR(CLK_DIV,CLK_DIV_ADDR);
+SFR(PCON2,PCON2_ADDR);
 
-SFR(SCON,0x98);
-SFR(SBUF,0x99);
-SFR(S2CON,0x9A);	//
-SFR(S2BUF,0x9B);	//
-SFR(P1ASF,0x9D);	//Ö»Ð´£¬Ä£ÄâÊäÈë(AD»òLVD)Ñ¡Ôñ
+#define SCON_ADDR 0x98
+#define SBUF_ADDR 0x99
+#define S2CON_ADDR 0x9A	//
+#define S2BUF_ADDR 0x9B	//
+#define P1ASF_ADDR 0x9D	//Ö»Ð´£¬Ä£ÄâÊäÈë(AD»òLVD)Ñ¡Ôñ
+SFR(SCON,SCON_ADDR);
+SFR(SBUF,SBUF_ADDR);
+SFR(S2CON,S2CON_ADDR);
+SFR(S2BUF,S2BUF_ADDR);
+SFR(P1ASF,P1ASF_ADDR);
 
-SFR(P2,0xA0);
-SFR(BUS_SPEED,0xA1);
-SFR(AUXR1,0xA2);
-SFR(P_SW1,0xA2);
+#define P2_ADDR 0xA0
+#define BUS_SPEED_ADDR 0xA1
+#define AUXR1_ADDR 0xA2
+#define P_SW1_ADDR 0xA2
+SFR(P2,P2_ADDR);
+SFR(BUS_SPEED,BUS_SPEED_ADDR);
+SFR(AUXR1,AUXR1_ADDR);
+SFR(P_SW1,P_SW1_ADDR);
 
-SFR(IE,0xA8);
-SFR(SADDR,0xA9);
-SFR(WKTCL,0xAA);	//»½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
-SFR(WKTCH,0xAB);	//»½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
-SFR(S3CON,0xAC);
-SFR(S3BUF,0xAD);
-SFR(IE2,0xAF);	//STC12C5A60S2ÏµÁÐ
+#define IE_ADDR 0xA8
+#define SADDR_ADDR 0xA9
+#define WKTCL_ADDR 0xAA	//»½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
+#define WKTCH_ADDR 0xAB	//»½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
+#define S3CON_ADDR 0xAC
+#define S3BUF_ADDR 0xAD
+#define IE2_ADDR 0xAF	//STC12C5A60S2ÏµÁÐ
+SFR(IE,IE_ADDR);
+SFR(SADDR,SADDR_ADDR);
+SFR(WKTCL,WKTCL_ADDR);
+SFR(WKTCH,WKTCH_ADDR);
+SFR(S3CON,S3CON_ADDR);
+SFR(S3BUF,S3BUF_ADDR);
+SFR(IE2,IE2_ADDR);
 
-SFR(P3,0xB0);
-SFR(P3M1,0xB1);	//P3M1.n,P3M0.n 	=00--->Standard,	01--->push-pull
-SFR(P3M0,0xB2);	//					=10--->pure input,	11--->open drain
-SFR(P4M1,0xB3);	//P4M1.n,P4M0.n 	=00--->Standard,	01--->push-pull
-SFR(P4M0,0xB4);	//					=10--->pure input,	11--->open drain
-SFR(IP2,0xB5);	//STC12C5A60S2ÏµÁÐ
-SFR(IPH2,0xB6);	//STC12C5A60S2ÏµÁÐ
-SFR(IPH,0xB7);
+#define P3_ADDR 0xB0
+#define P3M1_ADDR 0xB1	//P3M1.n,P3M0.n 	=00--->Standard,	01--->push-pull
+#define P3M0_ADDR 0xB2	//					=10--->pure input,	11--->open drain
+#define P4M1_ADDR 0xB3	//P4M1.n,P4M0.n 	=00--->Standard,	01--->push-pull
+#define P4M0_ADDR 0xB4	//					=10--->pure input,	11--->open drain
+#define IP2_ADDR 0xB5	//STC12C5A60S2ÏµÁÐ
+#define IPH2_ADDR 0xB6	//STC12C5A60S2ÏµÁÐ
+#define IPH_ADDR 0xB7
+SFR(P3,P3_ADDR);
+SFR(P3M1,P3M1_ADDR);
+SFR(P3M0,P3M0_ADDR);
+SFR(P4M1,P4M1_ADDR);
+SFR(P4M0,P4M0_ADDR);
+SFR(IP2,IP2_ADDR);
+SFR(IPH2,IPH2_ADDR);
+SFR(IPH,IPH_ADDR);
 
-SFR(IP ,0xB8);
-SFR(SADEN,0xB9);
-SFR(P_SW2,0xBA);
-SFR(ADC_CONTR,0xBC);	//´øADÏµÁÐ
-SFR(ADC_RES,0xBD);	//´øADÏµÁÐ
-SFR(ADC_RESL,0xBE);	//´øADÏµÁÐ
+#define IP_ADDR 0xB8
+#define SADEN_ADDR 0xB9
+#define P_SW2_ADDR 0xBA
+#define ADC_CONTR_ADDR 0xBC	//´øADÏµÁÐ
+#define ADC_RES_ADDR 0xBD	//´øADÏµÁÐ
+#define ADC_RESL_ADDR 0xBE	//´øADÏµÁÐ
+SFR(IP,IP_ADDR);
+SFR(SADEN,SADEN_ADDR);
+SFR(P_SW2,P_SW2_ADDR);
+SFR(ADC_CONTR,ADC_CONTR_ADDR);
+SFR(ADC_RES,ADC_RES_ADDR);
+SFR(ADC_RESL,ADC_RESL_ADDR);
 
-SFR(P4 ,0xC0);
-SFR(WDT_CONTR,0xC1);
-SFR(IAP_DATA,0xC2);
-SFR(IAP_ADDRH,0xC3);
-SFR(IAP_ADDRL,0xC4);
-SFR(IAP_CMD,0xC5);
-SFR(IAP_TRIG,0xC6);
-SFR(IAP_CONTR,0xC7);
+#define P4_ADDR 0xC0
+#define WDT_CONTR_ADDR 0xC1
+#define IAP_DATA_ADDR 0xC2
+#define IAP_ADDRH_ADDR 0xC3
+#define IAP_ADDRL_ADDR 0xC4
+#define IAP_CMD_ADDR 0xC5
+#define IAP_TRIG_ADDR 0xC6
+#define IAP_CONTR_ADDR 0xC7
+SFR(P4,P4_ADDR);
+SFR(WDT_CONTR,WDT_CONTR_ADDR);
+SFR(IAP_DATA,IAP_DATA_ADDR);
+SFR(IAP_ADDRH,IAP_ADDRH_ADDR);
+SFR(IAP_ADDRL,IAP_ADDRL_ADDR);
+SFR(IAP_CMD,IAP_CMD_ADDR);
+SFR(IAP_TRIG,IAP_TRIG_ADDR);
+SFR(IAP_CONTR,IAP_CONTR_ADDR);
 
-SFR(ISP_DATA,0xC2);
-SFR(ISP_ADDRH,0xC3);
-SFR(ISP_ADDRL,0xC4);
-SFR(ISP_CMD,0xC5);
-SFR(ISP_TRIG,0xC6);
-SFR(ISP_CONTR,0xC7);
+#define ISP_DATA_ADDR 0xC2
+#define ISP_ADDRH_ADDR 0xC3
+#define ISP_ADDRL_ADDR 0xC4
+#define ISP_CMD_ADDR 0xC5
+#define ISP_TRIG_ADDR 0xC6
+#define ISP_CONTR_ADDR 0xC7
+SFR(ISP_DATA,ISP_DATA_ADDR);
+SFR(ISP_ADDRH,ISP_ADDRH_ADDR);
+SFR(ISP_ADDRL,ISP_ADDRL_ADDR);
+SFR(ISP_CMD,ISP_CMD_ADDR);
+SFR(ISP_TRIG,ISP_TRIG_ADDR);
+SFR(ISP_CONTR,ISP_CONTR_ADDR);
 
-SFR(P5,0xC8);	//
-SFR(P5M1,0xC9);	//	P5M1.n,P5M0.n 	=00--->Standard,	01--->push-pull
-SFR(P5M0,0xCA);	//					=10--->pure input,	11--->open drain
-SFR(P6M1,0xCB);	//	P5M1.n,P5M0.n 	=00--->Standard,	01--->push-pull
-SFR(P6M0,0xCC);	//					=10--->pure input,	11--->open drain
-SFR(SPSTAT,0xCD);	//
-SFR(SPCTL,0xCE);	//
-SFR(SPDAT,0xCF);	//
+#define P5_ADDR 0xC8	//
+#define P5M1_ADDR 0xC9	//	P5M1.n,P5M0.n 	=00--->Standard,	01--->push-pull
+#define P5M0_ADDR 0xCA	//					=10--->pure input,	11--->open drain
+#define P6M1_ADDR 0xCB	//	P5M1.n,P5M0.n 	=00--->Standard,	01--->push-pull
+#define P6M0_ADDR 0xCC	//					=10--->pure input,	11--->open drain
+#define SPSTAT_ADDR 0xCD	//
+#define SPCTL_ADDR 0xCE	//
+#define SPDAT_ADDR 0xCF	//
+SFR(P5,P5_ADDR);
+SFR(P5M1,P5M1_ADDR);
+SFR(P5M0,P5M0_ADDR);
+SFR(P6M1,P6M1_ADDR);
+SFR(P6M0,P6M0_ADDR);
+SFR(SPSTAT,SPSTAT_ADDR);
+SFR(SPCTL,SPCTL_ADDR);
+SFR(SPDAT,SPDAT_ADDR);
 
-SFR(PSW,0xD0);
-SFR(T4T3M,0xD1);
-SFR(T4H,0xD2);
-SFR(T4L,0xD3);
-SFR(T3H,0xD4);
-SFR(T3L,0xD5);
-SFR(T2H,0xD6);
-SFR(T2L,0xD7);
+#define PSW_ADDR 0xD0
+#define T4T3M_ADDR 0xD1
+#define T4H_ADDR 0xD2
+#define T4L_ADDR 0xD3
+#define T3H_ADDR 0xD4
+#define T3L_ADDR 0xD5
+#define T2H_ADDR 0xD6
+#define T2L_ADDR 0xD7
+SFR(PSW,PSW_ADDR);
+SFR(T4T3M,T4T3M_ADDR);
+SFR(T4H,T4H_ADDR);
+SFR(T4L,T4L_ADDR);
+SFR(T3H,T3H_ADDR);
+SFR(T3L,T3L_ADDR);
+SFR(T2H,T2H_ADDR);
+SFR(T2L,T2L_ADDR);
 
-SFR(TH4,0xD2);
-SFR(TL4,0xD3);
-SFR(TH3,0xD4);
-SFR(TL3,0xD5);
-SFR(TH2,0xD6);
-SFR(TL2,0xD7);
+#define TH4_ADDR 0xD2
+#define TL4_ADDR 0xD3
+#define TH3_ADDR 0xD4
+#define TL3_ADDR 0xD5
+#define TH2_ADDR 0xD6
+#define TL2_ADDR 0xD7
+SFR(TH4,TH4_ADDR);
+SFR(TL4,TL4_ADDR);
+SFR(TH3,TH3_ADDR);
+SFR(TL3,TL3_ADDR);
+SFR(TH2,TH2_ADDR);
+SFR(TL2,TL2_ADDR);
 
-SFR(RL_T4H,0xD2);
-SFR(RL_T4L,0xD3);
-SFR(RL_T3H,0xD4);
-SFR(RL_T3L,0xD5);
-SFR(RL_T2H,0xD6);
-SFR(RL_T2L,0xD7);
+#define RL_T4H_ADDR 0xD2
+#define RL_T4L_ADDR 0xD3
+#define RL_T3H_ADDR 0xD4
+#define RL_T3L_ADDR 0xD5
+#define RL_T2H_ADDR 0xD6
+#define RL_T2L_ADDR 0xD7
+SFR(RL_T4H,RL_T4H_ADDR);
+SFR(RL_T4L,RL_T4L_ADDR);
+SFR(RL_T3H,RL_T3H_ADDR);
+SFR(RL_T3L,RL_T3L_ADDR);
+SFR(RL_T2H,RL_T2H_ADDR);
+SFR(RL_T2L,RL_T2L_ADDR);
 
-SFR(CCON,0xD8);	//
-SFR(CMOD,0xD9);	//
-SFR(CCAPM0,0xDA);	//PCAÄ£¿é0µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-SFR(CCAPM1,0xDB);	//PCAÄ£¿é1µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-SFR(CCAPM2,0xDC);	//PCAÄ£¿é2µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+#define CCON_ADDR 0xD8	//
+#define CMOD_ADDR 0xD9	//
+#define CCAPM0_ADDR 0xDA	//PCAÄ£¿é0µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+#define CCAPM1_ADDR 0xDB	//PCAÄ£¿é1µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+#define CCAPM2_ADDR 0xDC	//PCAÄ£¿é2µÄ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+SFR(CCON,CCON_ADDR);
+SFR(CMOD,CMOD_ADDR);
+SFR(CCAPM0,CCAPM0_ADDR);
+SFR(CCAPM1,CCAPM1_ADDR);
+SFR(CCAPM2,CCAPM2_ADDR);
 
-SFR(ACC,0xE0);
-SFR(P7M1,0xE1);
-SFR(P7M0,0xE2);
+#define ACC_ADDR 0xE0
+#define P7M1_ADDR 0xE1
+#define P7M0_ADDR 0xE2
+SFR(ACC,ACC_ADDR);
+SFR(P7M1,P7M1_ADDR);
+SFR(P7M0,P7M0_ADDR);
 
-SFR(P6,0xE8);
-SFR(CL,0xE9);	//
-SFR(CCAP0L,0xEA);	//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-SFR(CCAP1L,0xEB);	//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
-SFR(CCAP2L,0xEC);	//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
+#define P6_ADDR 0xE8
+#define CL_ADDR 0xE9	//
+#define CCAP0L_ADDR 0xEA	//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
+#define CCAP1L_ADDR 0xEB	//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
+#define CCAP2L_ADDR 0xEC	//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷µÍ8Î»¡£
+SFR(P6,P6_ADDR);
+SFR(CL,CL_ADDR);
+SFR(CCAP0L,CCAP0L_ADDR);
+SFR(CCAP1L,CCAP1L_ADDR);
+SFR(CCAP2L,CCAP2L_ADDR);
 
-SFR(B,0xF0);
-SFR(PCA_PWM0,0xF2);	//PCAÄ£¿é0 PWM¼Ä´æÆ÷¡£
-SFR(PCA_PWM1,0xF3);	//PCAÄ£¿é1 PWM¼Ä´æÆ÷¡£
-SFR(PCA_PWM2,0xF4);	//PCAÄ£¿é2 PWM¼Ä´æÆ÷¡£
+#define B_ADDR 0xF0
+#define PCA_PWM0_ADDR 0xF2	//PCAÄ£¿é0 PWM¼Ä´æÆ÷¡£
+#define PCA_PWM1_ADDR 0xF3	//PCAÄ£¿é1 PWM¼Ä´æÆ÷¡£
+#define PCA_PWM2_ADDR 0xF4	//PCAÄ£¿é2 PWM¼Ä´æÆ÷¡£
+SFR(B,B_ADDR);
+SFR(PCA_PWM0,PCA_PWM0_ADDR);
+SFR(PCA_PWM1,PCA_PWM1_ADDR);
+SFR(PCA_PWM2,PCA_PWM2_ADDR);
 
-SFR(P7,0xF8);
-SFR(CH,0xF9);
-SFR(CCAP0H,0xFA);		//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-SFR(CCAP1H,0xFB);		//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
-SFR(CCAP2H,0xFC);		//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
+#define P7_ADDR 0xF8
+#define CH_ADDR 0xF9
+#define CCAP0H_ADDR 0xFA		//PCAÄ£¿é0µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
+#define CCAP1H_ADDR 0xFB		//PCAÄ£¿é1µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
+#define CCAP2H_ADDR 0xFC		//PCAÄ£¿é2µÄ²¶×½/±È½Ï¼Ä´æÆ÷¸ß8Î»¡£
+SFR(P7,P7_ADDR);
+SFR(CH,CH_ADDR);
+SFR(CCAP0H,CCAP0H_ADDR);
+SFR(CCAP1H,CCAP1H_ADDR);
+SFR(CCAP2H,CCAP2H_ADDR);
 
 
 /*  BIT Registers  */
 /*  PSW   */
-SBIT(CY,PSW,7);
-SBIT(AC,PSW,6);
-SBIT(F0,PSW,5);
-SBIT(RS1,PSW,4);
-SBIT(RS0,PSW,3);
-SBIT(OV,PSW,2);
-SBIT(F1,PSW,1);
-SBIT(P,PSW,0);
+SBIT(CY,PSW_ADDR,7);
+SBIT(AC,PSW_ADDR,6);
+SBIT(F0,PSW_ADDR,5);
+SBIT(RS1,PSW_ADDR,4);
+SBIT(RS0,PSW_ADDR,3);
+SBIT(OV,PSW_ADDR,2);
+SBIT(F1,PSW_ADDR,1);
+SBIT(P,PSW_ADDR,0);
 
 /*  TCON  */
-SBIT(TF1,TCON,7);	//¶¨Ê±Æ÷1Òç³öÖÐ¶Ï±êÖ¾Î»
-SBIT(TR1,TCON,6);	//¶¨Ê±Æ÷1ÔËÐÐ¿ØÖÆÎ»
-SBIT(TF0,TCON,5);	//¶¨Ê±Æ÷0Òç³öÖÐ¶Ï±êÖ¾Î»
-SBIT(TR0,TCON,4);	//¶¨Ê±Æ÷0ÔËÐÐ¿ØÖÆÎ»
-SBIT(IE1,TCON,3);	//ÍâÖÐ¶Ï1±êÖ¾Î»
-SBIT(IT1,TCON,2);	//ÍâÖÐ¶Ï1ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
-SBIT(IE0,TCON,1);	//ÍâÖÐ¶Ï0±êÖ¾Î»
-SBIT(IT0,TCON,0);	//ÍâÖÐ¶Ï0ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
+SBIT(TF1,TCON_ADDR,7);	//¶¨Ê±Æ÷1Òç³öÖÐ¶Ï±êÖ¾Î»
+SBIT(TR1,TCON_ADDR,6);	//¶¨Ê±Æ÷1ÔËÐÐ¿ØÖÆÎ»
+SBIT(TF0,TCON_ADDR,5);	//¶¨Ê±Æ÷0Òç³öÖÐ¶Ï±êÖ¾Î»
+SBIT(TR0,TCON_ADDR,4);	//¶¨Ê±Æ÷0ÔËÐÐ¿ØÖÆÎ»
+SBIT(IE1,TCON_ADDR,3);	//ÍâÖÐ¶Ï1±êÖ¾Î»
+SBIT(IT1,TCON_ADDR,2);	//ÍâÖÐ¶Ï1ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
+SBIT(IE0,TCON_ADDR,1);	//ÍâÖÐ¶Ï0±êÖ¾Î»
+SBIT(IT0,TCON_ADDR,0);	//ÍâÖÐ¶Ï0ÐÅºÅ·½Ê½¿ØÖÆÎ»£¬1£ºÏÂ½µÑØÖÐ¶Ï£¬0£ºÉÏÉýÏÂ½µ¾ùÖÐ¶Ï¡£
 
 /*  P0  */
-SBIT(P00,P0,0);
-SBIT(P01,P0,1);
-SBIT(P02,P0,2);
-SBIT(P03,P0,3);
-SBIT(P04,P0,4);
-SBIT(P05,P0,5);
-SBIT(P06,P0,6);
-SBIT(P07,P0,7);
+SBIT(P00,P0_ADDR,0);
+SBIT(P01,P0_ADDR,1);
+SBIT(P02,P0_ADDR,2);
+SBIT(P03,P0_ADDR,3);
+SBIT(P04,P0_ADDR,4);
+SBIT(P05,P0_ADDR,5);
+SBIT(P06,P0_ADDR,6);
+SBIT(P07,P0_ADDR,7);
 
 /*  P1  */
-SBIT(P10,P1,0);
-SBIT(P11,P1,1);
-SBIT(P12,P1,2);
-SBIT(P13,P1,3);
-SBIT(P14,P1,4);
-SBIT(P15,P1,5);
-SBIT(P16,P1,6);
-SBIT(P17,P1,7);
+SBIT(P10,P1_ADDR,0);
+SBIT(P11,P1_ADDR,1);
+SBIT(P12,P1_ADDR,2);
+SBIT(P13,P1_ADDR,3);
+SBIT(P14,P1_ADDR,4);
+SBIT(P15,P1_ADDR,5);
+SBIT(P16,P1_ADDR,6);
+SBIT(P17,P1_ADDR,7);
 
-SBIT(RXD2,P1,0);
-SBIT(TXD2,P1,1);
-SBIT(CCP1,P1,0);
-SBIT(CCP0,P1,1);
-SBIT(SPI_SS,P1,2);
-SBIT(SPI_MOSI,P1,3);
-SBIT(SPI_MISO,P1,4);
-SBIT(SPI_SCLK,P1,5);
+SBIT(RXD2,P1_ADDR,0);
+SBIT(TXD2,P1_ADDR,1);
+SBIT(CCP1,P1_ADDR,0);
+SBIT(CCP0,P1_ADDR,1);
+SBIT(SPI_SS,P1_ADDR,2);
+SBIT(SPI_MOSI,P1_ADDR,3);
+SBIT(SPI_MISO,P1_ADDR,4);
+SBIT(SPI_SCLK,P1_ADDR,5);
 
-SBIT(SPI_SS_2,P2,4);
-SBIT(SPI_MOSI_2,P2,3);
-SBIT(SPI_MISO_2,P2,2);
-SBIT(SPI_SCLK_2,P2,1);
+SBIT(SPI_SS_2,P2_ADDR,4);
+SBIT(SPI_MOSI_2,P2_ADDR,3);
+SBIT(SPI_MISO_2,P2_ADDR,2);
+SBIT(SPI_SCLK_2,P2_ADDR,1);
 
-SBIT(SPI_SS_3,P5,4);
-SBIT(SPI_MOSI_3,P4,0);
-SBIT(SPI_MISO_3,P4,1);
-SBIT(SPI_SCLK_3,P4,3);
+SBIT(SPI_SS_3,P5_ADDR,4);
+SBIT(SPI_MOSI_3,P4_ADDR,0);
+SBIT(SPI_MISO_3,P4_ADDR,1);
+SBIT(SPI_SCLK_3,P4_ADDR,3);
 
 /*  P2  */
-SBIT(P20,P2,0);
-SBIT(P21,P2,1);
-SBIT(P22,P2,2);
-SBIT(P23,P2,3);
-SBIT(P24,P2,4);
-SBIT(P25,P2,5);
-SBIT(P26,P2,6);
-SBIT(P27,P2,7);
+SBIT(P20,P2_ADDR,0);
+SBIT(P21,P2_ADDR,1);
+SBIT(P22,P2_ADDR,2);
+SBIT(P23,P2_ADDR,3);
+SBIT(P24,P2_ADDR,4);
+SBIT(P25,P2_ADDR,5);
+SBIT(P26,P2_ADDR,6);
+SBIT(P27,P2_ADDR,7);
 
 /*  P3  */
-SBIT(P30,P3,0);
-SBIT(P31,P3,1);
-SBIT(P32,P3,2);
-SBIT(P33,P3,3);
-SBIT(P34,P3,4);
-SBIT(P35,P3,5);
-SBIT(P36,P3,6);
-SBIT(P37,P3,7);
+SBIT(P30,P3_ADDR,0);
+SBIT(P31,P3_ADDR,1);
+SBIT(P32,P3_ADDR,2);
+SBIT(P33,P3_ADDR,3);
+SBIT(P34,P3_ADDR,4);
+SBIT(P35,P3_ADDR,5);
+SBIT(P36,P3_ADDR,6);
+SBIT(P37,P3_ADDR,7);
 
-SBIT(RXD,P3,0);
-SBIT(TXD,P3,1);
-SBIT(INT0,P3,2);
-SBIT(INT1,P3,3);
-SBIT(T0,P3,4);
-SBIT(T1,P3,5);
-SBIT(WR,P3,6);
-SBIT(RD,P3,7);
-SBIT(CCP2,P3,7);
+SBIT(RXD,P3_ADDR,0);
+SBIT(TXD,P3_ADDR,1);
+SBIT(INT0,P3_ADDR,2);
+SBIT(INT1,P3_ADDR,3);
+SBIT(T0,P3_ADDR,4);
+SBIT(T1,P3_ADDR,5);
+SBIT(WR,P3_ADDR,6);
+SBIT(RD,P3_ADDR,7);
+SBIT(CCP2,P3_ADDR,7);
 
-SBIT(CLKOUT0,P3,5);
-SBIT(CLKOUT1,P3,4);
+SBIT(CLKOUT0,P3_ADDR,5);
+SBIT(CLKOUT1,P3_ADDR,4);
 
 /*  P4  */
-SBIT(P40,P4,0);
-SBIT(P41,P4,1);
-SBIT(P42,P4,2);
-SBIT(P43,P4,3);
-SBIT(P44,P4,4);
-SBIT(P45,P4,5);
-SBIT(P46,P4,6);
-SBIT(P47,P4,7);
+SBIT(P40,P4_ADDR,0);
+SBIT(P41,P4_ADDR,1);
+SBIT(P42,P4_ADDR,2);
+SBIT(P43,P4_ADDR,3);
+SBIT(P44,P4_ADDR,4);
+SBIT(P45,P4_ADDR,5);
+SBIT(P46,P4_ADDR,6);
+SBIT(P47,P4_ADDR,7);
 
 /*  P5  */
-SBIT(P50,P5,0);
-SBIT(P51,P5,1);
-SBIT(P52,P5,2);
-SBIT(P53,P5,3);
-SBIT(P54,P5,4);
-SBIT(P55,P5,5);
-SBIT(P56,P5,6);
-SBIT(P57,P5,7);
+SBIT(P50,P5_ADDR,0);
+SBIT(P51,P5_ADDR,1);
+SBIT(P52,P5_ADDR,2);
+SBIT(P53,P5_ADDR,3);
+SBIT(P54,P5_ADDR,4);
+SBIT(P55,P5_ADDR,5);
+SBIT(P56,P5_ADDR,6);
+SBIT(P57,P5_ADDR,7);
 
 /*  SCON  */
-SBIT(SM0,SCON,7);	//SM0/FE		SM0 SM1 = 00 ~ 11: ·½Ê½0~3
-SBIT(SM1,SCON,6);	//
-SBIT(SM2,SCON,5);	//¶à»úÍ¨Ñ¶
-SBIT(REN,SCON,4);	//½ÓÊÕÔÊÐí
-SBIT(TB8,SCON,3);	//·¢ËÍÊý¾ÝµÚ8Î»
-SBIT(RB8,SCON,2);	//½ÓÊÕÊý¾ÝµÚ8Î»
-SBIT(TI,SCON,1);	//·¢ËÍÖÐ¶Ï±êÖ¾Î»
-SBIT(RI,SCON,0);	//½ÓÊÕÖÐ¶Ï±êÖ¾Î»
+SBIT(SM0,SCON_ADDR,7);	//SM0/FE		SM0 SM1 = 00 ~ 11: ·½Ê½0~3
+SBIT(SM1,SCON_ADDR,6);	//
+SBIT(SM2,SCON_ADDR,5);	//¶à»úÍ¨Ñ¶
+SBIT(REN,SCON_ADDR,4);	//½ÓÊÕÔÊÐí
+SBIT(TB8,SCON_ADDR,3);	//·¢ËÍÊý¾ÝµÚ8Î»
+SBIT(RB8,SCON_ADDR,2);	//½ÓÊÕÊý¾ÝµÚ8Î»
+SBIT(TI,SCON_ADDR,1);	//·¢ËÍÖÐ¶Ï±êÖ¾Î»
+SBIT(RI,SCON_ADDR,0);	//½ÓÊÕÖÐ¶Ï±êÖ¾Î»
 
 /*  IE   */
-SBIT(EA,IE,7);	//ÖÐ¶ÏÔÊÐí×Ü¿ØÖÆÎ»
-SBIT(ELVD,IE,6);	//µÍÑ¹¼à²âÖÐ¶ÏÔÊÐíÎ»
-SBIT(EADC,IE,5);	//ADC ÖÐ¶Ï ÔÊÐíÎ»
-SBIT(ES,IE,4);	//´®ÐÐÖÐ¶Ï ÔÊÐí¿ØÖÆÎ»
-SBIT(ET1,IE,3);	//¶¨Ê±ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
-SBIT(EX1,IE,2);	//Íâ²¿ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
-SBIT(ET0,IE,1);	//¶¨Ê±ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
-SBIT(EX0,IE,0);	//Íâ²¿ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
+SBIT(EA,IE_ADDR,7);	//ÖÐ¶ÏÔÊÐí×Ü¿ØÖÆÎ»
+SBIT(ELVD,IE_ADDR,6);	//µÍÑ¹¼à²âÖÐ¶ÏÔÊÐíÎ»
+SBIT(EADC,IE_ADDR,5);	//ADC ÖÐ¶Ï ÔÊÐíÎ»
+SBIT(ES,IE_ADDR,4);	//´®ÐÐÖÐ¶Ï ÔÊÐí¿ØÖÆÎ»
+SBIT(ET1,IE_ADDR,3);	//¶¨Ê±ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
+SBIT(EX1,IE_ADDR,2);	//Íâ²¿ÖÐ¶Ï1ÔÊÐí¿ØÖÆÎ»
+SBIT(ET0,IE_ADDR,1);	//¶¨Ê±ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
+SBIT(EX0,IE_ADDR,0);	//Íâ²¿ÖÐ¶Ï0ÔÊÐí¿ØÖÆÎ»
 
 
 /*  IP   */ 
 /*
-SBIT(PPCA,IP,7);	//PCA ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PLVD,IP,6); 	//µÍÑ¹ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PADC,IP,5); 	//ADC ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PS,IP,4);	//´®ÐÐÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PT1,IP,3);	//¶¨Ê±ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PX1,IP,2);	//Íâ²¿ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PT0,IP,1);	//¶¨Ê±ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PX0,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PPCA,IP_ADDR,7);	//PCA ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PLVD,IP_ADDR,6); 	//µÍÑ¹ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PADC,IP_ADDR,5); 	//ADC ÖÐ¶Ï ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PS,IP_ADDR,4);	//´®ÐÐÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PT1,IP_ADDR,3);	//¶¨Ê±ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PX1,IP_ADDR,2);	//Íâ²¿ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PT0,IP_ADDR,1);	//¶¨Ê±ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PX0,IP_ADDR,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 */
 
-SBIT(ACC0,ACC,0);
-SBIT(ACC1,ACC,1);
-SBIT(ACC2,ACC,2);
-SBIT(ACC3,ACC,3);
-SBIT(ACC4,ACC,4);
-SBIT(ACC5,ACC,5);
-SBIT(ACC6,ACC,6);
-SBIT(ACC7,ACC,7);
+SBIT(ACC0,ACC_ADDR,0);
+SBIT(ACC1,ACC_ADDR,1);
+SBIT(ACC2,ACC_ADDR,2);
+SBIT(ACC3,ACC_ADDR,3);
+SBIT(ACC4,ACC_ADDR,4);
+SBIT(ACC5,ACC_ADDR,5);
+SBIT(ACC6,ACC_ADDR,6);
+SBIT(ACC7,ACC_ADDR,7);
 
-SBIT(B0,B,0);
-SBIT(B1,B,1);
-SBIT(B2,B,2);
-SBIT(B3,B,3);
-SBIT(B4,B,4);
-SBIT(B5,B,5);
-SBIT(B6,B,6);
-SBIT(B7,B,7);
+SBIT(B0,B_ADDR,0);
+SBIT(B1,B_ADDR,1);
+SBIT(B2,B_ADDR,2);
+SBIT(B3,B_ADDR,3);
+SBIT(B4,B_ADDR,4);
+SBIT(B5,B_ADDR,5);
+SBIT(B6,B_ADDR,6);
+SBIT(B7,B_ADDR,7);
 
 
 //							7     6     5    4    3    2    1     0    Reset Value
-//SFR(IE2,0xAF);		-     -     -    -    -    -   ESPI  ES2   0000,0000B	//Auxiliary Interrupt   
+//sfr IE2       at 0xAF		-     -     -    -    -    -   ESPI  ES2   0000,0000B	//Auxiliary Interrupt   
 #define		SPI_INT_ENABLE()		IE2 |=  2	//ÔÊÐíSPIÖÐ¶Ï
 #define		SPI_INT_DISABLE()		IE2 &= ~2	//ÔÊÐíSPIÖÐ¶Ï
 #define		UART2_INT_ENABLE()		IE2 |=  1	//ÔÊÐí´®¿Ú2ÖÐ¶Ï
 #define		UART2_INT_DISABLE()		IE2 &= ~1	//ÔÊÐí´®¿Ú2ÖÐ¶Ï
 
 //                                          7     6     5    4    3    2    1    0    Reset Value
-//SFR(IP,0xB8); //ÖÐ¶ÏÓÅÏÈ¼¶µÍÎ»      PPCA  PLVD  PADC  PS   PT1  PX1  PT0  PX0   0000,0000
+//sfr IP      at 0xB8 //ÖÐ¶ÏÓÅÏÈ¼¶µÍÎ»      PPCA  PLVD  PADC  PS   PT1  PX1  PT0  PX0   0000,0000
 //--------
-SBIT(PPCA	,IP,7);	//PCA Ä£¿éÖÐ¶ÏÓÅÏÈ¼¶
-SBIT(PLVD	,IP,6);	//µÍÑ¹¼à²âÖÐ¶ÏÓÅÏÈ¼¶
-SBIT(PADC	,IP,5);	//ADC ÖÐ¶ÏÓÅÏÈ¼¶
-SBIT(PS   	,IP,4);	//´®ÐÐÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PT1	,IP,3);	//¶¨Ê±ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PX1	,IP,2);	//Íâ²¿ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PT0	,IP,1);	//¶¨Ê±ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
-SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PPCA,IP_ADDR,7);	//PCA Ä£¿éÖÐ¶ÏÓÅÏÈ¼¶
+SBIT(PLVD,IP_ADDR,6);	//µÍÑ¹¼à²âÖÐ¶ÏÓÅÏÈ¼¶
+SBIT(PADC,IP_ADDR,5);	//ADC ÖÐ¶ÏÓÅÏÈ¼¶
+SBIT(PS,IP_ADDR,4);	//´®ÐÐÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PT1,IP_ADDR,3);	//¶¨Ê±ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PX1,IP_ADDR,2);	//Íâ²¿ÖÐ¶Ï1ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PT0,IP_ADDR,1);	//¶¨Ê±ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
+SBIT(PX0,IP_ADDR,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 //                                           7      6      5     4     3     2    1     0        Reset Value
-//SFR(IPH,0xB7); //ÖÐ¶ÏÓÅÏÈ¼¶¸ßÎ»       PPCAH  PLVDH  PADCH  PSH  PT1H  PX1H  PT0H  PX0H   0000,0000
-//SFR(IP2,0xB5); //                       -      -      -     -     -     -   PSPI   PS2   xxxx,xx00
-//SFR(IPH2,0xB6); //                       -      -      -     -     -     -   PSPIH  PS2H  xxxx,xx00
+//sfr IPH   at 0xB7 //ÖÐ¶ÏÓÅÏÈ¼¶¸ßÎ»       PPCAH  PLVDH  PADCH  PSH  PT1H  PX1H  PT0H  PX0H   0000,0000
+//sfr IP2   at 0xB5 //                       -      -      -     -     -     -   PSPI   PS2   xxxx,xx00
+//sfr IPH2  at 0xB6 //                       -      -      -     -     -     -   PSPIH  PS2H  xxxx,xx00
 #define		PPCAH	0x80
 #define		PLVDH	0x40
 #define		PADCH	0x20
@@ -372,11 +494,11 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		S1_USE_P16P17()		P_SW1 = (P_SW1 & ~0xc0) | 0x80	//UART1 Ê¹ÓÃP16 P17¿Ú
 #define		S1_TXD_RXD_SHORT()	PCON2 |= (1<<4)	//½«TXDÓëRXDÁ¬½ÓÖÐ¼ÌÊä³ö
 #define		S1_TXD_RXD_OPEN()	PCON2 |= (1<<4)	//½«TXDÓëRXDÁ¬½ÓÖÐ¼Ì¶Ï¿ª	Ä¬ÈÏ
-#define 	S1_BRT_UseTimer2()	AUXR |=  1;
-#define 	S1_BRT_UseTimer1()	AUXR &= ~1;
+#define S1_BRT_UseTimer2()	AUXR |= 1;
+#define S1_BRT_UseTimer1()	AUXR &= ~1;
 
 //						  7      6      5      4      3      2     1     0        Reset Value
-//SFR(S2CON,0x9A);		S2SM0    -    S2SM2  S2REN  S2TB8  S2RB8  S2TI  S2RI      00000000B		 //S2 Control
+//sfr S2CON at 0x9A		S2SM0    -    S2SM2  S2REN  S2TB8  S2RB8  S2TI  S2RI      00000000B		 //S2 Control
 
 #define		S2_8bit()			S2CON &= ~(1<<7)		//´®¿Ú2Ä£Ê½0£¬8Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4
 #define		S2_9bit()			S2CON |=  (1<<7)		//´®¿Ú2Ä£Ê½1£¬9Î»UART£¬²¨ÌØÂÊ = ¶¨Ê±Æ÷2µÄÒç³öÂÊ / 4
@@ -412,10 +534,10 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		Timer0_AsCounterP32()		TMOD |=  4		//Ê±Æ÷0ÓÃ×ö¼ÆÊýÆ÷
 #define		Timer0_AsTimer()			TMOD &= ~4		//Ê±Æ÷0ÓÃ×ö¶¨Ê±Æ÷
 #define		Timer0_ExtControlP34()		TMOD |=  4		//Ê±Æ÷0ÓÉÍâ²¿INT0¸ßµçÆ½ÔÊÐí¶¨Ê±¼ÆÊý
-#define 	Timer0_Run()	 			TR0 = 1				//ÔÊÐí¶¨Ê±Æ÷0¼ÆÊý
-#define 	Timer0_Stop()	 			TR0 = 0				//½ûÖ¹¶¨Ê±Æ÷0¼ÆÊý
-#define 	Timer0_InterruptEnable()	ET0 = 1				//ÔÊÐíTimer1ÖÐ¶Ï.
-#define 	Timer0_InterruptDisable()	ET0 = 0				//½ûÖ¹Timer1ÖÐ¶Ï.
+#define Timer0_Run()	 			TR0 = 1				//ÔÊÐí¶¨Ê±Æ÷0¼ÆÊý
+#define Timer0_Stop()	 			TR0 = 0				//½ûÖ¹¶¨Ê±Æ÷0¼ÆÊý
+#define Timer0_InterruptEnable()	ET0 = 1				//ÔÊÐíTimer1ÖÐ¶Ï.
+#define Timer0_InterruptDisable()	ET0 = 0				//½ûÖ¹Timer1ÖÐ¶Ï.
 
 #define		Timer1_16bitAutoReload()	TMOD &= ~0x30					//16Î»×Ô¶¯ÖØ×°
 #define		Timer1_16bit()				TMOD  = (TMOD & ~0x30) | 0x10	//16Î»
@@ -424,32 +546,32 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		Timer1_AsCounterP33()		TMOD |=  (1<<6)		//Ê±Æ÷1ÓÃ×ö¼ÆÊýÆ÷
 #define		Timer1_AsTimer()			TMOD &= ~(1<<6)		//Ê±Æ÷1ÓÃ×ö¶¨Ê±Æ÷
 #define		Timer1_ExtControlP35()		TMOD |=  (1<<7)		//Ê±Æ÷1ÓÉÍâ²¿INT1¸ßµçÆ½ÔÊÐí¶¨Ê±¼ÆÊý
-#define 	Timer1_Run()	 			TR1 = 1				//ÔÊÐí¶¨Ê±Æ÷1¼ÆÊý
-#define 	Timer1_Stop()	 			TR1 = 0				//½ûÖ¹¶¨Ê±Æ÷1¼ÆÊý
-#define 	Timer1_InterruptEnable()	ET1 = 1				//ÔÊÐíTimer1ÖÐ¶Ï.
-#define 	Timer1_InterruptDisable()	ET1 = 0				//½ûÖ¹Timer1ÖÐ¶Ï.
+#define Timer1_Run()	 			TR1 = 1				//ÔÊÐí¶¨Ê±Æ÷1¼ÆÊý
+#define Timer1_Stop()	 			TR1 = 0				//½ûÖ¹¶¨Ê±Æ÷1¼ÆÊý
+#define Timer1_InterruptEnable()	ET1 = 1				//ÔÊÐíTimer1ÖÐ¶Ï.
+#define Timer1_InterruptDisable()	ET1 = 0				//½ûÖ¹Timer1ÖÐ¶Ï.
 
 
 //						   7     6       5      4     3      2      1      0    Reset Value
-//SFR(AUXR,0x8E);		T0x12 T1x12 UART_M0x6  BRTR S2SMOD BRTx12 EXTRAM S1BRS  0000,0000	//Auxiliary Register 
+//sfr AUXR  at 0x8E		T0x12 T1x12 UART_M0x6  BRTR S2SMOD BRTx12 EXTRAM S1BRS  0000,0000	//Auxiliary Register 
 
-#define 	Timer0_1T()					AUXR |=  (1<<7)	//Timer0 clodk = fo
-#define 	Timer0_12T()				AUXR &= ~(1<<7)	//Timer0 clodk = fo/12	12·ÖÆµ,	default
-#define 	Timer1_1T()					AUXR |=  (1<<6)	//Timer1 clodk = fo
-#define 	Timer1_12T()				AUXR &= ~(1<<6)	//Timer1 clodk = fo/12	12·ÖÆµ,	default
+#define Timer0_1T()					AUXR |= (1<<7)	//Timer0 clodk = fo
+#define Timer0_12T()				AUXR &= ~(1<<7)	//Timer0 clodk = fo/12	12·ÖÆµ,	default
+#define Timer1_1T()					AUXR |= (1<<6)	//Timer1 clodk = fo
+#define Timer1_12T()				AUXR &= ~(1<<6)	//Timer1 clodk = fo/12	12·ÖÆµ,	default
 #define		S1_M0x6()					AUXR |=  (1<<5)	//UART Mode0 Speed is 6x Standard
 #define		S1_M0x1()					AUXR &= ~(1<<5)	//default,	UART Mode0 Speed is Standard
-#define 	Timer2_Run()	 			AUXR |=  (1<<4)	//ÔÊÐí¶¨Ê±Æ÷2¼ÆÊý
-#define 	Timer2_Stop()	 			AUXR &= ~(1<<4)	//½ûÖ¹¶¨Ê±Æ÷2¼ÆÊý
+#define Timer2_Run()	 			AUXR |= (1<<4)	//ÔÊÐí¶¨Ê±Æ÷2¼ÆÊý
+#define Timer2_Stop()	 			AUXR &= ~(1<<4)	//½ûÖ¹¶¨Ê±Æ÷2¼ÆÊý
 #define		Timer2_AsCounterP31()		AUXR |=  (1<<3)	//Ê±Æ÷2ÓÃ×ö¼ÆÊýÆ÷
 #define		Timer2_AsTimer()			AUXR &= ~(1<<3)	//Ê±Æ÷2ÓÃ×ö¶¨Ê±Æ÷
-#define 	Timer2_1T()					AUXR |=  (1<<2)	//Timer0 clodk = fo
-#define 	Timer2_12T()				AUXR &= ~(1<<2)	//Timer0 clodk = fo/12	12·ÖÆµ,	default
-#define 	Timer2_InterruptEnable()	IE2  |=  (1<<2)	//ÔÊÐíTimer2ÖÐ¶Ï.
-#define 	Timer2_InterruptDisable()	IE2  &= ~(1<<2)	//½ûÖ¹Timer2ÖÐ¶Ï.
+#define Timer2_1T()					AUXR |= (1<<2)	//Timer0 clodk = fo
+#define Timer2_12T()				AUXR &= ~(1<<2)	//Timer0 clodk = fo/12	12·ÖÆµ,	default
+#define Timer2_InterruptEnable()	IE2  |= (1<<2)	//ÔÊÐíTimer2ÖÐ¶Ï.
+#define Timer2_InterruptDisable()	IE2 &= ~(1<<2)	//½ûÖ¹Timer2ÖÐ¶Ï.
 
-#define 	ExternalRAM_enable()		AUXR |=  2		//ÔÊÐíÍâ²¿XRAM£¬½ûÖ¹Ê¹ÓÃÄÚ²¿1024RAM
-#define 	InternalRAM_enable()		AUXR &= ~2		//½ûÖ¹Íâ²¿XRAM£¬ÔÊÐíÊ¹ÓÃÄÚ²¿1024RAM
+#define ExternalRAM_enable()		AUXR |= 2		//ÔÊÐíÍâ²¿XRAM£¬½ûÖ¹Ê¹ÓÃÄÚ²¿1024RAM
+#define InternalRAM_enable()		AUXR &= ~2		//½ûÖ¹Íâ²¿XRAM£¬ÔÊÐíÊ¹ÓÃÄÚ²¿1024RAM
 
 #define		T0_pulseP34_enable()		AUXR2 |=  1		//ÔÊÐí T0 Òç³öÂö³åÔÚT0(P3.5)½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ£¬T0¿ÉÒÔ1T»ò12T¡£
 #define		T0_pulseP34_disable()		AUXR2 &= ~1
@@ -471,7 +593,7 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define		Timer2_Load_us(n)	TH2=(65536-MainFosc_KHZ*(n)/1000)/256,TL2=(65536-MainFosc_KHZ*(n)/1000)%256
 
 
-//SFR(WDT_CONTR,0xC1); //Watch-Dog-Timer Control register
+//sfr WDT_CONTR at 0xC1 //Watch-Dog-Timer Control register
 //                                      7     6     5      4       3      2   1   0     Reset Value
 //                                  WDT_FLAG  -  EN_WDT CLR_WDT IDLE_WDT PS2 PS1 PS0    xx00,0000
 #define D_WDT_FLAG			(1<<7)
@@ -491,30 +613,30 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 
 //						  7     6      5    4     3      2    1     0     Reset Value
-//SFR(PCON,0x87);	SMOD  SMOD0  LVDF  POF   GF1    GF0   PD   IDL    0001,0000	 //Power Control 
+//sfr PCON   at 0x87	SMOD  SMOD0  LVDF  POF   GF1    GF0   PD   IDL    0001,0000	 //Power Control 
 //SMOD		//´®¿ÚË«±¶ËÙ
 //SMOD0
 #define		LVDF		(1<<5)	//P4.6µÍÑ¹¼ì²â±êÖ¾
 //POF
 //GF1
 //GF0
-//#define 	D_PD		2		//set 1,power down mode
-//#define 	D_IDLE		1		//set 1,idle mode
+//#define D_PD		2		//set 1,power down mode
+//#define D_IDLE		1		//set 1,idle mode
 #define		MCU_IDLE()			PCON |= 1	//MCU ½øÈë IDLE Ä£Ê½
 #define		MCU_POWER_DOWN()	PCON |= 2	//MCU ½øÈë Ë¯Ãß Ä£Ê½
 
 
-//SFR(ISP_CMD,0xC5);
+//sfr ISP_CMD   at 0xC5
 #define		ISP_STANDBY()	ISP_CMD = 0		//ISP¿ÕÏÐÃüÁî£¨½ûÖ¹£©
 #define		ISP_READ()		ISP_CMD = 1		//ISP¶Á³öÃüÁî
 #define		ISP_WRITE()		ISP_CMD = 2		//ISPÐ´ÈëÃüÁî
 #define		ISP_ERASE()		ISP_CMD = 3		//ISP²Á³ýÃüÁî
 
-//SFR(ISP_TRIG,0xC6);
-#define 	ISP_TRIG()	ISP_TRIG = 0x5A,	ISP_TRIG = 0xA5		//ISP´¥·¢ÃüÁî
+//sfr ISP_TRIG  at 0xC6
+#define ISP_TRIG()	ISP_TRIG = 0x5A,	ISP_TRIG = 0xA5		//ISP´¥·¢ÃüÁî
 
 //							  7    6    5      4    3    2    1     0    Reset Value
-//SFR(IAP_CONTR,0xC7);		IAPEN SWBS SWRST CFAIL  -   WT2  WT1   WT0   0000,x000	//IAP Control Register
+//sfr IAP_CONTR at 0xC7		IAPEN SWBS SWRST CFAIL  -   WT2  WT1   WT0   0000,x000	//IAP Control Register
 #define ISP_EN			(1<<7)
 #define ISP_SWBS		(1<<6)
 #define ISP_SWRST		(1<<5)
@@ -550,13 +672,13 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 /* ADC Register */
 //								7       6      5       4         3      2    1    0   Reset Value
-//SFR(ADC_CONTR,0xBC);		ADC_POWER SPEED1 SPEED0 ADC_FLAG ADC_START CHS2 CHS1 CHS0 0000,0000	//AD ×ª»»¿ØÖÆ¼Ä´æÆ÷ 
-//SFR(ADC_RES,0xBD);		ADCV.9 ADCV.8 ADCV.7 ADCV.6 ADCV.5 ADCV.4 ADCV.3 ADCV.2	  0000,0000	//A/D ×ª»»½á¹û¸ß8Î» 
-//SFR(ADC_RESL,0xBE);												  ADCV.1 ADCV.0	  0000,0000	//A/D ×ª»»½á¹ûµÍ2Î»
-//SFR(ADC_CONTR,0xBC);	//Ö±½ÓÓÃMOV²Ù×÷£¬²»ÒªÓÃÓë»ò
+//sfr ADC_CONTR at 0xBC		ADC_POWER SPEED1 SPEED0 ADC_FLAG ADC_START CHS2 CHS1 CHS0 0000,0000	//AD ×ª»»¿ØÖÆ¼Ä´æÆ÷ 
+//sfr ADC_RES  at 0xBD		ADCV.9 ADCV.8 ADCV.7 ADCV.6 ADCV.5 ADCV.4 ADCV.3 ADCV.2	  0000,0000	//A/D ×ª»»½á¹û¸ß8Î» 
+//sfr ADC_RESL at 0xBE												  ADCV.1 ADCV.0	  0000,0000	//A/D ×ª»»½á¹ûµÍ2Î»
+//sfr ADC_CONTR  at 0xBC	//Ö±½ÓÓÃMOV²Ù×÷£¬²»ÒªÓÃÓë»ò
 
 
-//SFR(SPCTL,0xCE);	SPI¿ØÖÆ¼Ä´æÆ÷
+//sfr SPCTL  at 0xCE	SPI¿ØÖÆ¼Ä´æÆ÷
 //   7       6       5       4       3       2       1       0    	Reset Value
 //	SSIG	SPEN	DORD	MSTR	CPOL	CPHA	SPR1	SPR0		0x00
 
@@ -574,8 +696,8 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 #define	SPI_PhaseL()		SPCTL &= ~(1<<2)		//0: 
 #define	SPI_Speed(n)		SPCTL = (SPCTL & ~3) | (n)	//ÉèÖÃËÙ¶È,0 -- fosc/4,1 -- fosc/16,2 -- fosc/64,3 -- fosc/128
 
-//SFR(SPDAT,0xCF); //SPI Data Register                                                     0000,0000
-//SFR(SPSTAT,0xCD);	//SPI×´Ì¬¼Ä´æÆ÷
+//sfr SPDAT  at 0xCF //SPI Data Register                                                     0000,0000
+//sfr SPSTAT  at 0xCD	//SPI×´Ì¬¼Ä´æÆ÷
 //   7       6      5   4   3   2   1   0    	Reset Value
 //	SPIF	WCOL	-	-	-	-	-	-
 #define	SPIF	0x80		//SPI´«ÊäÍê³É±êÖ¾¡£Ð´Èë1Çå0¡£
@@ -607,16 +729,16 @@ SBIT(PX0	,IP,0);	//Íâ²¿ÖÐ¶Ï0ÓÅÏÈ¼¶Éè¶¨Î»
 
 
 //						7     6     5     4     3     2     1     0     Reset Value
-//SFR(CCON,0xD8);	CF    CR    -     -     -    CCF2  CCF1  CCF0   00xx,xx00	//PCA ¿ØÖÆ¼Ä´æÆ÷¡£
-SBIT(CCF0,CCON,0);	//PCA Ä£¿é0ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
-SBIT(CCF1,CCON,1);	//PCA Ä£¿é1ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
-SBIT(CCF2,CCON,2);	//PCA Ä£¿é2ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
-SBIT(CR,CCON,6);	//1: ÔÊÐíPCA¼ÆÊýÆ÷¼ÆÊý£¬±ØÐëÓÉÈí¼þÇå0¡£
-SBIT(CF,CCON,7);	//PCA¼ÆÊýÆ÷Òç³ö£¨CH£¬CLÓÉFFFFH±äÎª0000H£©±êÖ¾¡£PCA¼ÆÊýÆ÷Òç³öºóÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
+//sfr CCON   at 0xD8	CF    CR    -     -     -    CCF2  CCF1  CCF0   00xx,xx00	//PCA ¿ØÖÆ¼Ä´æÆ÷¡£
+SBIT(CCF0,CCON_ADDR,0);	//PCA Ä£¿é0ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
+SBIT(CCF1,CCON_ADDR,1);	//PCA Ä£¿é1ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
+SBIT(CCF2,CCON_ADDR,2);	//PCA Ä£¿é2ÖÐ¶Ï±êÖ¾£¬ÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
+SBIT(CR,CCON_ADDR,6);	//1: ÔÊÐíPCA¼ÆÊýÆ÷¼ÆÊý£¬±ØÐëÓÉÈí¼þÇå0¡£
+SBIT(CF,CCON_ADDR,7);	//PCA¼ÆÊýÆ÷Òç³ö£¨CH£¬CLÓÉFFFFH±äÎª0000H£©±êÖ¾¡£PCA¼ÆÊýÆ÷Òç³öºóÓÉÓ²¼þÖÃÎ»£¬±ØÐëÓÉÈí¼þÇå0¡£
 
 //					 7     6     5     4     3     2     1     0    Reset Value
-//SFR(CMOD,0xD9);	CIDL   -     -     -   CPS2   CPS1  CPS0  ECF   0xxx,0000	//PCA ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
-#define PCA_IDLE_OFF()		CMOD |=  (1<<7)				//IDLE×´Ì¬PCAÍ£Ö¹¼ÆÊý¡£
+//sfr CMOD  at 0xD9	CIDL   -     -     -   CPS2   CPS1  CPS0  ECF   0xxx,0000	//PCA ¹¤×÷Ä£Ê½¼Ä´æÆ÷¡£
+#define PCA_IDLE_OFF()		CMOD |= (1<<7)				//IDLE×´Ì¬PCAÍ£Ö¹¼ÆÊý¡£
 #define PCA_IDLE_ON()		CMOD &= ~(1<<7)				//IDLE×´Ì¬PCA¼ÌÐø¼ÆÊý¡£
 #define PCA_CLK_12T()		CMOD &= ~0x0E				//PCA¼ÆÊýÂö³åÑ¡ÔñÍâ²¿¾§Õñ/12¡£	fosc/12
 #define PCA_CLK_2T()		CMOD = (CMOD & ~0x0E) + 2	//PCA¼ÆÊýÂö³åÑ¡ÔñÍâ²¿¾§Õñ/2¡£	fosc/2
@@ -626,11 +748,11 @@ SBIT(CF,CCON,7);	//PCA¼ÆÊýÆ÷Òç³ö£¨CH£¬CLÓÉFFFFH±äÎª0000H£©±êÖ¾¡£PCA¼ÆÊýÆ÷Òç³öºóÓ
 #define PCA_CLK_4T()		CMOD = (CMOD & ~0x0E) + 10	//PCA¼ÆÊýÂö³åÑ¡ÔñÍâ²¿¾§Õñ/4¡£	Fosc/4
 #define PCA_CLK_6T()		CMOD = (CMOD & ~0x0E) + 12	//PCA¼ÆÊýÂö³åÑ¡ÔñÍâ²¿¾§Õñ/6¡£	Fosc/6
 #define PCA_CLK_8T()		CMOD = (CMOD & ~0x0E) + 14	//PCA¼ÆÊýÂö³åÑ¡ÔñÍâ²¿¾§Õñ/8¡£	Fosc/8
-#define PCA_INT_ENABLE()	CMOD |=  1					//PCA¼ÆÊýÆ÷Òç³öÖÐ¶ÏÔÊÐíÎ»£¬1---ÔÊÐíCF£¨CCON.7£©²úÉúÖÐ¶Ï¡£
+#define PCA_INT_ENABLE()	CMOD |= 1					//PCA¼ÆÊýÆ÷Òç³öÖÐ¶ÏÔÊÐíÎ»£¬1---ÔÊÐíCF£¨CCON.7£©²úÉúÖÐ¶Ï¡£
 #define PCA_INT_DISABLE()	CMOD &= ~1					//PCA¼ÆÊýÆ÷Òç³öÖÐ¶Ï½ûÖ¹¡£
 
 //					    7      6       5        4       3       2       1      0    Reset Value
-//SFR(AUXR1,0xA2);	  S1_S1  S1_S0  CCP_S1   CCP_S0  SPI_S1   SPI_S0    -     DPS   0100,0000	//Auxiliary Register 1
+//sfr AUXR1 at 0xA2	  S1_S1  S1_S0  CCP_S1   CCP_S0  SPI_S1   SPI_S0    -     DPS   0100,0000	//Auxiliary Register 1
 
 #define		PCA_USE_P12P11P10P37()	AUXR1 &= ~0x30		//½«PCA/PWMÇÐ»»µ½P12(ECI) P11(CCP0) P10(CCP1) P37(CCP2)(ÉÏµçÄ¬ÈÏ)¡£
 #define		PCA_USE_P34P35P36P37()	AUXR1 = (AUXR1 & ~0x30) | 0x10	//½«PCA/PWMÇÐ»»µ½P34(ECI) P35(CCP0) P36(CCP1) P37(CCP2)¡£
@@ -641,9 +763,9 @@ SBIT(CF,CCON,7);	//PCA¼ÆÊýÆ÷Òç³ö£¨CH£¬CLÓÉFFFFH±äÎª0000H£©±êÖ¾¡£PCA¼ÆÊýÆ÷Òç³öºóÓ
 
 
 /*									7     6      5      4     3     2     1     0     Reset Value
-//SFR(CCAPM0,0xDA);	PWM ¼Ä´æÆ÷  -   ECOM0  CAPP0  CAPN0  MAT0  TOG0  PWM0  ECCF0   x000,0000	//PCA Ä£¿é0 
-//SFR(CCAPM1,0xDB);	PWM ¼Ä´æÆ÷  -   ECOM1  CAPP1  CAPN1  MAT1  TOG1  PWM1  ECCF1   x000,0000	//PCA Ä£¿é1
-//SFR(CCAPM2,0xDC);	PWM ¼Ä´æÆ÷  -   ECOM2  CAPP2  CAPN2  MAT2  TOG2  PWM2  ECCF2   x000,0000	//PCA Ä£¿é2
+//sfr CCAPM0 at 0xDA	PWM ¼Ä´æÆ÷  -   ECOM0  CAPP0  CAPN0  MAT0  TOG0  PWM0  ECCF0   x000,0000	//PCA Ä£¿é0 
+//sfr CCAPM1 at 0xDB	PWM ¼Ä´æÆ÷  -   ECOM1  CAPP1  CAPN1  MAT1  TOG1  PWM1  ECCF1   x000,0000	//PCA Ä£¿é1
+//sfr CCAPM2 at 0xDC	PWM ¼Ä´æÆ÷  -   ECOM2  CAPP2  CAPN2  MAT2  TOG2  PWM2  ECCF2   x000,0000	//PCA Ä£¿é2
 ;ECOMn = 1:	ÔÊÐí±È½Ï¹¦ÄÜ¡£
 ;CAPPn = 1:	ÔÊÐíÉÏÉýÑØ´¥·¢²¶×½¹¦ÄÜ¡£
 ;CAPNn = 1:	ÔÊÐíÏÂ½µÑØ´¥·¢²¶×½¹¦ÄÜ¡£
@@ -708,15 +830,15 @@ typedef 	unsigned int	u16;
 typedef 	unsigned long	u32;
 
 /**********************************************************/
-#define NOP1()  NOP()
-#define NOP2()  NOP1(),NOP1()
-#define NOP3()  NOP2(),NOP1()
-#define NOP4()  NOP3(),NOP1()
-#define NOP5()  NOP4(),NOP1()
-#define NOP6()  NOP5(),NOP1()
-#define NOP7()  NOP6(),NOP1()
-#define NOP8()  NOP7(),NOP1()
-#define NOP9()  NOP8(),NOP1()
+#define NOP1() NOP()
+#define NOP2() NOP1(),NOP1()
+#define NOP3() NOP2(),NOP1()
+#define NOP4() NOP3(),NOP1()
+#define NOP5() NOP4(),NOP1()
+#define NOP6() NOP5(),NOP1()
+#define NOP7() NOP6(),NOP1()
+#define NOP8() NOP7(),NOP1()
+#define NOP9() NOP8(),NOP1()
 #define NOP10() NOP9(),NOP1()
 #define NOP11() NOP10(),NOP1()
 #define NOP12() NOP11(),NOP1()
@@ -748,7 +870,7 @@ typedef 	unsigned long	u32;
 #define NOP38() NOP37(),NOP1()
 #define NOP39() NOP38(),NOP1()
 #define NOP40() NOP39(),NOP1()
-// #define NOP(N)  NOP##N()
+// #define NOP(N) NOP##N()
 
 
 /**********************************************/
@@ -757,7 +879,7 @@ typedef 	unsigned long	u32;
 /****************************************************************/
 
 
-//SFR(INT_CLKO,0x8F);	//¸½¼ÓµÄ SFR WAKE_CLKO (µØÖ·£º0x8F)
+//sfr INT_CLKO at 0x8F	//¸½¼ÓµÄ SFR WAKE_CLKO (µØÖ·£º0x8F)
 /*
     7   6    5    4   3     2        1       0         Reset Value
     -  EX4  EX3  EX2  -   T2CLKO   T1CLKO  T0CLKO      0000,0000B
@@ -773,15 +895,15 @@ b0 - T0CLKO    : ÔÊÐí T0 Òç³öÂö³åÔÚP3.5½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ
 #define		LVD_InterruptDisable()		ELVD = 0
 
 
-//SFR(WKTCL,0xAA);	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
-//SFR(WKTCH,0xAB);	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
+//sfr WKTCL at 0xAA	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷µÍ×Ö½Ú
+//sfr WKTCH at 0xAB	//STC11F\10ºÍSTC15ÏµÁÐ »½ÐÑ¶¨Ê±Æ÷¸ß×Ö½Ú
 //	B7		B6	B5	B4	B3	B2	B1	B0		B7	B6	B5	B4	B3	B2	B1	B0
 //	WKTEN				S11	S10	S9	S8		S7	S6	S5	S4	S3	S2	S1	S0	n * 560us
 #define		WakeTimerDisable()		WKTCH &= 0x7f	//WKTEN = 0		½ûÖ¹Ë¯Ãß»½ÐÑ¶¨Ê±Æ÷
 #define		WakeTimerSet(scale)		WKTCL = (scale) % 256,WKTCH = (scale) / 256 | 0x80	//WKTEN = 1	ÔÊÐíË¯Ãß»½ÐÑ¶¨Ê±Æ÷
 
 
-//SFR(CLK_DIV,0x97); //Clock Divder ÏµÍ³Ê±ÖÓ·ÖÆµ  -     -      -       -     -  CLKS2 CLKS1 CLKS0 xxxx,x000
+//sfr CLK_DIV at 0x97 //Clock Divder ÏµÍ³Ê±ÖÓ·ÖÆµ  -     -      -       -     -  CLKS2 CLKS1 CLKS0 xxxx,x000
 #define		SYSTEM_CLK_1T()		CLK_DIV &= ~0x07	//default
 #define		SYSTEM_CLK_2T()		CLK_DIV = (CLK_DIV & ~0x07) | 1
 #define		SYSTEM_CLK_4T()		CLK_DIV = (CLK_DIV & ~0x07) | 2
@@ -801,7 +923,7 @@ b0 - T0CLKO    : ÔÊÐí T0 Òç³öÂö³åÔÚP3.5½ÅÊä³ö£¬Fck0 = 1/2 T0 Òç³öÂÊ
 #define		MCLKO_P34_DIV2()	CLK_DIV  = (CLK_DIV & ~0xc0) | 0x80	//Ö÷Ê±ÖÓ2·ÖÆµÊä³ö
 #define		MCLKO_P34_DIV4()	CLK_DIV  =  CLK_DIV | 0xc0			//Ö÷Ê±ÖÓ4·ÖÆµÊä³ö
 
-//SFR(BUS_SPEED,0xA1); //Stretch register      -   -  -  -   -   -  EXRTS1  EXRTSS0 xxxx,xx10
+//sfr BUS_SPEED at 0xA1 //Stretch register      -   -  -  -   -   -  EXRTS1  EXRTSS0 xxxx,xx10
 #define		BUS_SPEED_1T()	BUS_SPEED = 0
 #define		BUS_SPEED_2T()	BUS_SPEED = 1
 #define		BUS_SPEED_4T()	BUS_SPEED = 2

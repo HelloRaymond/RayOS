@@ -2,6 +2,8 @@
 #define _SCHEDULER_H_
 #include "RayOSDef.h"
 
+void ThreadSwitchTo(ray_thread_t thread);
+
 #if USING_IDLEHOOK
 void IdleHookFunctionSet(void (*hook)(void));
 void IdleHookFunctionReset(void);

@@ -28,9 +28,16 @@ typedef struct ray_mailbox_t
 } ray_mailbox_t;
 #endif
 
+struct ray_context
+{
+    void *ThreadStackPointer;
+    ray_uint8_t ThreadGPRStack[8];
+    ray_uint8_t ThreadSFRStack[5];
+};
+
 struct ray_tcb_t
 {
-    ray_uint8_t ThreadStack[STACK_SIZE];
+    ray_uint8_t *ThreadStack;
     enum
     {
         DELETED = 1,
@@ -48,11 +55,10 @@ struct ray_tcb_t
         SEND,
         DELAY
     } BlockEvent;
+    ray_uint8_t ThreadStackDepth;
     ray_uint8_t ThreadID;
     ray_uint8_t Priority;
-    ray_uint8_t ThreadStackPointer;
-    ray_uint8_t ThreadGPRStack[8];
-    ray_uint8_t ThreadSFRStack[5];
+    struct ray_context ThreadContext;
     void (*EntryFunction)(void);
     ray_uint16_t DelayTime;
     ray_uint16_t Ticks;
