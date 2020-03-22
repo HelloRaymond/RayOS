@@ -37,6 +37,7 @@ EXTRN	IDATA(TaskStack)
 EXTRN	CODE(?C_START)
 EXTRN	CODE(SaveContext,RecoveryContext)
 EXTRN	CODE(ThreadScan,ThreadSwitch)
+EXTRN	CODE(Timer_Reload)
 EXTRN	DATA(StackPointer)
 
 TIMER0_VECTOR EQU 000BH
@@ -53,6 +54,7 @@ OSStackSize EQU 10
 
 Timer0ISR:
 	CLR	EA
+	CALL	Timer_Reload
 	MOV	StackPointer, SP
 	MOV	SP, #(OSStack - 1)
 	CALL	SaveContext

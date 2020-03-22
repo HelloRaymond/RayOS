@@ -1,4 +1,5 @@
 #include "RayOS.h"
+#include "scheduler.h"
 
 //Array of transit variables during context switching
 ray_uint8_t data StackPointer;

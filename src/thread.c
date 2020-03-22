@@ -1,5 +1,6 @@
-#include "board.h"
 #include "RayOS.h"
+#include "thread.h"
+#include "board.h"
 
 extern void main_user(void);
 
@@ -145,6 +146,7 @@ static void idle(void)
 
 void main(void)
 {
+    OS_ENTER_CRITICAL();
     SystemInit();
     ThreadCreate(idle, idleStack, STACK_SIZE, 1, 0);
     ThreadSwitchTo(ThreadHandlerIndex[0]);

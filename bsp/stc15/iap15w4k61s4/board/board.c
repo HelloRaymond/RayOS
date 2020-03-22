@@ -7,15 +7,21 @@
 
 #define T0VAL (65536 - TICKS * FOSC / DEVIDER / 1000)
 
-//Enable gobal interrupt
+//Disable gobal interrupt
 void OS_ENTER_CRITICAL(void)
 {
     EA = 0;
 }
-//Disable gobal interrupt
+//Enable gobal interrupt
 void OS_EXIT_CRITICAL(void)
 {
     EA = 1;
+}
+
+//Reload Timer0
+void Timer_Reload(void)
+{
+    
 }
 
 //Initialize GPIO
@@ -66,6 +72,6 @@ void SystemInit(void)
     GPIO_config();
     Timer_config();
     UART_config();
-    EA = 1;
+    OS_EXIT_CRITICAL();
     PrintString1("OS Start Running!\r\n"); //Send welcome greeting
 }
