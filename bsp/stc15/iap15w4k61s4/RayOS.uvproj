@@ -351,14 +351,9 @@
           <GroupName>Kernel</GroupName>
           <Files>
             <File>
-              <FileName>cpu.asm</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\cpu\8051\cpu.asm</FilePath>
-            </File>
-            <File>
-              <FileName>context.asm</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\cpu\8051\context.asm</FilePath>
+              <FileName>context.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\cpu\8051\context.c</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>

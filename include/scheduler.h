@@ -3,6 +3,8 @@
 #include "RayOSDef.h"
 
 void ThreadSwitchTo(ray_thread_t thread);
+void ThreadSwitch(void);
+void ThreadScan(void);
 
 #if USING_IDLEHOOK
 void IdleHookFunctionSet(void (*hook)(void));

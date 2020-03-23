@@ -5,5 +5,6 @@
 void SystemInit(void);
 void OS_ENTER_CRITICAL(void);
 void OS_EXIT_CRITICAL(void);
+void Timer_Reload(void);
 
 #endif

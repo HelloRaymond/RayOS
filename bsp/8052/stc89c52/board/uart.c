@@ -20,7 +20,6 @@ void uart_isr() interrupt 4
     if (RI)
     {
         RI = 0;
-        P0 = SBUF;          //P0 show UART data
     }
     if (TI)
     {

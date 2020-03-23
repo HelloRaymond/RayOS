@@ -21,7 +21,8 @@ void OS_EXIT_CRITICAL(void)
 //Reload Timer0
 void Timer_Reload(void)
 {
-    
+    TH0 = (ray_uint8_t)(T0VAL >> 8);
+    TL0 = (ray_uint8_t)T0VAL;
 }
 
 //Initialize GPIO
@@ -41,7 +42,7 @@ static void GPIO_config(void)
 static void Timer_config(void)
 {
     TIM_InitTypeDef TIM_InitStructure;
-    TIM_InitStructure.TIM_Mode = TIM_16BitAutoReload;
+    TIM_InitStructure.TIM_Mode = TIM_16Bit;
     TIM_InitStructure.TIM_Polity = PolityHigh;
     TIM_InitStructure.TIM_Interrupt = ENABLE;
     TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;

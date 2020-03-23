@@ -28,13 +28,6 @@ typedef struct ray_mailbox_t
 } ray_mailbox_t;
 #endif
 
-struct ray_context
-{
-    void *ThreadStackPointer;
-    ray_uint8_t ThreadGPRStack[8];
-    ray_uint8_t ThreadSFRStack[5];
-};
-
 struct ray_tcb_t
 {
     ray_uint8_t *ThreadStack;
@@ -55,10 +48,10 @@ struct ray_tcb_t
         SEND,
         DELAY
     } BlockEvent;
+    void *ThreadStackPointer;
     ray_uint8_t ThreadStackDepth;
     ray_uint8_t ThreadID;
     ray_uint8_t Priority;
-    struct ray_context ThreadContext;
     void (*EntryFunction)(void);
     ray_uint16_t DelayTime;
     ray_uint16_t Ticks;

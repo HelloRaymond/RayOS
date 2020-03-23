@@ -20,6 +20,7 @@ void print_demo(void)
 
 void main_user(void)
 {
+    printf("OK!\r\n");
     // Put your code here
     tid1 = ThreadCreate(print_demo, stack1, 20, 10, 1);
     ThreadStart(tid1);

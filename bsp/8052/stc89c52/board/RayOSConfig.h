@@ -2,7 +2,7 @@
 #define _RAYOSCONFIG_H_
 
 // Main clock frequency (unit: Hz)
-#define FOSC 12000000L
+#define FOSC 11059200L
 // Timer divide factor
 #define DEVIDER 12
 // System tick cycle (unit: ms)
@@ -13,6 +13,9 @@
 #define PRIORITY_MAX 5
 // Stack depth
 #define STACK_SIZE 30
+
+// 8051 MCU needs to save 13 registers ACC B DPH DPL PSW and R0-R8 when context switching
+#define CONTEXT_SIZE 13
 
 // Using the semaphore function
 #define USING_SEMAPHORE 0

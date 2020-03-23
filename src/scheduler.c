@@ -1,10 +1,6 @@
 #include "RayOS.h"
 #include "scheduler.h"
 
-//Array of transit variables during context switching
-ray_uint8_t data StackPointer;
-ray_uint8_t data ContextStack[13];
-
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
 extern ray_uint8_t idata TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
@@ -111,11 +107,6 @@ void ThreadSwitch(void)
     } //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
 
     //Save context data (SP pointer, SFR, GPR, stack) to TCB
-    ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadStackPointer = (void *)StackPointer;
-    for (i = 0; i < 5; ++i)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadSFRStack[i] = ContextStack[i];
-    for (i = 0; i < 8; ++i)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadGPRStack[i] = ContextStack[5+i];
     for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
     if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
@@ -127,11 +118,6 @@ void ThreadSwitch(void)
     ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
 
     //Recover Context Data in TCB
-    StackPointer = (ray_uint8_t)ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadStackPointer;
-    for (i = 0; i < 5; ++i)
-        ContextStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadSFRStack[i];
-    for (i = 0; i < 8; ++i)
-        ContextStack[5+i] = ThreadHandlerIndex[CurrentThreadID]->ThreadContext.ThreadGPRStack[i];
     for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
         TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
 }
@@ -139,6 +125,7 @@ void ThreadSwitch(void)
 void ThreadSwitchTo(ray_thread_t thread)
 {
     thread->ThreadStatus = RUNNING;
+    thread->ThreadStackPointer = (void *)(TaskStack -1);
     CurrentThreadID = thread->ThreadID;
     thread->EntryFunction();
 }

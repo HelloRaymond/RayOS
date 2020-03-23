@@ -5,7 +5,7 @@
 extern void main_user(void);
 
 ray_uint8_t idata TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
-ray_uint8_t idleStack[STACK_SIZE]; //The idle thread stack
+ray_uint8_t idleStack[STACK_SIZE];       //The idle thread stack
 
 //Global variables for communication between the scheduler and system modules
 struct ray_tcb_t TCBHeap[THREAD_MAX];
@@ -38,27 +38,25 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_ui
 {
     ray_uint8_t tid = FindAvailableTID();
     if (tid >= THREAD_MAX || priority > PRIORITY_MAX || ticks <= 0 || stack_depth > STACK_SIZE)
-    { //Thread ID is limited to 0 ~ THREAD_MAX Thread priority is limited to 0 ~ PRIORITY_MAX Time slice is limited to greater than 0
+    { //Thread ID is limited to 0 ~ THREAD_MAX Thread priority is limited to 0 ~ PRIORITY_MAX Thread stack is limited to less than the maximum stack size (STACK_SIZE)
         return 0xff;
-    }                                                            //Parameter out of range limit returned error
-    ThreadHandlerIndex[tid] = &TCBHeap[tid];                     //Allocate thread control block
-    ThreadHandlerIndex[tid]->ThreadStack = stack; //TCB stack initialization
-    ThreadHandlerIndex[tid]->ThreadStackDepth = stack_depth; //TCB stack initialization
+    }                                                                                           //Parameter out of range limit returned error
+    ThreadHandlerIndex[tid] = &TCBHeap[tid];                                                    //Allocate thread control block
+    ThreadHandlerIndex[tid]->ThreadStack = stack;                                               //thread stack initialization
+    ThreadHandlerIndex[tid]->ThreadStackDepth = stack_depth;                                    //stack size definition
     StackInit(ThreadHandlerIndex[tid]->ThreadStack, ThreadHandlerIndex[tid]->ThreadStackDepth); //TCB stack initialization
-    StackInit(ThreadHandlerIndex[tid]->ThreadContext.ThreadSFRStack, 5);       //TCB SFR stack initialization
-    StackInit(ThreadHandlerIndex[tid]->ThreadContext.ThreadGPRStack, 8);       //TCB GPR initialization
-    ThreadHandlerIndex[tid]->EntryFunction = EntryFunction;      //Thread entry function
-    ThreadHandlerIndex[tid]->ThreadStatus = INITIAL;             //Thread Status: Initialized
-    ThreadHandlerIndex[tid]->BlockEvent = NONE;                  //Blocking event: None
-    ThreadHandlerIndex[tid]->DelayTime = 0;                      //Delay: None
-    ThreadHandlerIndex[tid]->Ticks = ticks;                      //Time slice
-    ThreadHandlerIndex[tid]->RunTime = 0;                        //Elapsed time
+    ThreadHandlerIndex[tid]->EntryFunction = EntryFunction;                                     //Thread entry function
+    ThreadHandlerIndex[tid]->ThreadStatus = INITIAL;                                            //Thread Status: Initialized
+    ThreadHandlerIndex[tid]->BlockEvent = NONE;                                                 //Blocking event: None
+    ThreadHandlerIndex[tid]->DelayTime = 0;                                                     //Delay: None
+    ThreadHandlerIndex[tid]->Ticks = ticks;                                                     //Time slice
+    ThreadHandlerIndex[tid]->RunTime = 0;                                                       //Elapsed time
 #if USING_SEMAPHORE
     ThreadHandlerIndex[tid]->ThreadSemaphore = RAY_NULL; //Semaphores waiting to be received or sent
 #endif
     ThreadHandlerIndex[tid]->ThreadID = tid;                                               //Thread ID
     ThreadHandlerIndex[tid]->Priority = priority;                                          //Thread priority
-    ThreadHandlerIndex[tid]->ThreadContext.ThreadStackPointer = (void *)(TaskStack + 1);              //SP pointer initialization: point to the top of the stack
+    ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(TaskStack + 1 + CONTEXT_SIZE);  //SP pointer initialization: point to the top of the stack
     ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //The top of the stack is initialized to the lower 8 bits of the entry function address
     ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //The top of the stack +1 is initialized to the upper 8 bits of the entry function address
     ++ThreadNumber;

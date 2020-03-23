@@ -14,6 +14,9 @@
 // Stack depth
 #define STACK_SIZE 10
 
+// 8051 MCU needs to save 13 registers ACC B DPH DPL PSW and R0-R8 when context switching
+#define CONTEXT_SIZE 13
+
 // Using the semaphore function
 #define USING_SEMAPHORE 0
 // Use the mailbox function
