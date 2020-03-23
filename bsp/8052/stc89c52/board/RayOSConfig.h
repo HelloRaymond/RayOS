@@ -15,7 +15,11 @@
 #define STACK_SIZE 30
 
 // 8051 MCU needs to save 13 registers ACC B DPH DPL PSW and R0-R8 when context switching
+#if defined (SDCC) || defined (__SDCC)
+#define CONTEXT_SIZE 14
+#elif defined (__C51__) || defined (__CX51__)
 #define CONTEXT_SIZE 13
+#endif
 
 // Using the semaphore function
 #define USING_SEMAPHORE 0
