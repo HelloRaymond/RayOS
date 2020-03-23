@@ -3,10 +3,10 @@
 
 
 COMx_Define	COM1,COM2;
-u8	xdata TX1_Buffer[COM_TX1_Lenth];	//·¢ËÍ»º³å
-u8 	xdata RX1_Buffer[COM_RX1_Lenth];	//½ÓÊÕ»º³å
-u8	xdata TX2_Buffer[COM_TX2_Lenth];	//·¢ËÍ»º³å
-u8 	xdata RX2_Buffer[COM_RX2_Lenth];	//½ÓÊÕ»º³å
+xdata u8	TX1_Buffer[COM_TX1_Lenth];	//·¢ËÍ»º³å
+xdata u8 	RX1_Buffer[COM_RX1_Lenth];	//½ÓÊÕ»º³å
+xdata u8	TX2_Buffer[COM_TX2_Lenth];	//·¢ËÍ»º³å
+xdata u8 	RX2_Buffer[COM_RX2_Lenth];	//½ÓÊÕ»º³å
 
 u8 USART_Configuration(u8 UARTx, COMx_InitDefine *COMx)
 {

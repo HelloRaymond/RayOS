@@ -2,12 +2,12 @@
 #include "scheduler.h"
 #include "board.h"
 
-extern ray_uint8_t idata TaskStack[]; //The actual stack when the thread is running, all threads share this stack
+extern idata ray_uint8_t TaskStack[]; //The actual stack when the thread is running, all threads share this stack
 extern ray_thread_t ThreadHandlerIndex[];
 extern ray_uint8_t CurrentThreadID;
 
 SFR(SP_REG, 0x81);
-ray_uint8_t idata OSStack[10];
+idata ray_uint8_t OSStack[10];
 
 //modified 2020.03.23 change asm into c by raymond
 //The compiler will automatically save the context when an interrupt occurs, we do not need to do it ourselves

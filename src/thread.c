@@ -4,7 +4,7 @@
 
 extern void main_user(void);
 
-ray_uint8_t idata TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+idata ray_uint8_t TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
 ray_uint8_t idleStack[STACK_SIZE];       //The idle thread stack
 
 //Global variables for communication between the scheduler and system modules

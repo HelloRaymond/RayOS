@@ -3,7 +3,7 @@
 
 extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t CurrentThreadID;
-extern ray_uint8_t idata TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+extern idata ray_uint8_t TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
 
 ray_uint32_t CPUTicks;     //System runtime
 ray_uint32_t idleCPUTicks; //System idle time

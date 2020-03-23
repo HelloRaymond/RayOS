@@ -76,6 +76,10 @@
   * http://sdcc.sf.net
  */
 #if defined (SDCC) || defined (__SDCC)
+# define data __data
+# define idata __idata
+# define pdata __pdata
+# define xdata __xdata
 # define SBIT(name, addr, bit)  __sbit  __at(addr+bit)                    name
 # define SFR(name, addr)        __sfr   __at(addr)                        name
 # define SFRX(name, addr)       __xdata volatile unsigned char __at(addr) name
@@ -94,7 +98,7 @@
 /** Keil C51
   * http://www.keil.com
  */
-#elif defined __C51__
+#elif defined (__C51__) || defined (__CX51__)
 # define SBIT(name, addr, bit)  sbit  name = addr^bit
 # define SFR(name, addr)        sfr   name = addr
 # define SFRX(name, addr)       volatile unsigned char xdata name _at_ addr
@@ -135,6 +139,10 @@ extern void _nop_ (void);
  */
 #elif defined __ICC8051__
 # include "stdbool.h"
+# define data __data
+# define idata __idata
+# define pdata __pdata
+# define xdata __xdata
 # define SBIT(name, addr, bit)  __bit __no_init volatile bool name @ (addr+bit)
 # define SFR(name, addr)        __sfr __no_init volatile unsigned char name @ addr
 # define SFRX(name, addr)       __xdata __no_init volatile unsigned char name @ addr
@@ -157,6 +165,10 @@ extern __intrinsic void __no_operation (void);
   * http://www.altium.com/tasking
  */
 #elif defined _CC51
+# define data _dat
+# define idata _idat
+# define pdata _pdat
+# define xdata _xdat
 # define SBIT(name, addr, bit)  _sfrbit  name _at(addr+bit)
 # define SFR(name, addr)        _sfrbyte name _at(addr)
 # define SFRX(name, addr)       _xdat volatile unsigned char name _at(addr)
@@ -200,6 +212,10 @@ extern void _nop (void);
   * http://www.crossware.com
  */
 #elif defined _XC51_VER
+# define data _data
+# define idata _idata
+# define pdata _pdata
+# define xdata _xdata
 # define SBIT(name, addr, bit)  _sfrbit  name = (addr+bit)
 # define SFR(name, addr)        _sfr     name = addr
 # define SFRX(name, addr)       volatile unsigned char _xdata name _at addr
