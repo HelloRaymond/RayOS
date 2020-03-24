@@ -8,26 +8,25 @@ MAKEHEX = packihx
 MAKEBIN = makebin -Z
 
 INC_DIR = $(PROJECT_ROOT)/../../../include $(PROJECT_ROOT)/../../../bsp/stc15/libraries $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4/example $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4/board $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4/application
-OBJS_DIR = $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4/obj
-LINK_DIR = $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4/list
+OBJS_DIR = $(PROJECT_ROOT)/../../../bsp/stc15/iap15w4k61s4
 
 CFLAGS = -mmcs51 --model-large
 CFLAGS += $(addprefix -I ,$(INC_DIR))
 
-LDFLAGS = 
+LDFLAGS =
 
-THREAD_SRC =  $(PROJECT_ROOT)/../../../src/thread.c
-CONTEXT_SRC =  $(PROJECT_ROOT)/../../../cpu/8051/context.c
-SCHEDULER_SRC =  $(PROJECT_ROOT)/../../../src/scheduler.c
-SEMAPHORE_SRC =  $(PROJECT_ROOT)/../../../src/semaphore.c
-MAILBOX_SRC =  $(PROJECT_ROOT)/../../../src/mailbox.c
-GPIO_SRC =  $(PROJECT_ROOT)/../libraries/GPIO.c
-TIMER_SRC =  $(PROJECT_ROOT)/../libraries/timer.c
-USART_SRC =  $(PROJECT_ROOT)/../libraries/USART.c
-BOARD_SRC =  $(PROJECT_ROOT)/board/board.c
-MAIN_SRC =  $(PROJECT_ROOT)/application/main.c
-DEBUG_SRC =  $(PROJECT_ROOT)/application/debug.c
-EXAMPLE_SRC =  $(PROJECT_ROOT)/example/example.c
+THREAD_SRC = $(PROJECT_ROOT)/../../../src/thread.c
+CONTEXT_SRC = $(PROJECT_ROOT)/../../../cpu/8051/context.c
+SCHEDULER_SRC = $(PROJECT_ROOT)/../../../src/scheduler.c
+SEMAPHORE_SRC = $(PROJECT_ROOT)/../../../src/semaphore.c
+MAILBOX_SRC = $(PROJECT_ROOT)/../../../src/mailbox.c
+GPIO_SRC = $(PROJECT_ROOT)/../libraries/GPIO.c
+TIMER_SRC = $(PROJECT_ROOT)/../libraries/timer.c
+USART_SRC = $(PROJECT_ROOT)/../libraries/USART.c
+BOARD_SRC = $(PROJECT_ROOT)/board/board.c
+MAIN_SRC = $(PROJECT_ROOT)/application/main.c
+DEBUG_SRC = $(PROJECT_ROOT)/application/debug.c
+EXAMPLE_SRC = $(PROJECT_ROOT)/example/example.c
 
 THREAD_OBJ = $(addprefix $(OBJS_DIR)/, $(patsubst %.c,%.rel,$(notdir $(THREAD_SRC))))
 CONTEXT_OBJ = $(addprefix $(OBJS_DIR)/, $(patsubst %.c,%.rel,$(notdir $(CONTEXT_SRC))))
@@ -81,28 +80,25 @@ $(EXAMPLE_OBJ):
 	$(CC) -c $(CFLAGS) $(EXAMPLE_SRC) -o$(OBJS_DIR)/
 
 hex:RayOS.ihx
-	@echo "pack ihx to hex"
 	$(MAKEHEX) RayOS.ihx > $(TARGET)
 
 RayOS.ihx:thread.ihx
 	cp thread.ihx RayOS.ihx
 
 thread.ihx:$(THREAD_OBJ) $(CONTEXT_OBJ) $(SCHEDULER_OBJ) $(SEMAPHORE_OBJ) $(MAILBOX_OBJ) $(GPIO_OBJ) $(TIMER_OBJ) $(USART_OBJ) $(BOARD_OBJ) $(MAIN_OBJ) $(DEBUG_OBJ) $(EXAMPLE_OBJ)
-	@echo "linking objects, generate RayOS.ihx"
 	$(LD) $(LDFLAGS) $(THREAD_OBJ) $(CONTEXT_OBJ) $(SCHEDULER_OBJ) $(SEMAPHORE_OBJ) $(MAILBOX_OBJ) $(GPIO_OBJ) $(TIMER_OBJ) $(USART_OBJ) $(BOARD_OBJ) $(MAIN_OBJ) $(DEBUG_OBJ) $(EXAMPLE_OBJ)
 
-bin:$RayOS.ihx
-	@echo "pack ihx to bin"
+bin:RayOS.ihx
 	$(MAKEBIN) RayOS.ihx $(patsubst %.hex,%.bin,$(TARGET))
 
 clean:
 	rm -rf $(OBJS_DIR)/*.asm $(OBJS_DIR)/*.lst $(OBJS_DIR)/*.rel $(OBJS_DIR)/*.rst $(OBJS_DIR)/*.sym
-	rm *.hex
-	rm *.ihx
-	rm *.lk
-	rm *.map
-	rm *.mem
+	rm -f *.bin
+	rm -f *.hex
+	rm -f *.ihx
+	rm -f *.lk
+	rm -f *.map
+	rm -f *.mem
 
 version:
-	@echo "Show CC Version"
 	$(CC) --version
