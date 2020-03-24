@@ -1,14 +1,14 @@
 #include "RayOS.h"
 #include "scheduler.h"
 
-extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
-extern ray_uint8_t CurrentThreadID;
-extern idata ray_uint8_t TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+extern ray_thread_t OS_ThreadHandlerIndex[THREAD_MAX];
+extern ray_uint8_t OS_RunningThreadID;
+extern idata ray_uint8_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
 
-ray_uint32_t CPUTicks;     //System runtime
-ray_uint32_t idleCPUTicks; //System idle time
+ray_uint32_t OS_Ticks;     //System runtime
+ray_uint32_t OS_idleTicks; //System idle time
 #if USING_CPUUSAGE
-ray_uint8_t CPUUsage; //CPU Usage
+ray_uint8_t OS_CPUUsage; //CPU Usage
 #endif
 
 //Finding the highest priority ready thread
@@ -18,115 +18,123 @@ static ray_uint8_t FindHighestPriorityThreadID(void)
     result = 0;
     for (i = 1; i < THREAD_MAX; ++i)
     {
-        if (ThreadHandlerIndex[i]->ThreadStatus != READY || (ThreadHandlerIndex[i]->ThreadID == CurrentThreadID))
+        if (OS_ThreadHandlerIndex[i]->ThreadStatus != READY || (OS_ThreadHandlerIndex[i]->ThreadID == OS_RunningThreadID))
             continue;
-        else if (ThreadHandlerIndex[i]->Priority > ThreadHandlerIndex[result]->Priority)
+        else if (OS_ThreadHandlerIndex[i]->Priority > OS_ThreadHandlerIndex[result]->Priority)
             result = i;
     }
     return result;
 }
 
-void ThreadScan(void) //Scan and update thread status
+void ThreadSwitch(ray_uint8_t id)
 {
     ray_uint8_t i;
-    ++CPUTicks;
-    if (CurrentThreadID == 0)
-        ++idleCPUTicks;
+    //If the thread's stack is simulated, save it from physical stack
+    if (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackType == XStack)
+        for (i = 0; i < OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackDepth; ++i)
+            OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStack[i] = OS_XStackBuffer[i];
+    if (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus == RUNNING)
+        OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus = READY;
+
+    //Switching threads
+    OS_RunningThreadID = id;
+    OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus = RUNNING;
+    ++OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime;
+
+    //If the thread's stack is simulated, recovery it to physical stack
+    if (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackType == XStack)
+        for (i = 0; i < OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackDepth; ++i)
+            OS_XStackBuffer[i] = OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStack[i];
+}
+
+void ThreadScan(void) //Scan and update thread status
+{
+    ray_uint8_t i, next;
+    ++OS_Ticks;
+    if (OS_RunningThreadID == 0)
+        ++OS_idleTicks;
 #if USING_CPUUSAGE
-    if (CPUTicks % 1000 == 0)
+    if (OS_Ticks % 1000 == 0)
     {
-        CPUUsage = (1000 - idleCPUTicks) / 10;
-        idleCPUTicks = 0;
+        OS_CPUUsage = (1000 - OS_idleTicks) / 10;
+        OS_idleTicks = 0;
     }
 #endif
-    if (ThreadHandlerIndex[0]->ThreadStatus != READY && ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //Idle thread are not allowed to block
-        ThreadHandlerIndex[0]->ThreadStatus = READY;
-    if (ThreadHandlerIndex[CurrentThreadID]->RunTime > ThreadHandlerIndex[CurrentThreadID]->Ticks) //cleared RunTime after a time slice completed
-        ThreadHandlerIndex[CurrentThreadID]->RunTime = 0;
+    if (OS_ThreadHandlerIndex[0]->ThreadStatus != READY && OS_ThreadHandlerIndex[0]->ThreadStatus != RUNNING) //Idle thread are not allowed to block
+        OS_ThreadHandlerIndex[0]->ThreadStatus = READY;
+    if (OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime > OS_ThreadHandlerIndex[OS_RunningThreadID]->Ticks) //cleared RunTime after a time slice completed
+        OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime = 0;
     for (i = 0; i <= THREAD_MAX; ++i) //Handle blocked threads
     {
-        if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED)
+        if (OS_ThreadHandlerIndex[i]->ThreadStatus == BLOCKED)
         {
 #if USING_SEMAPHORE
-            if (ThreadHandlerIndex[i]->BlockEvent == WAIT) //Threads waiting for a semaphore
+            if (OS_ThreadHandlerIndex[i]->BlockEvent == WAIT) //Threads waiting for a semaphore
             {
-                if (ThreadHandlerIndex[i]->ThreadSemaphore == RAY_NULL) //Receive a semaphore and wake up the thread
+                if (OS_ThreadHandlerIndex[i]->ThreadSemaphore == RAY_NULL) //Receive a semaphore and wake up the thread
                 {
-                    ThreadHandlerIndex[i]->ThreadStatus = READY;
-                    ThreadHandlerIndex[i]->BlockEvent = NONE;
+                    OS_ThreadHandlerIndex[i]->ThreadStatus = READY;
+                    OS_ThreadHandlerIndex[i]->BlockEvent = NONE;
                 }
             }
 #endif
-            if (ThreadHandlerIndex[i]->BlockEvent == DELAY) //Actively delay pending threads
+            if (OS_ThreadHandlerIndex[i]->BlockEvent == DELAY) //Actively delay pending threads
             {
-                --ThreadHandlerIndex[i]->DelayTime;        //Delay count--
-                if (ThreadHandlerIndex[i]->DelayTime == 0) //When the delay time expires, wake up the thread
+                --OS_ThreadHandlerIndex[i]->DelayTime;        //Delay count--
+                if (OS_ThreadHandlerIndex[i]->DelayTime == 0) //When the delay time expires, wake up the thread
                 {
-                    ThreadHandlerIndex[i]->ThreadStatus = READY;
-                    ThreadHandlerIndex[i]->BlockEvent = NONE;
+                    OS_ThreadHandlerIndex[i]->ThreadStatus = READY;
+                    OS_ThreadHandlerIndex[i]->BlockEvent = NONE;
                 }
             }
 #if USING_MAILBOX
-            if (ThreadHandlerIndex[i]->BlockEvent == SEND || ThreadHandlerIndex[i]->BlockEvent == RECIEVE) //Pending thread waiting to receive or send mail
+            if (OS_ThreadHandlerIndex[i]->BlockEvent == SEND || OS_ThreadHandlerIndex[i]->BlockEvent == RECIEVE) //Pending thread waiting to receive or send mail
             {
-                if (ThreadHandlerIndex[i]->ThreadMailBox == RAY_NULL) //Wake thread
+                if (OS_ThreadHandlerIndex[i]->ThreadMailBox == RAY_NULL) //Wake thread
                 {
-                    ThreadHandlerIndex[i]->ThreadStatus = READY;
-                    ThreadHandlerIndex[i]->BlockEvent = NONE;
+                    OS_ThreadHandlerIndex[i]->ThreadStatus = READY;
+                    OS_ThreadHandlerIndex[i]->BlockEvent = NONE;
                 }
             }
 #endif
         }
     }
-}
-
-void ThreadSwitch(void)
-{
-    ray_uint8_t i, next;
     next = FindHighestPriorityThreadID(); //Looking for the next highest priority ready thread
-    if (next == CurrentThreadID)          //Skip switching if there are no other ready threads except idle thread
+    if (next == OS_RunningThreadID)       //Skip switching if there are no other ready threads except idle thread
     {
-        ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Keep running the current thread
-        return;
+        ++OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime; //Keep running the current thread
     }
-    if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //The next thread selected has a lower priority than the current thread
+    else if (OS_ThreadHandlerIndex[next]->Priority < OS_ThreadHandlerIndex[OS_RunningThreadID]->Priority) //The next thread selected has a lower priority than the current thread
     {
-        if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING) //The current thread is not blocked or actively suspended, do not switch threads to give up CPU usage, continue to run
+        if (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus == RUNNING) //The current thread is not blocked or actively suspended, do not switch threads to give up CPU usage, continue to run
         {
-            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Keep running the current thread
-            return;
+            ++OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime; //Keep running the current thread
+        }
+        else
+        {
+            ThreadSwitch(next);
         }
     }
-    else if (ThreadHandlerIndex[next]->Priority < ThreadHandlerIndex[CurrentThreadID]->Priority) //The next thread selected has the same priority as the current thread
+    else if (OS_ThreadHandlerIndex[next]->Priority < OS_ThreadHandlerIndex[OS_RunningThreadID]->Priority) //The next thread selected has the same priority as the current thread
     {
-        if (ThreadHandlerIndex[CurrentThreadID]->RunTime < ThreadHandlerIndex[CurrentThreadID]->Ticks) //Time slice rotation
+        if (OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime < OS_ThreadHandlerIndex[OS_RunningThreadID]->Ticks) //Time slice rotation
         {
-            ++ThreadHandlerIndex[CurrentThreadID]->RunTime; //Continues to run the current thread when time slice is not over
-            return;
+            ++OS_ThreadHandlerIndex[OS_RunningThreadID]->RunTime; //Continues to run the current thread when time slice is not over
         }
-    } //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
-
-    //If the thread's stack is simulated, save it from physical stack
-    if (ThreadHandlerIndex[CurrentThreadID]->ThreadStackType == XStack)
-        for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
-            ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
-    if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = READY;
-
-    //Switching threads
-    CurrentThreadID = next;
-    ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = RUNNING;
-    ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
-
-    //If the thread's stack is simulated, recovery it to physical stack
-    if (ThreadHandlerIndex[CurrentThreadID]->ThreadStackType == XStack)
-        for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
-            TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
+        else
+        {
+            ThreadSwitch(next);
+        }
+    }
+    else //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
+    {
+        ThreadSwitch(next);
+    }
 }
 
 #if USING_CPUUSAGE
 ray_uint8_t GetCPUUsage(void)
 {
-    return CPUUsage;
+    return OS_CPUUsage;
 }
 #endif

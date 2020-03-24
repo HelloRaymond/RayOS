@@ -3,9 +3,9 @@
 #include "board.h"
 #include "compiler.h"
 
-extern idata ray_uint8_t TaskStack[]; //The actual stack when the thread is running, all threads share this stack
-extern ray_thread_t ThreadHandlerIndex[];
-extern ray_uint8_t CurrentThreadID;
+extern idata ray_uint8_t OS_XStackBuffer[]; //The actual stack when the thread is running, all threads share this stack
+extern ray_thread_t OS_ThreadHandlerIndex[];
+extern ray_uint8_t OS_RunningThreadID;
 
 SFR(SP_REG, 0x81);
 idata ray_uint8_t OSStack[10];
@@ -15,12 +15,11 @@ idata ray_uint8_t OSStack[10];
 INTERRUPT(Timer0ISR, 1)
 {
     OS_ENTER_CRITICAL();
-    ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer = (void *)SP_REG;      //MOV TaskSP, SP
-    SP_REG = (ray_uint8_t)OSStack - 1;                                             //MOV SP, #(OSStack - 1)
-    Timer_Reload();                                                                //LCALL Timer_Reload
-    ThreadScan();                                                                  //LCALL ThreadScan
-    ThreadSwitch();                                                                //LCALL ThreadSwitch
-    SP_REG = (ray_uint8_t)ThreadHandlerIndex[CurrentThreadID]->ThreadStackPointer; //MOV SP, TaskSP
+    OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackPointer = (void *)SP_REG;      //MOV TaskSP, SP
+    SP_REG = (ray_uint8_t)OSStack - 1;                                                   //MOV SP, #(OSStack - 1)
+    Timer_Reload();                                                                      //LCALL Timer_Reload
+    ThreadScan();                                                                        //LCALL ThreadScan
+    SP_REG = (ray_uint8_t)OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStackPointer; //MOV SP, TaskSP
     OS_EXIT_CRITICAL();
 }
 
@@ -28,10 +27,7 @@ void ThreadSwitchTo(ray_thread_t thread)
 {
     thread->ThreadStatus = RUNNING;
     thread->ThreadStackPointer = (void *)(thread->ThreadStack - 1);
-    CurrentThreadID = thread->ThreadID;
-    if (thread->ThreadStackType == XStack)
-        SP_REG = (ray_uint8_t)TaskStack - 1;
-    else
-        SP_REG = (ray_uint8_t)thread->ThreadStack - 1;
+    OS_RunningThreadID = thread->ThreadID;
+    SP_REG = (ray_uint8_t)thread->ThreadStack - 1;
     thread->EntryFunction();
 }

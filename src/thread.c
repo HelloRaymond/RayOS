@@ -4,14 +4,14 @@
 
 extern void main_user(void);
 
-idata ray_uint8_t TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
-idata ray_uint8_t idleStack[STACK_SIZE]; //The idle thread stack
+idata ray_uint8_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+idata ray_uint8_t idleStack[STACK_SIZE];       //The idle thread stack
 
 //Global variables for communication between the scheduler and system modules
 struct ray_tcb_t TCBHeap[THREAD_MAX];
-ray_thread_t ThreadHandlerIndex[THREAD_MAX];
-ray_uint8_t ThreadNumber = 0;
-ray_uint8_t CurrentThreadID;
+ray_thread_t OS_ThreadHandlerIndex[THREAD_MAX];
+ray_uint8_t OS_ThreadNumber = 0;
+ray_uint8_t OS_RunningThreadID;
 
 //Finding free TCB slots
 static ray_uint8_t FindAvailableTID(void)
@@ -19,10 +19,10 @@ static ray_uint8_t FindAvailableTID(void)
     ray_uint8_t i;
     for (i = 1; i < THREAD_MAX; ++i)
     {
-        if (ThreadHandlerIndex[i]->ThreadStatus == DELETED)
+        if (OS_ThreadHandlerIndex[i]->ThreadStatus == DELETED)
             return i;
     }
-    return ThreadNumber;
+    return OS_ThreadNumber;
 }
 
 //Array clear function
@@ -40,48 +40,48 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_ui
     if (tid >= THREAD_MAX || priority > PRIORITY_MAX || ticks <= 0 || stack_depth > STACK_SIZE)
     { //Thread ID is limited to 0 ~ THREAD_MAX Thread priority is limited to 0 ~ PRIORITY_MAX Thread stack is limited to less than the maximum stack size (STACK_SIZE)
         return 0xff;
-    }                                                                                           //Parameter out of range limit returned error
-    ThreadHandlerIndex[tid] = &TCBHeap[tid];                                                    //Allocate thread control block
-    ThreadHandlerIndex[tid]->ThreadStack = stack;                                               //thread stack initialization
-    ThreadHandlerIndex[tid]->ThreadStackDepth = stack_depth;                                    //stack size definition
-    StackInit(ThreadHandlerIndex[tid]->ThreadStack, ThreadHandlerIndex[tid]->ThreadStackDepth); //TCB stack initialization
-    ThreadHandlerIndex[tid]->EntryFunction = EntryFunction;                                     //Thread entry function
-    ThreadHandlerIndex[tid]->ThreadStatus = INITIAL;                                            //Thread Status: Initialized
-    ThreadHandlerIndex[tid]->BlockEvent = NONE;                                                 //Blocking event: None
-    ThreadHandlerIndex[tid]->DelayTime = 0;                                                     //Delay: None
-    ThreadHandlerIndex[tid]->Ticks = ticks;                                                     //Time slice
-    ThreadHandlerIndex[tid]->RunTime = 0;                                                       //Elapsed time
+    }                                                                                                 //Parameter out of range limit returned error
+    OS_ThreadHandlerIndex[tid] = &TCBHeap[tid];                                                       //Allocate thread control block
+    OS_ThreadHandlerIndex[tid]->ThreadStack = stack;                                                  //thread stack initialization
+    OS_ThreadHandlerIndex[tid]->ThreadStackDepth = stack_depth;                                       //stack size definition
+    StackInit(OS_ThreadHandlerIndex[tid]->ThreadStack, OS_ThreadHandlerIndex[tid]->ThreadStackDepth); //TCB stack initialization
+    OS_ThreadHandlerIndex[tid]->EntryFunction = EntryFunction;                                        //Thread entry function
+    OS_ThreadHandlerIndex[tid]->ThreadStatus = INITIAL;                                               //Thread Status: Initialized
+    OS_ThreadHandlerIndex[tid]->BlockEvent = NONE;                                                    //Blocking event: None
+    OS_ThreadHandlerIndex[tid]->DelayTime = 0;                                                        //Delay: None
+    OS_ThreadHandlerIndex[tid]->Ticks = ticks;                                                        //Time slice
+    OS_ThreadHandlerIndex[tid]->RunTime = 0;                                                          //Elapsed time
 #if USING_SEMAPHORE
-    ThreadHandlerIndex[tid]->ThreadSemaphore = RAY_NULL; //Semaphores waiting to be received or sent
+    OS_ThreadHandlerIndex[tid]->ThreadSemaphore = RAY_NULL; //Semaphores waiting to be received or sent
 #endif
-    ThreadHandlerIndex[tid]->ThreadID = tid;      //Thread ID
-    ThreadHandlerIndex[tid]->Priority = priority; //Thread priority
+    OS_ThreadHandlerIndex[tid]->ThreadID = tid;      //Thread ID
+    OS_ThreadHandlerIndex[tid]->Priority = priority; //Thread priority
     if (XStack)
     {
-        ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(TaskStack + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
-        ThreadHandlerIndex[tid]->ThreadStackType = XStack;
+        OS_ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(OS_XStackBuffer + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
+        OS_ThreadHandlerIndex[tid]->ThreadStackType = XStack;
     }
     else
     {
-        ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(stack + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
-        ThreadHandlerIndex[tid]->ThreadStackType = Stack;
+        OS_ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(stack + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
+        OS_ThreadHandlerIndex[tid]->ThreadStackType = Stack;
     }
-    ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //The top of the stack is initialized to the lower 8 bits of the entry function address
-    ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //The top of the stack +1 is initialized to the upper 8 bits of the entry function address
-    ++ThreadNumber;
-    return ThreadHandlerIndex[tid]->ThreadID;
+    OS_ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //The top of the stack is initialized to the lower 8 bits of the entry function address
+    OS_ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //The top of the stack +1 is initialized to the upper 8 bits of the entry function address
+    ++OS_ThreadNumber;
+    return OS_ThreadHandlerIndex[tid]->ThreadID;
 }
 
 //Start thread
 ray_err_t ThreadStart(ray_uint8_t tid)
 {
-    if (ThreadHandlerIndex[tid]->ThreadStatus != INITIAL)
+    if (OS_ThreadHandlerIndex[tid]->ThreadStatus != INITIAL)
     {
         return RAY_ERROR;
     }
     //    else
     //    {
-    ThreadHandlerIndex[tid]->ThreadStatus = READY;
+    OS_ThreadHandlerIndex[tid]->ThreadStatus = READY;
     return RAY_EOK;
     //    }
 }
@@ -89,10 +89,10 @@ ray_err_t ThreadStart(ray_uint8_t tid)
 //Delete thread
 ray_err_t ThreadDelete(ray_uint8_t tid)
 {
-    if (ThreadHandlerIndex[tid]->ThreadStatus != DELETED)
+    if (OS_ThreadHandlerIndex[tid]->ThreadStatus != DELETED)
     {
-        ThreadHandlerIndex[tid]->ThreadStatus = DELETED;
-        --ThreadNumber;
+        OS_ThreadHandlerIndex[tid]->ThreadStatus = DELETED;
+        --OS_ThreadNumber;
         return RAY_EOK;
     }
     return RAY_ERROR;
@@ -101,12 +101,12 @@ ray_err_t ThreadDelete(ray_uint8_t tid)
 //Sleep function, the unit is Tick, which is a time slice
 ray_err_t ThreadSleep(ray_uint16_t time)
 {
-    if (ThreadHandlerIndex[CurrentThreadID]->DelayTime + time >= 0xffff || time <= 0)
+    if (OS_ThreadHandlerIndex[OS_RunningThreadID]->DelayTime + time >= 0xffff || time <= 0)
         return RAY_ERROR;
-    ThreadHandlerIndex[CurrentThreadID]->DelayTime += time;
-    ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
-    ThreadHandlerIndex[CurrentThreadID]->BlockEvent = DELAY;
-    while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
+    OS_ThreadHandlerIndex[OS_RunningThreadID]->DelayTime += time;
+    OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus = BLOCKED;
+    OS_ThreadHandlerIndex[OS_RunningThreadID]->BlockEvent = DELAY;
+    while (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus == BLOCKED)
         ;
     return RAY_EOK;
 }
@@ -156,7 +156,7 @@ void main(void)
     OS_ENTER_CRITICAL();
     SystemInit();
     ThreadCreate(idle, idleStack, STACK_SIZE, 1, 0, False);
-    ThreadSwitchTo(ThreadHandlerIndex[0]);
+    ThreadSwitchTo(OS_ThreadHandlerIndex[0]);
     //The program cannot run here, otherwise reset
     while (1)
         (*(void (*)())0)();

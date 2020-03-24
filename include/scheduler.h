@@ -3,7 +3,6 @@
 #include "RayOSDef.h"
 
 void ThreadSwitchTo(ray_thread_t thread); //This function is defined in context.c file
-void ThreadSwitch(void);
 void ThreadScan(void);
 
 #if USING_IDLEHOOK

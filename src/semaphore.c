@@ -1,8 +1,8 @@
 #include "RayOS.h"
 #include "board.h"
 
-extern ray_thread_t ThreadHandlerIndex[THREAD_MAX];
-extern ray_uint8_t CurrentThreadID;
+extern ray_thread_t OS_ThreadHandlerIndex[THREAD_MAX];
+extern ray_uint8_t OS_RunningThreadID;
 
 #if USING_SEMAPHORE
 //Receive semaphore, that is, semaphore P operation
@@ -19,11 +19,11 @@ void SemaphoreTake(ray_sem_t *ThreadSemaphore)
     //If S is less than or equal to 0, the current thread is blocked
     if ((*ThreadSemaphore) <= 0)
     {
-        ThreadHandlerIndex[CurrentThreadID]->ThreadSemaphore = ThreadSemaphore;
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = BLOCKED;
+        OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadSemaphore = ThreadSemaphore;
+        OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus = BLOCKED;
         OS_EXIT_CRITICAL();
         //Wait for this time slice to run out
-        while (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == BLOCKED)
+        while (OS_ThreadHandlerIndex[OS_RunningThreadID]->ThreadStatus == BLOCKED)
             ;
     }
 }
@@ -40,11 +40,11 @@ void SemaphoreRelease(ray_sem_t *ThreadSemaphore)
         //Wakes up the first thread in the thread queue blocked by waiting for a semaphore
         for (i = 0; i <= THREAD_MAX; i++)
         {
-            if (ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && ThreadHandlerIndex[i]->ThreadSemaphore == ThreadSemaphore)
+            if (OS_ThreadHandlerIndex[i]->ThreadStatus == BLOCKED && OS_ThreadHandlerIndex[i]->ThreadSemaphore == ThreadSemaphore)
             {
-                ThreadHandlerIndex[i]->ThreadStatus = READY;
-                ThreadHandlerIndex[i]->BlockEvent = NONE;
-                ThreadHandlerIndex[i]->ThreadSemaphore = RAY_NULL;
+                OS_ThreadHandlerIndex[i]->ThreadStatus = READY;
+                OS_ThreadHandlerIndex[i]->BlockEvent = NONE;
+                OS_ThreadHandlerIndex[i]->ThreadSemaphore = RAY_NULL;
                 break;
             }
         }
