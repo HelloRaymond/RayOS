@@ -106,9 +106,10 @@ void ThreadSwitch(void)
         }
     } //The next thread selected has a higher priority than the current thread, and immediately switches threads to preempt the CPU
 
-    //Save context data (SP pointer, SFR, GPR, stack) to TCB
-    for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
-        ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
+    //If the thread's stack is simulated, save it from physical stack
+    if (ThreadHandlerIndex[CurrentThreadID]->ThreadStackType == XStack)
+        for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
+            ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i] = TaskStack[i];
     if (ThreadHandlerIndex[CurrentThreadID]->ThreadStatus == RUNNING)
         ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = READY;
 
@@ -117,17 +118,10 @@ void ThreadSwitch(void)
     ThreadHandlerIndex[CurrentThreadID]->ThreadStatus = RUNNING;
     ++ThreadHandlerIndex[CurrentThreadID]->RunTime;
 
-    //Recover Context Data in TCB
-    for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
-        TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
-}
-
-void ThreadSwitchTo(ray_thread_t thread)
-{
-    thread->ThreadStatus = RUNNING;
-    thread->ThreadStackPointer = (void *)(TaskStack -1);
-    CurrentThreadID = thread->ThreadID;
-    thread->EntryFunction();
+    //If the thread's stack is simulated, recovery it to physical stack
+    if (ThreadHandlerIndex[CurrentThreadID]->ThreadStackType == XStack)
+        for (i = 0; i < ThreadHandlerIndex[CurrentThreadID]->ThreadStackDepth; ++i)
+            TaskStack[i] = ThreadHandlerIndex[CurrentThreadID]->ThreadStack[i];
 }
 
 #if USING_CPUUSAGE

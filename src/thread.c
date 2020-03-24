@@ -5,7 +5,7 @@
 extern void main_user(void);
 
 idata ray_uint8_t TaskStack[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
-ray_uint8_t idleStack[STACK_SIZE];       //The idle thread stack
+idata ray_uint8_t idleStack[STACK_SIZE]; //The idle thread stack
 
 //Global variables for communication between the scheduler and system modules
 struct ray_tcb_t TCBHeap[THREAD_MAX];
@@ -34,7 +34,7 @@ static void StackInit(ray_uint8_t stack[], ray_uint8_t stacksize)
 }
 
 //Create a thread
-ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority)
+ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack)
 {
     ray_uint8_t tid = FindAvailableTID();
     if (tid >= THREAD_MAX || priority > PRIORITY_MAX || ticks <= 0 || stack_depth > STACK_SIZE)
@@ -54,9 +54,18 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_ui
 #if USING_SEMAPHORE
     ThreadHandlerIndex[tid]->ThreadSemaphore = RAY_NULL; //Semaphores waiting to be received or sent
 #endif
-    ThreadHandlerIndex[tid]->ThreadID = tid;                                               //Thread ID
-    ThreadHandlerIndex[tid]->Priority = priority;                                          //Thread priority
-    ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(TaskStack + 1 + CONTEXT_SIZE);  //SP pointer initialization: point to the top of the stack
+    ThreadHandlerIndex[tid]->ThreadID = tid;      //Thread ID
+    ThreadHandlerIndex[tid]->Priority = priority; //Thread priority
+    if (XStack)
+    {
+        ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(TaskStack + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
+        ThreadHandlerIndex[tid]->ThreadStackType = XStack;
+    }
+    else
+    {
+        ThreadHandlerIndex[tid]->ThreadStackPointer = (void *)(stack + 1 + CONTEXT_SIZE); //SP pointer initialization: point to the top of the stack
+        ThreadHandlerIndex[tid]->ThreadStackType = Stack;
+    }
     ThreadHandlerIndex[tid]->ThreadStack[0] = (ray_uint16_t)EntryFunction & 0x00ff;        //The top of the stack is initialized to the lower 8 bits of the entry function address
     ThreadHandlerIndex[tid]->ThreadStack[1] = ((ray_uint16_t)EntryFunction >> 8) & 0x00ff; //The top of the stack +1 is initialized to the upper 8 bits of the entry function address
     ++ThreadNumber;
@@ -146,7 +155,7 @@ void main(void)
 {
     OS_ENTER_CRITICAL();
     SystemInit();
-    ThreadCreate(idle, idleStack, STACK_SIZE, 1, 0);
+    ThreadCreate(idle, idleStack, STACK_SIZE, 1, 0, False);
     ThreadSwitchTo(ThreadHandlerIndex[0]);
     //The program cannot run here, otherwise reset
     while (1)

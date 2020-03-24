@@ -2,7 +2,7 @@
 #define _THREAD_H_
 #include "RayOSDef.h"
 
-ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority);
+ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack);
 ray_err_t ThreadStart(ray_uint8_t tid);
 ray_err_t ThreadDelete(ray_uint8_t tid);
 ray_err_t ThreadSleep(ray_uint16_t time);

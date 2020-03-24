@@ -77,18 +77,19 @@
 ### Create a thread
 
 ```c
-ray_uint8_t ThreadCreate (void (* EntryFunction) (void), ray_uint16_t ticks, ray_uint8_t priority);
+ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack);
 ```
 
 - Parameters:
 
-|  Parameters   |      Description      |       Type       |
-| :-----------: | :-------------------: | :--------------: |
-| EntryFunction | thread entry function | function pointer |
-|     stack     |     thread stack      | unsigned char[]  |
-|  stack_depth  |   thread stack size   |  unsigned char   |
-|     ticks     |   thread time slice   |   unsigned int   |
-|   priority    |    thread priority    |  unsigned char   |
+|  Parameters   |             Description             |       Type       |
+| :-----------: | :---------------------------------: | :--------------: |
+| EntryFunction |        thread entry function        | function pointer |
+|     stack     |            thread stack             | unsigned char[]  |
+|  stack_depth  |          thread stack size          |  unsigned char   |
+|     ticks     |          thread time slice          |   unsigned int   |
+|   priority    |           thread priority           |  unsigned char   |
+|    XStack     | Whether to use the simulation stack |       bool       |
 
 - return value:
 
@@ -98,10 +99,19 @@ ray_uint8_t ThreadCreate (void (* EntryFunction) (void), ray_uint16_t ticks, ray
 
 - Remarks:
 
-> 1. Does not support parameter passing
-> 2. The thread stack can only be allocated statically, you need to reserve a static array to use as the thread stack
-> 3. High priority threads must run in a blocking manner
-> 4. When the return value is less than 0, it indicates that the thread creation fails
+> 1. There are two types of thread stacks: real stack and simulated stack, which are specified with XStack parameters. If True, the simulated stack type is used. If False, the real stack type is used.
+>
+>    - ​	The real stack thread runs directly on the set stack, and the simulated stack thread runs in the internal memory buffer. When the thread switches, the buffer and the simulated stack are copied to each other.
+>
+>    - ​	If the thread stack is in external memory, you must set stack type as simulated stack.
+>
+> 2. Does not support parameter passing
+>
+> 3. The thread stack can only be allocated statically, you need to reserve a static array to use as the thread stack
+>
+> 4. High priority threads must run in a blocking manner
+>
+> 5. When the return value is less than 0, it indicates that the thread creation fails
 
 
 ### Start the thread

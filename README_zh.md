@@ -77,18 +77,19 @@
 ### 创建线程
 
 ```c
-ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_uint8_t priority);
+ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack);
 ```
 
 - 参数：
 
-|     参数      |     说明     |       类型       |
-| :-----------: | :----------: | :--------------: |
-| EntryFunction | 线程入口函数 | function pointer |
-|     stack     |    线程栈    | unsigned char[]  |
-|  stack_depth  | 线程栈的深度 |  unsigned char   |
-|     ticks     |  线程时间片  |   unsigned int   |
-|   priority    |  线程优先级  |  unsigned char   |
+|     参数      |      说明      |       类型       |
+| :-----------: | :------------: | :--------------: |
+| EntryFunction |  线程入口函数  | function pointer |
+|     stack     |     线程栈     | unsigned char[]  |
+|  stack_depth  |  线程栈的深度  |  unsigned char   |
+|     ticks     |   线程时间片   |   unsigned int   |
+|   priority    |   线程优先级   |  unsigned char   |
+|    XStack     | 是否使用模拟栈 |       bool       |
 
 - 返回值：
 
@@ -98,10 +99,19 @@ ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint16_t ticks, ray_ui
 
 - 备注：
 
-> 1. 暂不支持参数传递
-> 2. 线程栈只能以静态方式分配，你需要定义一个静态的数组用作线程栈
-> 3. 高优先级线程必须以阻塞式方式运行
-> 4. 当返回值小于0，表明创建线程失败
+> 1. 线程的栈有两种类型：真实栈和模拟栈，用XStack参数指定，若为True则使用模拟栈类型，若为False使用真实栈类型
+>
+>    - ​	真实栈线程直接运行在其设置的栈上，模拟栈线程运行在内部内存的缓冲区，当线程切换时，将缓冲区和模拟栈中的数据进行互相拷贝
+>
+>    - ​	若线程栈在外部内存，则必须使用模拟栈类型
+>
+> 2. 暂不支持参数传递
+>
+> 3. 线程栈只能以静态方式分配，你需要定义一个静态的数组用作线程栈
+>
+> 4. 高优先级线程必须以阻塞式方式运行
+>
+> 5. 当返回值小于0，表明创建线程失败
 
 
 ### 启动线程

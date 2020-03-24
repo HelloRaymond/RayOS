@@ -173,7 +173,7 @@ void PrintString(COMx_Define *COMx, u8 *puts)
 
 
 /********************* UART1中断函数************************/
-void UART1_int (void) interrupt UART1_VECTOR
+INTERRUPT(UART1_int, UART1_VECTOR)
 {
 	if(RI)
 	{
@@ -199,7 +199,7 @@ void UART1_int (void) interrupt UART1_VECTOR
 }
 
 /********************* UART2中断函数************************/
-void UART2_int (void) interrupt UART2_VECTOR
+INTERRUPT(UART2_int, UART2_VECTOR)
 {
 	if(RI2)
 	{

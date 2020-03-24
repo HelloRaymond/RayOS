@@ -86,7 +86,7 @@ u16	Get_ADC10bitResult(u8 channel)	//channel = 0~7
 // ·µ»Ø: none.
 // °æ±¾: V1.0, 2012-10-22
 //========================================================================
-void ADC_int (void) interrupt ADC_VECTOR
+INTERRUPT(ADC_int, ADC_VECTOR)
 {
 	ADC_CONTR &= ~ADC_FLAG;
 }

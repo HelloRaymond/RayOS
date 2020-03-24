@@ -2,6 +2,11 @@
 #define _RAYOSDEF_H_
 #include "RayOSConfig.h"
 
+typedef enum
+{
+    False = 0,
+    True
+} ray_bool_t;
 typedef unsigned char ray_uint8_t;
 typedef unsigned int ray_uint16_t;
 typedef unsigned long ray_uint32_t;
@@ -31,6 +36,12 @@ typedef struct ray_mailbox_t
 struct ray_tcb_t
 {
     ray_uint8_t *ThreadStack;
+    void *ThreadStackPointer;
+    enum
+    {
+        Stack = 0,
+        XStack
+    } ThreadStackType;
     enum
     {
         DELETED = 1,
@@ -48,7 +59,6 @@ struct ray_tcb_t
         SEND,
         DELAY
     } BlockEvent;
-    void *ThreadStackPointer;
     ray_uint8_t ThreadStackDepth;
     ray_uint8_t ThreadID;
     ray_uint8_t Priority;
