@@ -21,8 +21,8 @@ void OS_EXIT_CRITICAL(void)
 //Reload Timer0
 void Timer_Reload(void)
 {
-    TH0 = (ray_uint8_t)(T0VAL >> 8);
-    TL0 = (ray_uint8_t)T0VAL;
+    TH0 = (ray_base_t)(T0VAL >> 8);
+    TL0 = (ray_base_t)T0VAL;
 }
 
 //Initialize GPIO

@@ -3,7 +3,7 @@
 #include "stdio.h"
 
 ray_uint8_t tid1;
-ray_uint8_t stack1[20];
+ray_base_t stack1[20];
 
 char putchar(char c)
 {

@@ -4,8 +4,8 @@
 
 extern void main_user(void);
 
-idata ray_uint8_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
-idata ray_uint8_t idleStack[STACK_SIZE];       //The idle thread stack
+idata ray_base_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+idata ray_base_t idleStack[STACK_SIZE];       //The idle thread stack
 
 //Global variables for communication between the scheduler and system modules
 struct ray_tcb_t TCBHeap[THREAD_MAX];
@@ -26,7 +26,7 @@ static ray_uint8_t FindAvailableTID(void)
 }
 
 //Array clear function
-static void StackInit(ray_uint8_t stack[], ray_uint8_t stacksize)
+static void StackInit(ray_base_t stack[], ray_uint8_t stacksize)
 {
     ray_uint8_t i;
     for (i = 0; i < stacksize; ++i)
@@ -34,7 +34,7 @@ static void StackInit(ray_uint8_t stack[], ray_uint8_t stacksize)
 }
 
 //Create a thread
-ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_uint8_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack)
+ray_uint8_t ThreadCreate(void (*EntryFunction)(void), ray_base_t *stack, ray_uint8_t stack_depth, ray_uint16_t ticks, ray_uint8_t priority, ray_bool_t XStack)
 {
     ray_uint8_t tid = FindAvailableTID();
     if (tid >= THREAD_MAX || priority > PRIORITY_MAX || ticks <= 0 || stack_depth > STACK_SIZE)

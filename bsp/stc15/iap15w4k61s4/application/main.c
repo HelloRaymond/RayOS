@@ -3,8 +3,8 @@
 
 ray_uint8_t tid1, tid2;
 
-idata ray_uint8_t stack1[20];
-xdata ray_uint8_t stack2[30];
+idata ray_base_t stack1[20];
+xdata ray_base_t stack2[30];
 
 void main_user(void)
 {

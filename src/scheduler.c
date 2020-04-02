@@ -3,7 +3,7 @@
 
 extern ray_thread_t OS_ThreadHandlerIndex[THREAD_MAX];
 extern ray_uint8_t OS_RunningThreadID;
-extern idata ray_uint8_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
+extern idata ray_base_t OS_XStackBuffer[STACK_SIZE]; //The actual stack when the thread is running, all threads share this stack
 
 ray_uint32_t OS_Ticks;     //System runtime
 ray_uint32_t OS_idleTicks; //System idle time

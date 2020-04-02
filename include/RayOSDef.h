@@ -7,6 +7,8 @@ typedef enum
     False = 0,
     True
 } ray_bool_t;
+typedef unsigned char ray_base_t;
+typedef unsigned int ray_size_t;
 typedef unsigned char ray_uint8_t;
 typedef unsigned int ray_uint16_t;
 typedef unsigned long ray_uint32_t;
@@ -35,7 +37,7 @@ typedef struct ray_mailbox_t
 
 struct ray_tcb_t
 {
-    ray_uint8_t *ThreadStack;
+    ray_base_t *ThreadStack;
     void *ThreadStackPointer;
     enum
     {

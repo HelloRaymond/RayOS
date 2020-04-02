@@ -174,9 +174,9 @@ ray_err_t ThreadSleep (ray_uint16_t time);
 
 - return value:
 
-| Return Value | Description |  Type  |
-| :----------: | :---------: | :----: |
-|    status    | error code  | _err_t |
+| Return Value | Description |   Type    |
+| :----------: | :---------: | :-------: |
+|    status    | error code  | ray_err_t |
 
 - Remarks:
 
