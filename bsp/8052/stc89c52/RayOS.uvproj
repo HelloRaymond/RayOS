@@ -351,9 +351,9 @@
           <GroupName>Kernel</GroupName>
           <Files>
             <File>
-              <FileName>context.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\cpu\8051\context.c</FilePath>
+              <FileName>context.asm</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\cpu\msc51\c51\context.asm</FilePath>
             </File>
             <File>
               <FileName>thread.c</FileName>
