@@ -22,7 +22,7 @@
 
 ### The main function
 
-​	The main function of RayOS BSP is to provide three functions for the kernel to support different hardware, which are:
+​	The main function of RayOS BSP is to provide four functions for the kernel to support different hardware, which are:
 
 `void SystemInit(void);` Hardware initialization
 
