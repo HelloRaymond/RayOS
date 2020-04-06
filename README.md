@@ -44,7 +44,7 @@
 >
 > ​	[Learn More](./bsp/README.md)
 
-> **/cpu directory**
+> **/arch directory**
 >
 > ​	CPU-related assembly code, including startup files and context switch code
 
@@ -52,7 +52,7 @@
 >
 > ​	RayOS header file directory
 
-> **/src directory**
+> **/kernel directory**
 >
 > ​	RayOS kernel code file
 

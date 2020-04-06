@@ -353,27 +353,27 @@
             <File>
               <FileName>context.asm</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\cpu\mcs51\c51\context.asm</FilePath>
+              <FilePath>..\..\..\arch\mcs51\c51\context.asm</FilePath>
             </File>
             <File>
               <FileName>thread.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\src\thread.c</FilePath>
+              <FilePath>..\..\..\kernel\thread.c</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\src\scheduler.c</FilePath>
+              <FilePath>..\..\..\kernel\scheduler.c</FilePath>
             </File>
             <File>
               <FileName>semaphore.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\src\semaphore.c</FilePath>
+              <FilePath>..\..\..\kernel\semaphore.c</FilePath>
             </File>
             <File>
               <FileName>mailbox.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\src\mailbox.c</FilePath>
+              <FilePath>..\..\..\kernel\mailbox.c</FilePath>
             </File>
           </Files>
         </Group>

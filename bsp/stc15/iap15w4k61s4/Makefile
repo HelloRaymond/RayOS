@@ -15,11 +15,11 @@ CFLAGS += $(addprefix -I ,$(INC_DIR))
 
 LDFLAGS =
 
-THREAD_SRC = $(PROJECT_ROOT)/../../../src/thread.c
-CONTEXT_SRC = $(PROJECT_ROOT)/../../../cpu/8051/context.c
-SCHEDULER_SRC = $(PROJECT_ROOT)/../../../src/scheduler.c
-SEMAPHORE_SRC = $(PROJECT_ROOT)/../../../src/semaphore.c
-MAILBOX_SRC = $(PROJECT_ROOT)/../../../src/mailbox.c
+THREAD_SRC = $(PROJECT_ROOT)/../../../kernel/thread.c
+CONTEXT_SRC = $(PROJECT_ROOT)/../../../arch/8051/context.c
+SCHEDULER_SRC = $(PROJECT_ROOT)/../../../kernel/scheduler.c
+SEMAPHORE_SRC = $(PROJECT_ROOT)/../../../kernel/semaphore.c
+MAILBOX_SRC = $(PROJECT_ROOT)/../../../kernel/mailbox.c
 GPIO_SRC = $(PROJECT_ROOT)/../libraries/GPIO.c
 TIMER_SRC = $(PROJECT_ROOT)/../libraries/timer.c
 USART_SRC = $(PROJECT_ROOT)/../libraries/USART.c

@@ -7,7 +7,7 @@
 
   <Extensions>
     <cExt>*.c</cExt>
-    <aExt>*.s*; *.src; *.a*</aExt>
+    <aExt>*.s*; *.kernel; *.a*</aExt>
     <oExt>*.obj</oExt>
     <lExt>*.lib</lExt>
     <tExt>*.txt; *.h; *.inc</tExt>
@@ -139,7 +139,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>cpu\8051\CONTEXT.C</Filename>
+          <Filename>arch\8051\CONTEXT.C</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\RayOS\CONTEXT\17</Expression>
         </Bp>
@@ -202,7 +202,7 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\cpu\mcs51\c51\context.asm</PathWithFileName>
+      <PathWithFileName>..\..\..\arch\mcs51\c51\context.asm</PathWithFileName>
       <FilenameWithoutPath>context.asm</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -218,7 +218,7 @@
       <TopLine>108</TopLine>
       <CurrentLine>121</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\src\scheduler.c</PathWithFileName>
+      <PathWithFileName>..\..\..\kernel\scheduler.c</PathWithFileName>
       <FilenameWithoutPath>scheduler.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -234,7 +234,7 @@
       <TopLine>139</TopLine>
       <CurrentLine>11</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\src\thread.c</PathWithFileName>
+      <PathWithFileName>..\..\..\kernel\thread.c</PathWithFileName>
       <FilenameWithoutPath>thread.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -250,7 +250,7 @@
       <TopLine>23</TopLine>
       <CurrentLine>29</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\src\semaphore.c</PathWithFileName>
+      <PathWithFileName>..\..\..\kernel\semaphore.c</PathWithFileName>
       <FilenameWithoutPath>semaphore.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -266,7 +266,7 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\src\mailbox.c</PathWithFileName>
+      <PathWithFileName>..\..\..\kernel\mailbox.c</PathWithFileName>
       <FilenameWithoutPath>mailbox.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
