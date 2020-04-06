@@ -171,7 +171,7 @@
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\..\cpu\msc51\c51\context.asm</PathWithFileName>
+      <PathWithFileName>..\..\..\cpu\mcs51\c51\context.asm</PathWithFileName>
       <FilenameWithoutPath>context.asm</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

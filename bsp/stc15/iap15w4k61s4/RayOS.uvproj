@@ -353,7 +353,7 @@
             <File>
               <FileName>context.asm</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\cpu\msc51\c51\context.asm</FilePath>
+              <FilePath>..\..\..\cpu\mcs51\c51\context.asm</FilePath>
             </File>
             <File>
               <FileName>scheduler.c</FileName>
